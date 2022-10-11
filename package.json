@@ -8,7 +8,8 @@
         "dev:worker": "ts-node-dev -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules --respawn src/application/worker.ts",
         "dev:sandbox": "ts-node-dev -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules --respawn src/application/sandbox.ts",
         "start": "node src/main.js",
-        "test": "jest --passWithNoTests --runInBand --silent",
+        "test": "jest --passWithNoTests --silent --noStackTrace",
+        "test:verbose": "jest --passWithNoTests",
         "test:watch": "npm test -- --watch"
     },
     "keywords": [],

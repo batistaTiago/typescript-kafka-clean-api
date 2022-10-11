@@ -1,10 +1,10 @@
-import { injectable } from "tsyringe";
-import { MongoEventRepository } from "../../../infra/database/mongo/repositories/mongo-event-repository";
+import { inject, injectable } from "tsyringe";
 import { Event as EventEntitiy } from "../../entities/event";
+import { EventRepository } from "../../services/repositories/event-repository";
 
 @injectable()
 export class SaveEventToMongoUseCase {
-    public constructor(private repository: MongoEventRepository) {}
+    public constructor(@inject("MongoEventRepository") private repository: EventRepository) {}
 
     public async execute(data: EventEntitiy) {
         await this.repository.storeEvent(data);

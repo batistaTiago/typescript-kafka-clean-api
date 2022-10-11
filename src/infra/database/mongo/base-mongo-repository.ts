@@ -1,9 +1,10 @@
 import { MongoClient } from 'mongodb';
-import { injectable } from 'tsyringe';
+import { inject } from 'tsyringe';
 
-@injectable()
-export class MongoBaseRepository {
-    public constructor(protected readonly client: MongoClient) { }
+export abstract class MongoBaseRepository {
+    public constructor(@inject("MongoClient") public readonly client: MongoClient) { }
+
+    protected abstract collectionName(): string;
 
     public async connect(): Promise<void> {
         await this.client.connect();
@@ -18,5 +19,9 @@ export class MongoBaseRepository {
         const { _id, ...output } = preProcessedOutput;
 
         return output;
+    }
+
+    public collection() {
+        return this.client.db().collection(this.collectionName());
     }
 }

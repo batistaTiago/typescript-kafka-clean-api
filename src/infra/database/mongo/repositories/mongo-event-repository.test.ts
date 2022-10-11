@@ -26,5 +26,5 @@ describe('MongoEventRepository', () => {
         expect(result.id).toBeDefined();
         expect(result.eventName).toBeDefined();
         expect(result.happenedAt).toBeDefined();
-    })
-})
+    });
+});

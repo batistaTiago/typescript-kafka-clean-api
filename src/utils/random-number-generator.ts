@@ -1,9 +1,12 @@
+import { injectable } from "tsyringe";
+
 interface RandomNumberGeneratorOptions {
     min?: number;
     max?: number;
     digits?: number;
 }
 
+@injectable()
 export class RandomNumberGenerator {
     public generate({ min, max, digits }: RandomNumberGeneratorOptions = {}): number {
         if (digits) { 
