@@ -1,5 +1,5 @@
 export interface Event {
     eventName: string;
-    happened_at: Date;
+    happenedAt: Date;
     data?: object|Array<object>;
 }

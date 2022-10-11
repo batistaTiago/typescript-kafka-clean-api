@@ -1,10 +1,16 @@
 import { Request, Response } from 'express';
 import { injectable } from 'tsyringe';
 import { HomeController } from '../../../domain/controllers/home-controller';
+import { Controller } from '../../../domain/services/http/controller';
+import { ErrorResilientController } from '../../../domain/services/http/error-resilient-controller';
 
 @injectable()
 export class HomeControllerExpressAdapter {
-    public constructor(private readonly domainController: HomeController) {}
+    private readonly domainController: Controller;
+
+    public constructor(domainController: HomeController) {
+        this.domainController = new ErrorResilientController(domainController);
+    }
 
     public async handle(req: Request, res: Response): Promise<void> {
         const response = await this.domainController.handle({
@@ -13,6 +19,5 @@ export class HomeControllerExpressAdapter {
         });
 
         res.status(response.statusCode).json(response.body);
-        return;
     }
 }

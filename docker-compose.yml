@@ -11,6 +11,36 @@ networks:
     driver: bridge  
 
 services:
+  # api:
+  #   build: .
+  #   restart: always
+  #   networks: 
+  #     - app
+  #   depends_on:
+  #     - kafka
+  #     - mongodb
+  #     - redis
+  #   ports:
+  #     - 5050:5000
+  #   volumes:
+  #     - ./src:/usr/src/app/src
+  #   command: npm run dev:api
+
+  # worker:
+  #   build: .
+  #   restart: always
+  #   networks: 
+  #     - app
+  #   depends_on:
+  #     - kafka
+  #     - mongodb
+  #     - redis
+  #   ports:
+  #     - 5000:5000
+  #   volumes:
+  #     - ./src:/usr/src/app/src
+  #   command: npm run dev:worker
+    
   kafka:
     image: confluentinc/cp-kafka:latest
     networks: 

@@ -14,7 +14,7 @@ function startServer(producer: KafkaMessageProducer, api: Express): void {
         .then(() => {
             const event: Event = {
                 eventName: 'SERVER_RESTART',
-                happened_at: new Date(),
+                happenedAt: new Date(),
                 data: {
                     port: 5000
                 }

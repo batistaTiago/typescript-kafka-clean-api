@@ -13,7 +13,4 @@ const consumer = container.resolve(KafkaTopicConsumer);
 // @@TODO: topic name deve vir por parametro do script.
 const TOPIC_NAME = 'events';
 
-console.log(container.resolve("MessageProducer"));
-
-
 consumer.consume(TOPIC_NAME, handler).then(() => console.log('Worker rodando...'));
