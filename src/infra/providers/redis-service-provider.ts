@@ -1,9 +1,9 @@
 import { container } from 'tsyringe';
 import Environment from '../../application/environment';
 import { ServiceProvider } from '../../domain/services/provider';
-import { createClient, RedisClientType } from '@redis/client';
-
+import { createClient } from '@redis/client';
 import { promisifyAll } from 'bluebird';
+
 promisifyAll(createClient);
 
 const buildConnectionParams = () => {
@@ -22,9 +22,7 @@ const buildConnectionParams = () => {
 }
 
 export class RedisServiceProvider implements ServiceProvider {
-
     public async register(): Promise<void> {   
-        console.log('registering');
         container.registerInstance("RedisClientType", createClient(buildConnectionParams()));
     }
 }

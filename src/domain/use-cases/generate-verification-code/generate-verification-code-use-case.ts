@@ -1,7 +1,7 @@
 import { inject, injectable } from "tsyringe";
-import { VerificationCodeModel } from "../../../infra/models/verification-code-model";
 import { RandomNumberGenerator } from "../../../utils/random-number-generator";
 import { VerificationCode } from "../../entities/verification-code";
+import { Cache } from "../../services/cache/cache";
 import { VerificationCodeRepository } from "../../services/repositories/verification-code-repository ";
 
 interface GenerateVerificationCodeUseCaseArgs {
@@ -20,7 +20,7 @@ export class GenerateVerificationCodeUseCase {
         private readonly randomNumberGenerator: RandomNumberGenerator
     ) {}
 
-    public async execute(): Promise<VerificationCodeModel> {
+    public async execute(): Promise<VerificationCode> {
         const now = new Date();
         const code: VerificationCode = {
             code: String(this.randomNumberGenerator.generate({ digits: 7 })),

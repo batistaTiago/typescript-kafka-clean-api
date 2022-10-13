@@ -1,5 +1,6 @@
 export default abstract class Environment {
     public static readonly APP_NAME = 'app';
+    public static readonly APP_SALT_ROUNDS = 12;
 
     public static readonly MONGO_CONNECTION_URI = 'mongodb://localhost:27017/app';
     
@@ -12,4 +13,6 @@ export default abstract class Environment {
     public static readonly KAFKA_CONSUMER_MIN_BYTER = 5;
     public static readonly KAFKA_CONSUMER_MAX_BYTER = 1e6;
     public static readonly KAFKA_CONSUMER_MAX_WAIT_TIME_MS = 1000;
+
+    
 }

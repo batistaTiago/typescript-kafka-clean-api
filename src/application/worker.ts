@@ -6,7 +6,6 @@ import { container } from 'tsyringe';
 import { EventTopicHandler } from "../infra/messaging/handlers/save-event-to-mongo-handler";
 import { KafkaTopicConsumer } from "../infra/messaging/kafka/consumer/kafka-topic-consumer";
 
-
 const handler = container.resolve(EventTopicHandler);
 const consumer = container.resolve(KafkaTopicConsumer);
 

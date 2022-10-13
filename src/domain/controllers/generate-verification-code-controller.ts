@@ -9,8 +9,7 @@ export class GenerateVerificationCodeController implements Controller {
     public constructor(private readonly useCase: GenerateVerificationCodeUseCase) {}
 
     public async handle(): Promise<HttpResponse> {
-        const result = await this.useCase.execute()
-        const { code, expiresAt } = result
+        const { code, expiresAt } = await this.useCase.execute()
         return {
             statusCode: HttpStatus.OK,
             body: { code, expiresAt }

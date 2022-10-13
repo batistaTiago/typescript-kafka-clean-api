@@ -8,7 +8,7 @@ import { Event } from "../domain/entities/event";
 import { KafkaMessageProducer } from "../infra/messaging/kafka/producer/kafka-message-producer";
 import express, { Express } from 'express';
 import { HomeControllerExpressAdapter } from '../infra/http/express/home-controller-express-adapter';
-import { GenerateVerificationCodeControllerExpressAdapter } from '../infra/http/express/generate-verification-code-controller-express-adapter copy';
+import { GenerateVerificationCodeControllerExpressAdapter } from '../infra/http/express/generate-verification-code-controller-express-adapter';
 
 function startServer(producer: KafkaMessageProducer, api: Express): void {
     producer.connect()
