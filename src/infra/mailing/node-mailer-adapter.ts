@@ -2,22 +2,11 @@ import { Mailable } from "../../domain/services/mailing/mailable";
 import { Mailer } from "../../domain/services/mailing/mailer";
 import * as NodeMailer from 'nodemailer';
 import Environment from "../../application/environment";
+import { inject, injectable } from "tsyringe";
 
+@injectable()
 export class NodeMailerAdapter implements Mailer {
-    private readonly transporter: NodeMailer.Transporter;
-
-    public constructor() {
-        this.transporter = NodeMailer.createTransport({
-            host: Environment.MAIL_SERVER,
-            port: Environment.MAIL_PORT,
-            // secure: false,
-            auth: {
-                user: Environment.MAIL_USERNAME,
-                pass: Environment.MAIL_PASSWORD
-            },
-            // tls: { rejectUnauthorized: false }
-        });
-    }
+    public constructor(@inject('NodeMailerTransport') private readonly transporter: NodeMailer.Transporter) { }
 
     public async send(mailable: Mailable, to: string): Promise<void> {
         return this.transporter.sendMail({

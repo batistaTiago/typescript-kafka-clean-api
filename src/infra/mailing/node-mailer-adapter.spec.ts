@@ -12,7 +12,7 @@ describe('NodeMailerAdapter', () => {
         const sendMailMock = jest.spyOn(transportMock, 'sendMail');
         jest.spyOn<any, any>(NodeMailer, 'createTransport').mockReturnValueOnce(transportMock);
 
-        const sut = new NodeMailerAdapter();
+        const sut = new NodeMailerAdapter(transportMock as any);
         const mailable: Mailable = {
             subject: 'automated-test',
             message: 'this is an automatically generated test message',
@@ -37,7 +37,7 @@ describe('NodeMailerAdapter', () => {
         jest.spyOn(transportMock, 'sendMail');
         jest.spyOn<any, any>(NodeMailer, 'createTransport').mockReturnValueOnce(transportMock);
         
-        const sut = new NodeMailerAdapter();
+        const sut = new NodeMailerAdapter(transportMock as any);
         const mailable: Mailable = {
             subject: 'automated-test',
             message: 'this is an automatically generated test message',
