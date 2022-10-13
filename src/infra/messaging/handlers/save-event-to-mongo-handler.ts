@@ -9,5 +9,5 @@ export class EventTopicHandler implements MessageHandler {
 
     public async handle(message: Event): Promise<void> {
         await this.useCase.execute(message);
-}
+    }
 }

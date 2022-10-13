@@ -11,9 +11,6 @@ interface GenerateVerificationCodeUseCaseArgs {
 
 @injectable()
 export class GenerateVerificationCodeUseCase {
-    private min = 100000;
-    private max = 999999;
-
     public constructor(
         @inject("VerificationCodeRepository") private readonly verificationCodeRepository: VerificationCodeRepository,
         @inject("Cache") private readonly cache: Cache,

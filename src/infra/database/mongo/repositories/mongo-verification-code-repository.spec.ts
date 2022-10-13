@@ -1,10 +1,10 @@
-import { MongoEventRepository } from "./mongo-event-repository"
 import { MongoClient } from 'mongodb';
-import { Event as EventEntity } from "../../../../domain/entities/event";
+import { VerificationCode } from '../../../../domain/entities/verification-code';
+import { MongoVerificationCodeRepository } from './mongo-verification-code-repository';
 
-describe('MongoEventRepository', () => {
+describe('MongoVerificationCodeRepository', () => {
     const client = new MongoClient(process.env.MONGO_URL);
-    const sut = new MongoEventRepository(client);
+    const sut = new MongoVerificationCodeRepository(client);
 
     beforeAll(async () => {
         await sut.connect();
@@ -15,17 +15,15 @@ describe('MongoEventRepository', () => {
     });
 
     it('should forward call to mongodb client', async () => {
-        const event: EventEntity = {
-            eventName: 'abc',
-            happenedAt: new Date(),
+        const code: VerificationCode = {
+            code: 'ABC'
         };
 
-        const result = await sut.storeEvent(event);
+        const result = await sut.storeValidationCode(code);
 
         expect((result as any)._id).not.toBeDefined();
         expect(result.id).toBeDefined();
-        expect(result.eventName).toBeDefined();
-        expect(result.happenedAt).toBeDefined();
+        expect(result.code).toEqual('ABC');
     });
 
     it('should throw if mongodb client throws', async () => {
@@ -33,12 +31,11 @@ describe('MongoEventRepository', () => {
             throw new Error();
         });
 
-        const event: EventEntity = {
-            eventName: 'abc',
-            happenedAt: new Date(),
+        const code: VerificationCode = {
+            code: 'ABC'
         };
 
-        const result = sut.storeEvent(event);
+        const result = sut.storeValidationCode(code);
 
         expect(result).rejects.toThrow();
     });
