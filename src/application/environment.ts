@@ -14,5 +14,9 @@ export default abstract class Environment {
     public static readonly KAFKA_CONSUMER_MAX_BYTER = 1e6;
     public static readonly KAFKA_CONSUMER_MAX_WAIT_TIME_MS = 1000;
 
-    
+    public static readonly MAIL_FROM = 'MAIL_FROM';
+    public static readonly MAIL_SERVER = 'MAIL_SERVER';
+    public static readonly MAIL_PORT = 587;    
+    public static readonly MAIL_USERNAME = 'MAIL_USERNAME';
+    public static readonly MAIL_PASSWORD = 'MAIL_PASSWORD';
 }
