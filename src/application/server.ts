@@ -10,7 +10,8 @@ import express, { Express } from 'express';
 import { HomeControllerExpressAdapter } from '../infra/http/express/home-controller-express-adapter';
 import { GenerateVerificationCodeControllerExpressAdapter } from '../infra/http/express/generate-verification-code-controller-express-adapter';
 
-function startServer(producer: KafkaMessageProducer, api: Express): void {
+function startServer(api: Express): void {
+    const producer = container.resolve(KafkaMessageProducer);
     producer.connect()
         .then(() => {
             const event: Event = {
@@ -31,11 +32,10 @@ function startServer(producer: KafkaMessageProducer, api: Express): void {
 const api = express();
 api.set('trust proxy', true);
 
-const producer = container.resolve(KafkaMessageProducer);
 const homeController = container.resolve(HomeControllerExpressAdapter);
 const verificationController = container.resolve(GenerateVerificationCodeControllerExpressAdapter);
 
 api.get('/', (req, res) => homeController.handle(req, res));
 api.get('/verification-code', (req, res) => verificationController.handle(req, res));
 
-startServer(producer, api);
+startServer(api);

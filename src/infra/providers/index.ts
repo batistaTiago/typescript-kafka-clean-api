@@ -19,7 +19,7 @@ const providers: ServiceProvider[] = [
 
 export const registerAll = () => {
     providers.forEach((provider: ServiceProvider) => { 
-        // console.log('######## registering service provider: ' + provider.constructor.name);
+        console.log('######## Registering service provider: ' + provider.constructor.name);
         provider.register()
     })
 }
