@@ -1,6 +1,7 @@
 import { Controller } from "./controller";
 import { HttpRequest } from "./http-request";
 import { HttpResponse } from "./http-response";
+import { HttpStatus } from "./status";
 
 export class ErrorResilientController implements Controller {
     public constructor(protected readonly controller: Controller) {}
@@ -10,7 +11,7 @@ export class ErrorResilientController implements Controller {
             return await this.controller.handle(request);
         } catch (error) {
             return {
-                statusCode: 500,
+                statusCode: HttpStatus.SERVER_ERROR,
                 body: {
                     error: error.message
                 }
