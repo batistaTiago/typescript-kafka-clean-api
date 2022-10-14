@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import { WorkerApplication } from './worker-application';
+import { WorkerApplication } from '../application/worker-application';
 
 const TOPIC_NAME = process.argv.slice(2)[0] ?? 'events';
 

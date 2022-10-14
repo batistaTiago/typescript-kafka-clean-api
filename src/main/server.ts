@@ -1,8 +1,8 @@
 import 'reflect-metadata';
 import { container } from 'tsyringe';
+import { ApiApplication } from '../application/api-application';
 import { Event } from '../domain/entities/event';
 import { KafkaMessageProducer } from '../infra/messaging/kafka/producer/kafka-message-producer';
-import { ApiApplication } from './api-application';
 
 
 
