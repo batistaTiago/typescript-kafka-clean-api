@@ -5,41 +5,41 @@ volumes:
     driver: local
   redis_data:
     driver: local
+  locust:
+    driver: local
 
 networks: 
   app:
     driver: bridge  
 
 services:
-  # api:
-  #   build: .
-  #   restart: always
-  #   networks: 
-  #     - app
-  #   depends_on:
-  #     - kafka
-  #     - mongodb
-  #     - redis
-  #   ports:
-  #     - 5050:5000
-  #   volumes:
-  #     - ./src:/usr/src/app/src
-  #   command: npm run dev:api
+  api:
+    build: .
+    restart: always
+    networks: 
+      - app
+    depends_on:
+      - kafka
+      - mongodb
+      - redis
+    ports:
+      - 5000:5000
+    volumes:
+      - ./src:/usr/src/app/src
+    command: npm run dev:api
 
-  # worker:
-  #   build: .
-  #   restart: always
-  #   networks: 
-  #     - app
-  #   depends_on:
-  #     - kafka
-  #     - mongodb
-  #     - redis
-  #   ports:
-  #     - 5000:5000
-  #   volumes:
-  #     - ./src:/usr/src/app/src
-  #   command: npm run dev:worker
+  worker:
+    build: .
+    restart: always
+    networks: 
+      - app
+    depends_on:
+      - kafka
+      - mongodb
+      - redis
+    volumes:
+      - ./src:/usr/src/app/src
+    command: npm run dev:worker
     
   kafka:
     image: confluentinc/cp-kafka:latest
@@ -78,6 +78,8 @@ services:
 
   mongodb:
     image: mongo:4.4
+    networks: 
+      - app
     restart: always
     ports:
       - '27017:27017'
@@ -86,8 +88,34 @@ services:
 
   redis:
     image: redis
+    networks: 
+      - app
     restart: always
     ports:
       - 6380:6379
     volumes: 
       - redis_data:/data
+
+  locust_master:
+    image: locustio/locust
+    working_dir: /mnt/locust
+    depends_on:
+      - api
+    networks: 
+      - app
+    ports:
+      - "8089:8089"
+    volumes:
+      - ./locust:/mnt/locust
+    command: -f /mnt/locust/locustfile.py --master
+
+  locust_worker:
+    image: locustio/locust
+    networks: 
+      - app
+    working_dir: /mnt/locust
+    depends_on:
+      - locust_master
+    volumes:
+      - ./locust:/mnt/locust
+    command: -f /mnt/locust/locustfile.py --worker --master-host locust_master
