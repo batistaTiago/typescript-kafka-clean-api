@@ -29,7 +29,10 @@ export class KafkaTopicConsumer {
         await this.consumer.subscribe({ topic, fromBeginning });
         await this.consumer.run({
             autoCommitThreshold: KafkaTopicConsumer.NUMBER_OF_MESSAGES_BEFORE_COMMIT,
-            eachMessage: ({ message }) => handler.handle(JSON.parse(String(message.value))),
+            eachMessage: async ({ message }) => {        
+                console.log(`New message detected on topic ${topic}`);
+                handler.handle(JSON.parse(String(message.value)))
+            },
         });
     }
 

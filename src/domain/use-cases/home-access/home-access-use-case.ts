@@ -6,9 +6,7 @@ import { MessageProducer } from "../../services/messaging/message-producer";
 export class HomeAccessUseCase {
     private topicName: string = 'events';
 
-    public constructor(
-        @inject('MessageProducer') private messageProducer: MessageProducer
-    ) {}
+    public constructor(@inject('MessageProducer') private messageProducer: MessageProducer) { }
 
     public async execute(data: object): Promise<object> {
         const requestDateTime = new Date();
