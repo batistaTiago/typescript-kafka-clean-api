@@ -22,12 +22,6 @@ export class WorkerApplication extends Application {
             throw new Error('Tópico não mapeado');
         }
 
-        const handlerConstructor = this.handlerMappings.get(this.topic);
-
-        // if (!container.isRegistered(handlerConstructor)) {
-        //     throw new Error('Handler não registrado');
-        // }
-
         const handler: MessageHandler = container.resolve(this.handlerMappings.get(this.topic));
         return await container.resolve(KafkaTopicConsumer).consume(this.topic, handler);
     }
