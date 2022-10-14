@@ -7,7 +7,6 @@
         "dev:api": "ts-node-dev -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules --respawn src/main/server.ts",
         "dev:worker": "ts-node-dev -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules --respawn src/main/worker.ts",
         "dev:sandbox": "ts-node-dev -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules --respawn src/main/sandbox.ts",
-        "start": "node src/main.js",
         "test": "clear && jest --passWithNoTests --silent --noStackTrace",
         "test:verbose": "jest --passWithNoTests",
         "test:watch": "npm test -- --watch",
