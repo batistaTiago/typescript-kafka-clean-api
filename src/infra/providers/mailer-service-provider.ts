@@ -8,12 +8,12 @@ export class MailerServiceProvider implements ServiceProvider {
         const transportParams = {
             host: Environment.MAIL_SERVER,
             port: Environment.MAIL_PORT,
-            // secure: false,
+            secure: true,
             auth: {
                 user: Environment.MAIL_USERNAME,
                 pass: Environment.MAIL_PASSWORD
             },
-            // tls: { rejectUnauthorized: false }
+            tls: { rejectUnauthorized: true }
         };
 
         container.registerInstance("NodeMailerTransport", createTransport(transportParams));

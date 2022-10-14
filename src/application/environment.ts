@@ -14,9 +14,9 @@ export default abstract class Environment {
     public static readonly KAFKA_CONSUMER_MAX_BYTER = 1e6;
     public static readonly KAFKA_CONSUMER_MAX_WAIT_TIME_MS = 1000;
 
-    public static readonly MAIL_FROM = 'MAIL_FROM';
-    public static readonly MAIL_SERVER = 'MAIL_SERVER';
-    public static readonly MAIL_PORT = 587;    
-    public static readonly MAIL_USERNAME = 'MAIL_USERNAME';
+    public static readonly MAIL_FROM = 'Batista';
+    public static readonly MAIL_SERVER = 'smtp.gmail.com';
+    public static readonly MAIL_PORT = 465;    
+    public static readonly MAIL_USERNAME = 'python.email.smtp.modules@gmail.com';
     public static readonly MAIL_PASSWORD = 'MAIL_PASSWORD';
 }
