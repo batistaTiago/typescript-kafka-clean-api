@@ -4,8 +4,6 @@ import { ApiApplication } from '../application/api-application';
 import { Event } from '../domain/entities/event';
 import { KafkaMessageProducer } from '../infra/messaging/kafka/producer/kafka-message-producer';
 
-
-
 new ApiApplication().start().then(async() => {
     const event: Event = {
         eventName: 'SERVER_RESTART',
