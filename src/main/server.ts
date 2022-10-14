@@ -2,7 +2,7 @@ import 'reflect-metadata';
 import { container } from 'tsyringe';
 import { ApiApplication } from '../application/api-application';
 import { Event } from '../domain/entities/event';
-import { KafkaMessageProducer } from '../infra/messaging/kafka/producer/kafka-message-producer';
+import { KafkaMessageProducerAdapter } from '../infra/messaging/kafka/producer/kafka-message-producer-adapter';
 
 new ApiApplication().start().then(async() => {
     const event: Event = {
@@ -13,7 +13,7 @@ new ApiApplication().start().then(async() => {
         }
     };
     
-    const producer = container.resolve(KafkaMessageProducer);
+    const producer = container.resolve(KafkaMessageProducerAdapter);
     await producer.connect();
     await producer.publish('events', event);
     

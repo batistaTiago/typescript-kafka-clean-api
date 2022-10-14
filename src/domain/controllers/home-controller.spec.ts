@@ -1,5 +1,3 @@
-import { container } from "tsyringe";
-import { KafkaMessageProducer } from "../../infra/messaging/kafka/producer/kafka-message-producer";
 import { MessageProducer } from "../services/messaging/message-producer";
 import { HomeAccessUseCase } from "../use-cases/home-access/home-access-use-case";
 import { HomeController } from "./home-controller"

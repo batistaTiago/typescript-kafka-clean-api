@@ -1,22 +1,22 @@
 import {  Producer as KafkaJSProducer, logLevel as KafkaJSLogLevel  } from 'kafkajs';
-import { injectable } from 'tsyringe';
+import { inject, injectable } from 'tsyringe';
 import { MessageProducer } from '../../../../domain/services/messaging/message-producer';
-import { KafkaBroker } from '../kafka-broker';
 
 @injectable()
-export class KafkaMessageProducer implements MessageProducer {
-    private readonly producer: KafkaJSProducer;
+export class KafkaMessageProducerAdapter implements MessageProducer {
+    private readonly producer: KafkaJSProducer
     private isConnected: boolean = false;
 
-    public constructor(private broker: KafkaBroker) {
-        this.producer = this.broker.makeProducer();
+    public constructor(@inject('KafkaJSProducer') producer: KafkaJSProducer) {
+        this.producer = producer;
         this.setUpConnectionSyncing();
     }
 
     public async connect(): Promise<void> {
         if (!this.isConnected) {
-            console.log('Producer connecting...');
+            console.log('ProducerAdapter connecting...');
             await this.producer.connect();
+            this.isConnected = true;
         }
     }
 
