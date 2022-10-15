@@ -1,6 +1,8 @@
 version: '3'
 
 volumes:
+  mysql_data:
+    driver: local
   mongo_data:
     driver: local
   redis_data:
@@ -22,6 +24,7 @@ services:
       - kafka
       - mongodb
       - redis
+      - mysql
     ports:
       - 5000:5000
     volumes:
@@ -37,6 +40,7 @@ services:
       - kafka
       - mongodb
       - redis
+      - mysql
     volumes:
       - ./src:/usr/src/app/src
     command: npm run dev:worker
@@ -77,6 +81,19 @@ services:
       - 19000:9000
     environment:
       KAFKA_BROKERCONNECT: kafka:29092
+
+  mysql:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'db'
+      MYSQL_USER: 'user'
+      MYSQL_PASSWORD: 'sqlP4SS'
+      MYSQL_ROOT_PASSWORD: 'RO0TsqlP4SS'
+    ports:
+      - '3306:3306'
+    volumes:
+      - mysql_data:/var/lib/mysql
 
   mongodb:
     image: mongo:4.4
