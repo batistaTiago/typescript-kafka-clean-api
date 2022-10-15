@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import * as Providers from '../infra/providers';
 
 export abstract class Application {

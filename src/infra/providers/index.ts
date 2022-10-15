@@ -5,11 +5,13 @@ import { AppServiceProvider } from "./app-service-provider";
 import { RedisServiceProvider } from "./redis-service-provider";
 import { MailerServiceProvider } from "./mailer-service-provider";
 import { CryptographyServiceProvider } from "./cryptography-service-provider";
+import { MysqlServiceProvider } from "./mysql-service-provider";
 
 
 // @@TODO: carregar dinamicamente...
 const providers: ServiceProvider[] = [
     new CryptographyServiceProvider(),
+    new MysqlServiceProvider(),
     new MongoServiceProvider(),
     new RedisServiceProvider(),
     new KafkaServiceProvider(),

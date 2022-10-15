@@ -1,4 +1,6 @@
 import { container } from "tsyringe";
+import { Mailable } from "../domain/services/mailing/mailable";
+import { Mailer } from "../domain/services/mailing/mailer";
 import { GenerateVerificationCodeControllerExpressAdapter } from "../infra/http/express/generate-verification-code-controller-express-adapter";
 import { HomeControllerExpressAdapter } from "../infra/http/express/home-controller-express-adapter";
 import { Application } from "./application";
@@ -25,6 +27,22 @@ export class ApiApplication extends Application {
         const verificationController = container.resolve(GenerateVerificationCodeControllerExpressAdapter);
 
         this.api.get('/', (req, res) => homeController.handle(req, res));
-        this.api.get('/verification-code', (req, res) => verificationController.handle(req, res));
+        this.api.get('/verification-code', (req, res) => verificationController.handle(req, res));     
+
+        this.api.get('/oi-zekas', async (req, res) => {
+            const mailable: Mailable = {
+                subject: 'aqui eh o batista',
+                message: 'testando integracao com nodemailer'
+            };
+
+            const mailer: Mailer = container.resolve('Mailer');
+            // await mailer.send(mailable, 'dannndourado@gmail.com');
+
+            return res.json({
+                ok: true,
+                message: "deu bom"
+            });
+        });
+
     }
 }

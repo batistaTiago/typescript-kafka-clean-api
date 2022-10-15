@@ -18,5 +18,5 @@ export default abstract class Environment {
     public static readonly MAIL_SERVER = 'smtp.gmail.com';
     public static readonly MAIL_PORT = 465;    
     public static readonly MAIL_USERNAME = 'python.email.smtp.modules@gmail.com';
-    public static readonly MAIL_PASSWORD = 'MAIL_PASSWORD';
+    public static readonly MAIL_PASSWORD = 'mybdrznvpjktvhez';
 }
