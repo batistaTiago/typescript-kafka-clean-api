@@ -1,15 +1,14 @@
 import {  Producer as KafkaJSProducer, logLevel as KafkaJSLogLevel  } from 'kafkajs';
-import { inject, injectable } from 'tsyringe';
+import { inject, singleton } from 'tsyringe';
 import { MessageProducer } from '../../../../domain/services/messaging/message-producer';
 
-@injectable()
+@singleton()
 export class KafkaMessageProducerAdapter implements MessageProducer {
-    private readonly producer: KafkaJSProducer
     private isConnected: boolean = false;
 
-    public constructor(@inject('KafkaJSProducer') producer: KafkaJSProducer) {
-        this.producer = producer;
-        this.setUpConnectionSyncing();
+    public constructor(@inject('KafkaJSProducer') private readonly producer: KafkaJSProducer) {
+        this.producer.on('producer.connect', () => this.isConnected = true);
+        this.producer.on('producer.disconnect', () => this.isConnected = false);
     }
 
     public async connect(): Promise<void> {
@@ -29,10 +28,5 @@ export class KafkaMessageProducerAdapter implements MessageProducer {
                 value: JSON.stringify(data)
             }]
         });
-    }
-
-    private setUpConnectionSyncing(): void {
-        this.producer.on('producer.connect', () => this.isConnected = true);
-        this.producer.on('producer.disconnect', () => this.isConnected = false);
     }
 }

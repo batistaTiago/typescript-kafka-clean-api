@@ -2,7 +2,7 @@ import { injectable } from "tsyringe";
 import { VerificationCode } from "../../../../domain/entities/verification-code";
 import { VerificationCodeRepository } from "../../../../domain/services/repositories/verification-code-repository ";
 import { VerificationCodeModel } from "../../../models/verification-code-model";
-import { MongoBaseRepository } from "../base-mongo-repository";
+import { MongoBaseRepository } from "../mongo-base-repository";
 
 @injectable()
 export class MongoVerificationCodeRepository extends MongoBaseRepository implements VerificationCodeRepository {

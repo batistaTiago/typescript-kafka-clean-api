@@ -1,6 +1,6 @@
 import { BcryptAdapter } from './bcrypt-adapter';
 import bcrypt from 'bcrypt';
-import Environment from '../application/environment';
+import { Environment } from '../config/environment';
 
 const UNHASHED_STRING = 'UNHASHED_STRING';
 const UNHASHED_OBJECT = { sample: 'object', with: ['many', 'layers', 'of', 'depth']};

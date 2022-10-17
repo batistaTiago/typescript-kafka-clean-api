@@ -3,7 +3,7 @@ import { DataSource } from 'typeorm';
 import { ServiceProvider } from '../../domain/services/provider';
 
 export class MysqlServiceProvider implements ServiceProvider {
-    public async register(): Promise<void> {
+    public register(): void {
         const typeOrmDataSource = new DataSource({
             type: "mysql",
             host: "mysql",

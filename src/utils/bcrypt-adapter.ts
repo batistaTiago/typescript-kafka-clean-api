@@ -1,6 +1,6 @@
 import * as bcrypt from 'bcrypt';
 import { injectable } from 'tsyringe';
-import Environment from "../application/environment";
+import { Environment } from '../config/environment';
 import { Encrypter } from '../domain/services/cryptography/encrypter';
 
 @injectable()

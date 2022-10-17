@@ -2,15 +2,18 @@ import 'reflect-metadata';
 import { container } from 'tsyringe';
 import { ApiApplication } from '../application/api-application';
 import { Event } from '../domain/entities/event';
+import { Message } from '../domain/services/messaging/message';
 import { KafkaMessageProducerAdapter } from '../infra/messaging/kafka/producer/kafka-message-producer-adapter';
 
 new ApiApplication().start().then(async() => {
-    const event: Event = {
-        eventName: 'SERVER_RESTART',
-        happenedAt: new Date(),
-        data: {
-            port: 5000
-        }
+    const event: Message<Event> = {
+        body: {
+            eventName: 'SERVER_RESTART',
+            happenedAt: new Date(),
+            data: {
+                port: 5000
+            }
+        },
     };
     
     const producer = container.resolve(KafkaMessageProducerAdapter);

@@ -8,21 +8,23 @@ import { CryptographyServiceProvider } from "./cryptography-service-provider";
 import { MysqlServiceProvider } from "./mysql-service-provider";
 
 
-// @@TODO: carregar dinamicamente...
-const providers: ServiceProvider[] = [
-    new CryptographyServiceProvider(),
-    new MysqlServiceProvider(),
-    new MongoServiceProvider(),
-    new RedisServiceProvider(),
-    new KafkaServiceProvider(),
-    new MailerServiceProvider(),
-    new AppServiceProvider(),
-];
 
 export const registerAll = () => {
-    providers.forEach((provider: ServiceProvider) => { 
-        console.log('######## Registering service provider: ' + provider.constructor.name);
-        provider.register()
+    console.log('#### Registering service providers');
+
+    // @@TODO: carregar dinamicamente...
+    const providers: ServiceProvider[] = [
+        new CryptographyServiceProvider(),
+        new MysqlServiceProvider(),
+        new MongoServiceProvider(),
+        new RedisServiceProvider(),
+        new KafkaServiceProvider(),
+        new MailerServiceProvider(),
+        new AppServiceProvider(),
+    ];
+
+    providers.forEach((provider: ServiceProvider) => {
+        provider.register();
     })
 }
 

@@ -1,5 +1,6 @@
-import { EventTopicHandler } from "../infra/messaging/handlers/save-event-to-mongo-handler";
+import { EventTopicHandler } from "../infra/messaging/handlers/event-topic-handler";
 
 export default {
-    "events": EventTopicHandler
+    "events": EventTopicHandler,
+    "retry.events": EventTopicHandler,
 };

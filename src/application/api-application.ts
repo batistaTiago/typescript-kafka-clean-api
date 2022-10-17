@@ -11,10 +11,10 @@ export class ApiApplication extends Application {
 
     public constructor() {
         super();
-        
+
         this.api = require('express')();
         this.api.set('trust proxy', true);
-        this.bootApi();      
+        this.bootApi();
     }
 
     public async start(): Promise<void> {
@@ -22,21 +22,22 @@ export class ApiApplication extends Application {
     }
 
     private bootApi() {
-        // @@TODO: dinamizar...
+        // @@TODO: dinamizar - route service provider injeta um array de rotas nessa classe e esse metodo o varre, registrando as rotas no express
         const homeController = container.resolve(HomeControllerExpressAdapter);
         const verificationController = container.resolve(GenerateVerificationCodeControllerExpressAdapter);
+        const method = 'get';
 
-        this.api.get('/', (req, res) => homeController.handle(req, res));
-        this.api.get('/verification-code', (req, res) => verificationController.handle(req, res));     
+        this.api[method]('/', (req, res) => homeController.handle(req, res));
+        this.api[method]('/verification-code', (req, res) => verificationController.handle(req, res));
 
-        this.api.get('/oi-zekas', async (req, res) => {
+        this.api[method]('/oi-zekas', async (req, res) => {
             const mailable: Mailable = {
                 subject: 'aqui eh o batista',
                 message: 'testando integracao com nodemailer'
             };
 
             const mailer: Mailer = container.resolve('Mailer');
-            // await mailer.send(mailable, 'dannndourado@gmail.com');
+            // await mailer.send(mailable, 'nicholasbalby@hotmail.com');
 
             return res.json({
                 ok: true,

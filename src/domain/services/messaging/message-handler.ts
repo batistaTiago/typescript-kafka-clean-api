@@ -1,3 +1,5 @@
+import { Message } from "./message";
+
 export interface MessageHandler {
-    handle(message: object): Promise<void>;
+    handle(message: Message<object>): Promise<void>;
 }

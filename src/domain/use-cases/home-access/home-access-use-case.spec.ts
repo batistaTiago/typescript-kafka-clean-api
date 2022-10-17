@@ -16,11 +16,13 @@ describe('HomeAccessUseCase', () => {
         const publishSpy = jest.spyOn(fakeProducer, 'publish');
 
         const expectedResult = {
-            eventName: "NEW_HOMEPAGE_ACCESS", 
-            happenedAt: mockedDate,
-            data: {
-                ip: "10.0.0.1"
-            }, 
+            body: {
+                eventName: "NEW_HOMEPAGE_ACCESS", 
+                happenedAt: mockedDate,
+                data: {
+                    ip: "10.0.0.1"
+                }, 
+            }
         };
 
         const sut = new HomeAccessUseCase(fakeProducer);

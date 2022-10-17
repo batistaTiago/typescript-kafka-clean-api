@@ -4,7 +4,7 @@ import { ServiceProvider } from '../../domain/services/provider';
 import { BcryptAdapter } from '../../utils/bcrypt-adapter';
 
 export class CryptographyServiceProvider implements ServiceProvider {
-    public async register(): Promise<void> {
+    public register(): void {
         container.registerInstance("Encrypter", BcryptAdapter);
     }
 }

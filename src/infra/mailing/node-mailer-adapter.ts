@@ -1,8 +1,8 @@
 import { Mailable } from "../../domain/services/mailing/mailable";
 import { Mailer } from "../../domain/services/mailing/mailer";
 import * as NodeMailer from 'nodemailer';
-import Environment from "../../application/environment";
 import { inject, injectable } from "tsyringe";
+import { Environment } from "../../config/environment";
 
 @injectable()
 export class NodeMailerAdapter implements Mailer {

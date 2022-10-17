@@ -8,7 +8,7 @@ import { NodeMailerAdapter } from '../mailing/node-mailer-adapter';
 import { KafkaMessageProducerAdapter } from '../messaging/kafka/producer/kafka-message-producer-adapter';
 
 export class AppServiceProvider implements ServiceProvider {
-    public async register(): Promise<void> {
+    public register(): void {
         container.register("MessageProducer", { useClass: KafkaMessageProducerAdapter });
         container.register("Cache", { useClass: RedisCache });
         container.register("Mailer", { useClass: NodeMailerAdapter });

@@ -4,3 +4,4 @@ dist
 coverage
 mongo_data
 cache_data
+.env

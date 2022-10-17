@@ -1,7 +1,7 @@
 import { Mailable } from "../../domain/services/mailing/mailable";
 import { NodeMailerAdapter } from "./node-mailer-adapter";
-import Environment from "../../application/environment";
 import * as NodeMailer from 'nodemailer';
+import { Environment } from "../../config/environment";
 
 jest.mock("nodemailer");
 

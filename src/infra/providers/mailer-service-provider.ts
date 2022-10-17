@@ -1,10 +1,10 @@
 import { createTransport } from 'nodemailer';
 import { container } from 'tsyringe';
-import Environment from '../../application/environment';
+import { Environment } from '../../config/environment';
 import { ServiceProvider } from '../../domain/services/provider';
 
 export class MailerServiceProvider implements ServiceProvider {
-    public async register(): Promise<void> {
+    public register(): void {
         const transportParams = {
             host: Environment.MAIL_SERVER,
             port: Environment.MAIL_PORT,

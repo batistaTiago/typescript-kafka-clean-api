@@ -1,9 +1,10 @@
 import { MongoEventRepository } from "./mongo-event-repository"
 import { MongoClient } from 'mongodb';
 import { Event as EventEntity } from "../../../../domain/entities/event";
+import { Environment } from "../../../../config/environment";
 
 describe('MongoEventRepository', () => {
-    const client = new MongoClient(process.env.MONGO_URL);
+    const client = new MongoClient(Environment.MONGO_CONNECTION_URI);
     const sut = new MongoEventRepository(client);
 
     beforeAll(async () => {

@@ -2,7 +2,7 @@ import { injectable } from "tsyringe";
 import { Event as EventEntity } from "../../../../domain/entities/event";
 import { EventRepository } from "../../../../domain/services/repositories/event-repository";
 import { EventModel } from "../../../models/event-model";
-import { MongoBaseRepository } from "../base-mongo-repository";
+import { MongoBaseRepository } from "../mongo-base-repository";
 
 @injectable()
 export class MongoEventRepository extends MongoBaseRepository implements EventRepository {

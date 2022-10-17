@@ -1,9 +1,10 @@
 import { MongoClient } from 'mongodb';
+import { Environment } from '../../../../config/environment';
 import { VerificationCode } from '../../../../domain/entities/verification-code';
 import { MongoVerificationCodeRepository } from './mongo-verification-code-repository';
 
 describe('MongoVerificationCodeRepository', () => {
-    const client = new MongoClient(process.env.MONGO_URL);
+    const client = new MongoClient(Environment.MONGO_CONNECTION_URI);
     const sut = new MongoVerificationCodeRepository(client);
 
     beforeAll(async () => {
