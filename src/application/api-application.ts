@@ -1,10 +1,7 @@
 import { Application as Express } from "express";
 import { container } from "tsyringe";
-import { ExpressApiRoute } from "../infra/http/express/express-api-route";
 import { ExpressControllerAdapter } from "../infra/http/express/express-controller-adapter";
 import { Application } from "./application";
-
-
 
 export class ApiApplication extends Application {
     protected api: Express;
@@ -23,8 +20,8 @@ export class ApiApplication extends Application {
 
     private bootApi() {
         const expressControllers: ExpressControllerAdapter[] = container.resolve("ExpressControllers");
-        expressControllers.forEach(route => {
-            this.api[route.method](route.url, (req, res) => route.handle(req, res));
+        expressControllers.forEach(controller => {
+            this.api[controller.route().method](controller.route().url, (req, res) => controller.handle(req, res));
         });
     }
 }

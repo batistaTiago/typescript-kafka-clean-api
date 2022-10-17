@@ -1,5 +1,4 @@
 import { container } from 'tsyringe';
-import { Environment } from '../../config/environment';
 import { ServiceProvider } from '../../domain/services/provider';
 import { createClient } from '@redis/client';
 import { promisifyAll } from 'bluebird';
