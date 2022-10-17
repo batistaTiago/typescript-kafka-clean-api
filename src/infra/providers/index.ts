@@ -6,6 +6,7 @@ import { RedisServiceProvider } from "./redis-service-provider";
 import { MailerServiceProvider } from "./mailer-service-provider";
 import { CryptographyServiceProvider } from "./cryptography-service-provider";
 import { MysqlServiceProvider } from "./mysql-service-provider";
+import { RouteServiceProvider } from "./route-service-provider";
 
 
 
@@ -21,9 +22,11 @@ export const registerAll = () => {
         new KafkaServiceProvider(),
         new MailerServiceProvider(),
         new AppServiceProvider(),
+        new RouteServiceProvider(),
     ];
 
     providers.forEach((provider: ServiceProvider) => {
+        console.log('######## Registering service provider: ' + provider.constructor.name);
         provider.register();
     })
 }

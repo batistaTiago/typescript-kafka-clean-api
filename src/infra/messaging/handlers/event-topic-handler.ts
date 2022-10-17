@@ -2,7 +2,7 @@ import { injectable } from "tsyringe";
 import { Event } from "../../../domain/entities/event";
 import { Message } from "../../../domain/services/messaging/message";
 import { MessageHandler } from "../../../domain/services/messaging/message-handler";
-import { SaveEventToDatabaseUseCase } from "../../../domain/use-cases/save-event-to-mongo/save-event-to-database-use-case";
+import { SaveEventToDatabaseUseCase } from "../../../domain/use-cases/save-event-to-database/save-event-to-database-use-case";
 
 @injectable()
 export class EventTopicHandler implements MessageHandler {
