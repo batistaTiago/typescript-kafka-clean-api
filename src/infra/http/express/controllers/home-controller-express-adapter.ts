@@ -1,11 +1,11 @@
 import { Request, Response } from 'express';
 import { injectable } from 'tsyringe';
-import { HomeController } from '../../../domain/controllers/home-controller';
-import { Controller } from '../../../domain/services/http/controller';
-import { ErrorResilientController } from '../../../domain/services/http/error-resilient-controller';
-import { HttpResponse } from '../../../domain/services/http/http-response';
-import { ExpressControllerAdapter } from './express-controller-adapter';
-import { ExpressRoute } from './express-route';
+import { HomeController } from '../../../../domain/controllers/home-controller';
+import { Controller } from '../../../../domain/services/http/controller';
+import { ErrorResilientController } from '../../../../domain/services/http/error-resilient-controller';
+import { HttpResponse } from '../../../../domain/services/http/http-response';
+import { ExpressControllerAdapter } from '../express-controller-adapter';
+import { ExpressRoute } from '../express-route';
 
 @injectable()
 export class HomeControllerExpressAdapter extends ExpressControllerAdapter {

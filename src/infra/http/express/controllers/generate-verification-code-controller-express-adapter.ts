@@ -1,11 +1,11 @@
 import { Request, Response } from 'express';
 import { injectable } from 'tsyringe';
-import { GenerateVerificationCodeController } from '../../../domain/controllers/generate-verification-code-controller';
-import { Controller } from '../../../domain/services/http/controller';
-import { ErrorResilientController } from '../../../domain/services/http/error-resilient-controller';
-import { HttpResponse } from '../../../domain/services/http/http-response';
-import { ExpressControllerAdapter } from './express-controller-adapter';
-import { ExpressRoute } from './express-route';
+import { GenerateVerificationCodeController } from '../../../../domain/controllers/generate-verification-code-controller';
+import { Controller } from '../../../../domain/services/http/controller';
+import { ErrorResilientController } from '../../../../domain/services/http/error-resilient-controller';
+import { HttpResponse } from '../../../../domain/services/http/http-response';
+import { ExpressControllerAdapter } from '../express-controller-adapter';
+import { ExpressRoute } from '../express-route';
 
 @injectable()
 export class GenerateVerificationCodeControllerExpressAdapter extends ExpressControllerAdapter {
