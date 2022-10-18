@@ -5,7 +5,8 @@ import { RandomNumberGenerator, RandomNumberGeneratorOptions } from "./random-nu
 @injectable()
 export class RandomHelper implements RandomNumberGenerator, DiceRoller {
     public attempt(chance: number): boolean {
-        return Math.random() < (chance < 1 ? (chance * 100) : chance);
+        const result = (Math.random() * 100);
+        return result >= chance; 
     }
 
     public generate({ min, max, digits }: Partial<RandomNumberGeneratorOptions>): number {

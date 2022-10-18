@@ -62,4 +62,17 @@ describe('RandomHelper', () => {
             expect(result).toBeLessThanOrEqual(10 ** (digits - 1));
         }
     });
+
+    it('should attempt', () => {
+        jest.spyOn(Math, 'random').mockReturnValue(0.5);
+        const sut = new RandomHelper();
+
+        expect(sut.attempt(0.49)).toBe(true);
+        expect(sut.attempt(0.50)).toBe(true);
+        expect(sut.attempt(0.51)).toBe(true);
+
+        expect(sut.attempt(49)).toBe(true);
+        expect(sut.attempt(50)).toBe(true);
+        expect(sut.attempt(51)).toBe(false);
+    });
 });
