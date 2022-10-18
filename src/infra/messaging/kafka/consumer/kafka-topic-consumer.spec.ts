@@ -22,17 +22,21 @@ describe('KafkaTopicConsumer', () => {
 
     it('should connect to topic on consume call', async () => {
         const consumerMock = makeConsumerMock();
-        const producerMock = {} as any;
+        const producerMock = {
+            connect: jest.fn()
+        } as any;
 
         const fakeHandler: MessageHandler = {
             handle: jest.fn()
         }
 
-        const connectSpy = jest.spyOn(consumerMock, 'connect');
+        const consumerConnectSpy = jest.spyOn(consumerMock, 'connect');
+        const producerConnectSpy = jest.spyOn(producerMock, 'connect');
         const sut = new KafkaTopicConsumer(consumerMock, producerMock);
 
         await sut.consume('sample', fakeHandler);
 
-        expect(connectSpy).toHaveBeenCalledTimes(1);
+        expect(consumerConnectSpy).toHaveBeenCalledTimes(1);
+        expect(producerConnectSpy).toHaveBeenCalledTimes(1);
     });
 });

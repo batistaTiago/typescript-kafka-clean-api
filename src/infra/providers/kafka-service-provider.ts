@@ -1,7 +1,7 @@
 import { container } from 'tsyringe';
 import {  Kafka as KafkaJS, Consumer as KafkaJSConsumer, Producer as KafkaJSProducer, logLevel as KafkaJSLogLevel } from 'kafkajs';
 import { ServiceProvider } from '../../domain/services/provider';
-import { RandomNumberGenerator } from '../../utils/random-number-generator';
+import { RandomHelper } from '../../utils/random-helper';
 import { Environment } from '../../config/environment';
 
 export class KafkaServiceProvider implements ServiceProvider {
@@ -22,23 +22,25 @@ export class KafkaServiceProvider implements ServiceProvider {
     }
 
     private makeConsumer(): KafkaJSConsumer {
-        let groupId = `${Environment.KAFKA_CONSUMER_BASE_GROUP_ID}_`;
-        
-        if (Environment.KAFKA_CONSUMER_GROUP_ID) {
-            groupId += Environment.KAFKA_CONSUMER_GROUP_ID;
-        } else {
-            const rng = new RandomNumberGenerator();
-            const random =  rng.generate({ digits: 4 });
-            groupId += `${random}`;
-        }
-
-        console.log(`Registering consumer with groupId ${groupId}`);
-
         return this.kafkaJS.consumer({
-            groupId: groupId,
+            groupId: this.groupId(),
             minBytes: Number(Environment.KAFKA_CONSUMER_MIN_BYTES),
             maxBytes: Number(Environment.KAFKA_CONSUMER_MAX_BYTES),
             maxWaitTimeInMs: Number(Environment.KAFKA_CONSUMER_MAX_WAIT_TIME_MS),
         });
+    }
+
+    private groupId(): string {
+        let groupId = `${Environment.KAFKA_CONSUMER_BASE_GROUP_ID}_`;
+
+        if (Environment.KAFKA_CONSUMER_GROUP_ID) {
+            groupId += Environment.KAFKA_CONSUMER_GROUP_ID;
+        } else {
+            const rng = new RandomHelper();
+            const random =  rng.generate({ digits: 12 });
+            groupId += `${random}`;
+        }
+
+        return groupId;
     }
 }

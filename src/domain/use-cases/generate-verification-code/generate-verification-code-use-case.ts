@@ -4,17 +4,12 @@ import { VerificationCode } from "../../entities/verification-code";
 import { Cache } from "../../services/cache/cache";
 import { VerificationCodeRepository } from "../../services/repositories/verification-code-repository ";
 
-interface GenerateVerificationCodeUseCaseArgs {
-    min?: number;
-    max?: number;
-}
-
 @injectable()
 export class GenerateVerificationCodeUseCase {
     public constructor(
         @inject("VerificationCodeRepository") private readonly verificationCodeRepository: VerificationCodeRepository,
         @inject("Cache") private readonly cache: Cache,
-        private readonly randomNumberGenerator: RandomNumberGenerator
+        @inject("RandomNumberGenerator") private readonly randomNumberGenerator: RandomNumberGenerator
     ) {}
 
     public async execute(): Promise<VerificationCode> {

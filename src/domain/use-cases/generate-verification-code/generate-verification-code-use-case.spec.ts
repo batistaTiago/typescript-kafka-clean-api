@@ -5,7 +5,7 @@ import { Cache } from "../../services/cache/cache";
 import { VerificationCodeRepository } from "../../services/repositories/verification-code-repository ";
 import { GenerateVerificationCodeUseCase } from "./generate-verification-code-use-case";
 
-class FakeRandomNumberGenerator extends RandomNumberGenerator {
+class FakeRandomNumberGenerator implements RandomNumberGenerator {
     public generate(): number {
         return 420;
     }
@@ -30,7 +30,7 @@ class FakeCache implements Cache {
     forget(key: string): Promise<void> {
         throw new Error("Method not implemented.");
     }
-    
+ 
 }
 
 describe('GenerateVerificationCodeUseCase', () => {

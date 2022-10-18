@@ -9,7 +9,7 @@ export class EventTopicHandler implements MessageHandler {
     public constructor(private useCase: SaveEventToDatabaseUseCase) { }
 
     public async handle(message: Message<Event>): Promise<void> {
-        if (Math.random() <= 0.15) {
+        if (Math.random() <= 0.75) {
             throw new Error('Algum erro intermitente');
         }
 

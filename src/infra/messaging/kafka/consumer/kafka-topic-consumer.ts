@@ -18,6 +18,7 @@ export class KafkaTopicConsumer {
     }
 
     public async consume(topic: string, handler: MessageHandler, fromBeginning: boolean = true): Promise<void> {
+        await this.producer.connect();
         await this.connect();
         await this.consumer.subscribe({ topic, fromBeginning });
         await this.consumer.run({
@@ -30,8 +31,7 @@ export class KafkaTopicConsumer {
                     await handler.handle(messageData);
                     console.log(`Message handled successfully`);
                 } catch (error) {
-                    const originalTopicName = topic.includes('.') ? topic.split('.')[0] : topic;
-                    const forwardTopicName = topic.includes('retry') ? `dlq.${originalTopicName}` : `retry.${originalTopicName}`;
+                    const forwardTopicName = this.getForwardTopicName(topic);
                     console.log(`Error (${error.message}) while handling message, forwarding to topic: ${forwardTopicName}`);
                     await this.producer.publish(forwardTopicName, messageData);
                 }
@@ -44,5 +44,10 @@ export class KafkaTopicConsumer {
             console.log('Consumer connecting...');
             await this.consumer.connect();
         }
+    }
+
+    private getForwardTopicName(topic: string): string {
+        const originalTopicName = topic.includes('.') ? topic.split('.')[0] : topic;
+        return topic.includes('retry') ? `dlq.${originalTopicName}` : `retry.${originalTopicName}`;
     }
 }

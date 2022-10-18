@@ -1,8 +1,8 @@
 import {  Producer as KafkaJSProducer, logLevel as KafkaJSLogLevel  } from 'kafkajs';
-import { inject, singleton } from 'tsyringe';
+import { inject, injectable, singleton } from 'tsyringe';
 import { MessageProducer } from '../../../../domain/services/messaging/message-producer';
 
-@singleton()
+@injectable()
 export class KafkaMessageProducerAdapter implements MessageProducer {
     private isConnected: boolean = false;
 
@@ -13,7 +13,7 @@ export class KafkaMessageProducerAdapter implements MessageProducer {
 
     public async connect(): Promise<void> {
         if (!this.isConnected) {
-            console.log('ProducerAdapter connecting...');
+            console.log('Producer connecting...');
             await this.producer.connect();
             this.isConnected = true;
         }

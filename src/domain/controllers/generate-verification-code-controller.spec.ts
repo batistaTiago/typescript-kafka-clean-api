@@ -15,7 +15,7 @@ class FakeUseCase extends GenerateVerificationCodeUseCase {
     }
 }
 
-class FakeRandomNumberGenerator extends RandomNumberGenerator {
+class FakeRandomNumberGenerator implements RandomNumberGenerator {
     public generate(): number {
         return 420;
     }

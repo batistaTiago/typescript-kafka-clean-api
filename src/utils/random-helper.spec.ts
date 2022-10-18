@@ -1,48 +1,48 @@
-import { RandomNumberGenerator } from "./random-number-generator";
+import { RandomHelper } from "./random-helper";
 
-describe('RandomNumberGenerator', () => {
-    it('should return 100000 if math call randoms to 0 and no parameter is provided', () => {
+describe('RandomHelper', () => {
+    it('should return 100000 if Math.random() call randoms to 0 and no parameter is provided', () => {
         jest.spyOn(Math, 'random').mockReturnValue(0);
 
         const expectedResult = 100000
-        const sut = new RandomNumberGenerator();
+        const sut = new RandomHelper();
 
         const result = sut.generate({ min: expectedResult });
         expect(result).toBe(expectedResult);
     });
 
-    it('should return 999999 if math call randoms to 1 and no parameter is provided', () => {
+    it('should return 999999 if Math.random() call randoms to 1 and no parameter is provided', () => {
         jest.spyOn(Math, 'random').mockReturnValue(1);
 
         const expectedResult = 999999
-        const sut = new RandomNumberGenerator();
+        const sut = new RandomHelper();
 
         const result = sut.generate({ max: expectedResult });
         expect(result).toBe(expectedResult);
     });
 
-    it('should return min parameter if math call randoms to 0 and it exists', () => {
+    it('should return min parameter if Math.random() call randoms to 0 and it exists', () => {
         jest.spyOn(Math, 'random').mockReturnValue(0);
 
         const expectedResult = 5;
-        const sut = new RandomNumberGenerator();
+        const sut = new RandomHelper();
 
         const result = sut.generate({ min: expectedResult });
         expect(result).toBe(expectedResult);
     });
 
-    it('should return max parameter if math call randoms to 1 and it exists', () => {
+    it('should return max parameter if Math.random() call randoms to 1 and it exists', () => {
         jest.spyOn(Math, 'random').mockReturnValue(1);
 
         const expectedResult = 9;
-        const sut = new RandomNumberGenerator();
+        const sut = new RandomHelper();
 
         const result = sut.generate({ max: expectedResult });
         expect(result).toBe(expectedResult);
     });
 
     it('should generate using a number of digits', () => {
-        const sut = new RandomNumberGenerator();
+        const sut = new RandomHelper();
         const digits = 2;
         const minExpected = 10 ** (digits - 1);
         const maxExpected = (10 ** digits) - 1;
