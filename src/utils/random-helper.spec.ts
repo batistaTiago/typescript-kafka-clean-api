@@ -51,6 +51,15 @@ describe('RandomHelper', () => {
 
         expect(result).toBeGreaterThanOrEqual(minExpected);
         expect(result).toBeLessThanOrEqual(maxExpected);
-        expect(String(result)).not.toContain('0');
+    });
+
+    it('should generate number with the number of digits even if Math.random() calls random to zero everytime', () => {
+        jest.spyOn(Math, 'random').mockReturnValue(0);
+        const sut = new RandomHelper();
+
+        for (let digits = 0; digits < 10; digits++) {
+            const result = sut.generate({ digits });
+            expect(result).toBeLessThanOrEqual(10 ** (digits - 1));
+        }
     });
 });
