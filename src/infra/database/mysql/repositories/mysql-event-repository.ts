@@ -14,6 +14,7 @@ export class MysqlEventRepository implements EventRepository {
             await this.connection.initialize();
         }
 
-        return await this.connection.getRepository(EventTypeORMModel).save(data) as any;
+        const result = await this.connection.getRepository(EventTypeORMModel).save(data);
+        return Object.assign({}, result, { id: String(result.id) });
     }
 }

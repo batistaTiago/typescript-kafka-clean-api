@@ -1,14 +1,18 @@
-import { Entity, Column, PrimaryGeneratedColumn } from "typeorm"
-import { Event as DomainEvent } from '../../../../domain/entities/event';
+import { Entity, Column, PrimaryGeneratedColumn, Index } from "typeorm"
+import { EventModel } from "../../../models/event-model";
 
 @Entity()
-export class Event implements DomainEvent {
-    @PrimaryGeneratedColumn()
-    id: number
+export class Event implements EventModel {
+    @PrimaryGeneratedColumn('uuid')
+    id: string
 
     @Column()
     eventName: string
-
+    
+    @Index()
     @Column()
     happenedAt: Date;
+
+    @Column({ type: 'json' })
+    data: object | object[]
 }

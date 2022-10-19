@@ -15,13 +15,17 @@ export abstract class MongoBaseRepository {
     }
 
     protected canonizeId(data: any): any {
-        const preProcessedOutput = Object.assign({}, data, { id: data._id })
+        const preProcessedOutput = Object.assign({}, data, { id: data._id });
         const { _id, ...output } = preProcessedOutput;
 
         return output;
     }
 
-    public collection() {
+    private collection() {
         return this.client.db().collection(this.collectionName());
+    }
+
+    public insertOne(data: object) {
+        return this.collection().insertOne(data);
     }
 }

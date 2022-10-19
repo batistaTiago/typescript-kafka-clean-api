@@ -11,7 +11,7 @@ export class MongoEventRepository extends MongoBaseRepository implements EventRe
     }
 
     public async storeEvent(data: EventEntity): Promise<EventModel> {
-        const result = await this.collection().insertOne(data);
+        const result = await this.insertOne(data);
         return this.canonizeId(Object.assign({}, data, { id: String(result.insertedId) }));
     }
 }

@@ -9,6 +9,7 @@ export class HomeAccessUseCase {
 
     public constructor(@inject('MessageProducer') private messageProducer: MessageProducer) { }
 
+    // @@TODO: trocar o data por um EventDTO
     public async execute(data: object): Promise<object> {
         const requestDateTime = new Date();
         const message: Message<EventEntitiy> = { 

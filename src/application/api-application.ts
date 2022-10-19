@@ -1,16 +1,17 @@
-import { Application as Express } from "express";
+import * as Express from "express";
 import { container } from "tsyringe";
 import { ExpressControllerAdapter } from "../infra/http/express/express-controller-adapter";
 import { Application } from "./application";
 
 export class ApiApplication extends Application {
-    protected api: Express;
+    protected api: Express.Application;
 
     public constructor() {
         super();
 
         this.api = require('express')();
         this.api.set('trust proxy', true);
+        this.api.use(Express.json());
         this.bootApi();
     }
 

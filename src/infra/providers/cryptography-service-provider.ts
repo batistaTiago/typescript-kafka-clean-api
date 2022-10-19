@@ -5,6 +5,6 @@ import { BcryptAdapter } from '../../utils/bcrypt-adapter';
 
 export class CryptographyServiceProvider implements ServiceProvider {
     public register(): void {
-        container.registerInstance("Encrypter", BcryptAdapter);
+        container.registerInstance<Encrypter>("Encrypter", new BcryptAdapter());
     }
 }

@@ -7,6 +7,7 @@ import { EventRepository } from "../../services/repositories/event-repository";
 export class SaveEventToDatabaseUseCase {
     public constructor(@inject("EventRepository") private repository: EventRepository) { }
 
+    // @@TODO: trocar por EventDTO?
     public async execute(data: EventEntitiy): Promise<EventModel> {
         return await this.repository.storeEvent(data);
     }

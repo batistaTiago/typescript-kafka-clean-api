@@ -1,3 +1,3 @@
 export interface DiceRoller {
-    attempt(chance: number): boolean;
+    roll(sides: number): boolean;
 }

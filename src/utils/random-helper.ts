@@ -4,9 +4,9 @@ import { RandomNumberGenerator, RandomNumberGeneratorOptions } from "./random-nu
 
 @injectable()
 export class RandomHelper implements RandomNumberGenerator, DiceRoller {
-    public attempt(chance: number): boolean {
-        const result = (Math.random() * 100);
-        return result >= chance; 
+    public roll(sides: number): boolean {
+        this.validateSidesParameter(sides);
+        return this.attempt(100.0 / sides);
     }
 
     public generate({ min, max, digits }: Partial<RandomNumberGeneratorOptions>): number {
@@ -18,12 +18,17 @@ export class RandomHelper implements RandomNumberGenerator, DiceRoller {
     }
 
     private generateFromDigits(digits: number): number {
-        return Array.from(Array(digits).keys())
-            .map((_, index, arr) => {
-                const exponent = 10 ** index;
-                const isLasElement = index === (arr.length - 1);
-                return exponent * this.generateFromMinMax(isLasElement ? 1 : 0, 9)
-            })
-            .reduce((previous, current) => previous + current);
+        return this.generateFromMinMax(10 ** (digits - 1), (10 ** digits) - 1);
+    }
+
+    private attempt(chance: number): boolean {
+        const result = (Math.random() * 100);
+        return result >= chance; 
+    }
+
+    private validateSidesParameter(sides: number): void {
+        if ((sides < 1) || (Math.floor(sides) != Math.ceil(sides))) {
+            throw new Error('Argument must be an integer greater than or equal to 1');
+        }
     }
 }
