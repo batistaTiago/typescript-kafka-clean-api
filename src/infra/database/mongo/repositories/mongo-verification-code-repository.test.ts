@@ -17,7 +17,12 @@ describe('MongoVerificationCodeRepository', () => {
 
     it('should forward call to mongodb client', async () => {
         const code: VerificationCode = {
-            code: 'ABC'
+            code: 'ABC',
+            user: {
+                email: 'email@test.dev',
+                name: 'test name',
+                registrationDate: new Date()
+            }
         };
 
         const result = await sut.storeValidationCode(code);
@@ -33,7 +38,12 @@ describe('MongoVerificationCodeRepository', () => {
         });
 
         const code: VerificationCode = {
-            code: 'ABC'
+            code: 'ABC',
+            user: {
+                email: 'email@test.dev',
+                name: 'test name',
+                registrationDate: new Date()
+            }
         };
 
         const result = sut.storeValidationCode(code);

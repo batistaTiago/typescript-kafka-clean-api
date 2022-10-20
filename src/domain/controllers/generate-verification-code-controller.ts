@@ -9,7 +9,8 @@ export class GenerateVerificationCodeController implements Controller {
     public constructor(private readonly useCase: GenerateVerificationCodeUseCase) {}
 
     public async handle(): Promise<HttpResponse> {
-        const { code, expiresAt } = await this.useCase.execute()
+        const email = 'abc@gmail.com';
+        const { code, expiresAt } = await this.useCase.execute({ email })
         return {
             statusCode: HttpStatus.OK,
             body: { code, expiresAt }

@@ -15,7 +15,12 @@ export class MysqlUserRepository implements UserRepository {
             await this.connection.initialize();
         }
 
-        return await this.connection.getRepository(UserTypeORMModel).save(data);
+        const user = await this.getTypeOrmRepo().findOne(this.generateWhereClause({ email: data.email }));
+        if (user) {
+            throw new Error('This email address is already taken by another user');
+        }
+
+        return await this.getTypeOrmRepo().save(data);
     }
 
     public async findById(id: string): Promise<UserModel> {
@@ -23,12 +28,26 @@ export class MysqlUserRepository implements UserRepository {
             await this.connection.initialize();
         }
 
-        const options: FindOneOptions<User> = {
+        return await this.getTypeOrmRepo().findOne(this.generateWhereClause({ id }));
+    }
+
+    public async findByEmail(email: string): Promise<UserModel> {
+        if (!this.connection.isInitialized) {
+            await this.connection.initialize();
+        }
+
+        return await this.getTypeOrmRepo().findOne(this.generateWhereClause({ email }));
+    }
+
+    private generateWhereClause(fields: Partial<User>): FindOneOptions<User> {
+        return {
             where: {
-                id
+                ...fields
             }
         };
+    }
 
-        return await this.connection.getRepository(UserTypeORMModel).findOne(options);
+    private getTypeOrmRepo() {
+        return this.connection.getRepository(UserTypeORMModel)
     }
 }

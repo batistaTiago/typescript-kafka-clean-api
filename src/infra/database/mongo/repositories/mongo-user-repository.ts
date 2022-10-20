@@ -23,12 +23,20 @@ export class MongoUserRepository extends MongoBaseRepository implements UserRepo
     }
 
     public async findById(id: string): Promise<UserModel> {
-        const findResult = await this.findOne({ _id: new ObjectId(id) });
+        const findResult = await this.findOne<object>({ _id: new ObjectId(id) });
         if (!findResult) {
-            throw new Error('nao achei!');
+            throw new Error('User not found...');
         }
 
-        const { _id, ...user } = Object.assign({}, findResult, { id: String(findResult._id) });
-        return user as any;
+        return this.canonizeId(findResult);
+    }
+
+    public async findByEmail(email: string): Promise<UserModel> {
+        const findResult = await this.findOne({ email });
+        if (!findResult) {
+            throw new Error('User not found...');
+        }
+
+        return this.canonizeId(findResult);
     }
 }

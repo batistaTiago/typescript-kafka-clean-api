@@ -15,7 +15,7 @@ export abstract class MongoBaseRepository {
     }
 
     protected canonizeId(data: any): any {
-        const preProcessedOutput = Object.assign({}, data, { id: data._id });
+        const preProcessedOutput = Object.assign({}, data, { id: String(data._id) });
         const { _id, ...output } = preProcessedOutput;
 
         return output;
@@ -30,7 +30,7 @@ export abstract class MongoBaseRepository {
         return this.collection().insertOne(data);
     }
 
-    protected async findOne(filters: object) {
-        return await this.collection().findOne(filters);
+    protected async findOne<T>(filters: object): Promise<T> {
+        return await this.collection().findOne(filters) as T;
     }
 }

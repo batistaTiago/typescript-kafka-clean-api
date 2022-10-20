@@ -1,4 +1,5 @@
 import { injectable } from "tsyringe";
+import { User } from "../../../../domain/entities/user";
 import { VerificationCode } from "../../../../domain/entities/verification-code";
 import { VerificationCodeRepository } from "../../../../domain/services/repositories/verification-code-repository ";
 import { VerificationCodeModel } from "../../../models/verification-code-model";
@@ -13,5 +14,14 @@ export class MongoVerificationCodeRepository extends MongoBaseRepository impleme
     public async storeValidationCode(data: VerificationCode): Promise<VerificationCodeModel> {
         const result = await this.insertOne(data);
         return this.canonizeId(Object.assign({}, data, { id: String(result.insertedId) }));
+    }
+
+    public async findByUser(user: User): Promise<VerificationCode> {
+        const findResult = await this.findOne<VerificationCode>({ "user.email": user.email });
+        if (!findResult) {
+            throw new Error('Code not found');
+        }
+
+        return this.canonizeId(findResult);
     }
 }

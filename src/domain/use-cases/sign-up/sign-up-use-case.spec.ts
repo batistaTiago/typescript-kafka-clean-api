@@ -13,30 +13,35 @@ const password = "the_user_password";
 const password_confirmation = "the_user_password";
 const registrationDate = new Date();
 
+const makeSignUpDto = () => ({ email, name, password, password_confirmation, registrationDate });
+const makeProducer = () => ({ publish: jest.fn() });
+const makeEncrypter = () => ({ encrypt: jest.fn().mockReturnValue('hashed_password') });
+const makeUserRepo = () => ({ 
+    findById: jest.fn(), 
+    storeUser: jest.fn().mockResolvedValue({password, password_confirmation}),
+    findByEmail: jest.fn()
+});
+
 describe("SignUpUseCase", () => {
     it(`should encrypt the provided password before forwarding it to the repository along with the other fields`, async () => {
-        const signUpDto: SignUpDTO = { email, name, password, password_confirmation, registrationDate };
-        const producer: MessageProducer = { publish: jest.fn() };
-        const repo = { findById: jest.fn(), storeUser: jest.fn().mockResolvedValue({password, password_confirmation}) };
-        const encrypter = { encrypt: jest.fn().mockReturnValue('hashed_password') };
-        const sut = new SignUpUseCase(repo, encrypter, producer);
-        
+        const repo = makeUserRepo();
         const storeUserSpy = jest.spyOn(repo, 'storeUser');
+
+        const sut = new SignUpUseCase(repo, makeEncrypter(), makeProducer());
         
+        const signUpDto = makeSignUpDto();
         await sut.execute(signUpDto);
 
         expect(storeUserSpy).toHaveBeenCalledWith({ ...signUpDto, password: 'hashed_password', registrationDate: new Date() });
     });
 
     it(`should publish a message in the events topic alerting a user has created an account`, async () => {
-        const signUpDto: SignUpDTO = { email, name, password, password_confirmation, registrationDate };
-        const producer: MessageProducer = { publish: jest.fn() };
-        const repo = { findById: jest.fn(), storeUser: jest.fn().mockResolvedValue({password, password_confirmation}) };
-        const encrypter = { encrypt: jest.fn().mockReturnValue('hashed_password') };
-        const sut = new SignUpUseCase(repo, encrypter, producer);
-
+        const producer = makeProducer();
         const publishSpy = jest.spyOn(producer, 'publish');
+
+        const sut = new SignUpUseCase(makeUserRepo(), makeEncrypter(), producer);
         
+        const signUpDto = makeSignUpDto();
         await sut.execute(signUpDto);
 
         expect(publishSpy).toHaveBeenCalled();

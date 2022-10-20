@@ -1,7 +1,6 @@
 
 import { DataSource } from "typeorm";
 import { SignUpDTO } from "../../../../domain/dto/sign-up";
-import { User } from "../../../../domain/entities/user";
 import { MysqlUserRepository } from "./mysql-user-repository";
 
 const mockedDate = new Date('2022-10-10');
@@ -18,12 +17,13 @@ const sampleData: SignUpDTO = {
 };
 
 describe('MysqlUserRepository', () => {
-    it('it should forward call to typeorm', async () => {
+    it('should forward call to typeorm', async () => {
         const fakeDataSourceRepository = {
             save: jest.fn().mockReturnValueOnce({
                 id: '1',
                 ...sampleData,
-            })
+            }),
+            findOne: jest.fn()
         };
 
         const dataSource = ({
@@ -43,5 +43,36 @@ describe('MysqlUserRepository', () => {
         expect(result.name).toBe('test name');
         expect(result.password).toBe('test pass');
         expect(result.registrationDate).toBe(new Date());
+    });
+
+    it('should not insert duplicate emails', async () => {
+        const fakeDataSourceRepository = {
+            save: jest.fn().mockReturnValueOnce({
+                id: '1',
+                ...sampleData,
+            }),
+            findOne: jest.fn()
+        };
+
+        const dataSource = ({
+            isInitialized: true,
+            getRepository: jest.fn().mockReturnValue(fakeDataSourceRepository)
+        } as unknown) as DataSource;
+
+        const sut = new MysqlUserRepository(dataSource);
+
+        await sut.storeUser(sampleData);
+        let error = null;
+
+        try {
+            fakeDataSourceRepository.findOne = jest.fn().mockImplementation(() => {
+                throw new Error('This email address is already taken by another user');
+            });
+            await sut.storeUser(sampleData);
+        } catch (e) {
+            error = e;
+        }
+
+        expect(error).toEqual(new Error('This email address is already taken by another user'));
     });
 });
