@@ -4,7 +4,7 @@ import { VerificationCode } from '../../../../domain/entities/verification-code'
 import { MongoVerificationCodeRepository } from './mongo-verification-code-repository';
 
 describe('MongoVerificationCodeRepository', () => {
-    const client = new MongoClient(Environment.MONGO_CONNECTION_URI, { useUnifiedTopology: true });
+    const client = new MongoClient(Environment.MONGO_CONNECTION_URI);
     const sut = new MongoVerificationCodeRepository(client);
 
     beforeAll(async () => {
