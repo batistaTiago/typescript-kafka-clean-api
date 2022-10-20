@@ -67,7 +67,7 @@ describe('MongoUserRepository', () => {
                 registrationDate: new Date
             };
             
-            const insertResult = await client.db().collection('users').insertOne({ ...insertData });
+            const insertResult = await client.db().collection(sut.collectionName()).insertOne({ ...insertData });
             const insertedId = String(insertResult.insertedId);
 
             const retrievedData = await sut.findById(insertedId);
