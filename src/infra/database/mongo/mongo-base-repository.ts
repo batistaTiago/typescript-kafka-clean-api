@@ -4,7 +4,7 @@ import { inject } from 'tsyringe';
 export abstract class MongoBaseRepository {
     public constructor(@inject("MongoClient") public readonly client: MongoClient) { }
 
-    protected abstract collectionName(): string;
+    public abstract collectionName(): string;
 
     public async connect(): Promise<void> {
         await this.client.connect();

@@ -6,7 +6,7 @@ import { MongoBaseRepository } from "../mongo-base-repository";
 
 @injectable()
 export class MongoEventRepository extends MongoBaseRepository implements EventRepository {
-    protected collectionName(): string {
+    public collectionName(): string {
         return 'app_events';
     }
 

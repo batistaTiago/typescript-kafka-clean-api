@@ -7,11 +7,17 @@ import { injectable } from "tsyringe";
 
 @injectable()
 export class MongoUserRepository extends MongoBaseRepository implements UserRepository {
-    protected collectionName(): string {
+    public collectionName(): string {
         return 'users';
     }
 
     public async storeUser(user: SignUpDTO): Promise<SignUpDTOModel> {
+        const record = await this.findOne({ email: user.email });
+
+        if (record) {
+            throw new Error('This email address is already taken by another user');
+        }
+
         const result = await this.insertOne(user);
         return this.canonizeId(Object.assign({}, user, { id: String(result.insertedId) }));
     }

@@ -16,7 +16,7 @@ export class RepositoryServiceProvider implements ServiceProvider {
         
         container.register<VerificationCodeRepository>("VerificationCodeRepository", { useClass: MongoVerificationCodeRepository });
 
-        // container.register<UserRepository>("UserRepository", { useClass: MongoUserRepository });
-        container.register<UserRepository>("UserRepository", { useClass: MysqlUserRepository });
+        container.register<UserRepository>("UserRepository", { useClass: MongoUserRepository });
+        // container.register<UserRepository>("UserRepository", { useClass: MysqlUserRepository });
     }
 }

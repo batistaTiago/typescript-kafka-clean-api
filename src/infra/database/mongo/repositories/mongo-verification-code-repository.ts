@@ -6,7 +6,7 @@ import { MongoBaseRepository } from "../mongo-base-repository";
 
 @injectable()
 export class MongoVerificationCodeRepository extends MongoBaseRepository implements VerificationCodeRepository {
-    protected collectionName(): string {
+    public collectionName(): string {
         return 'verification_codes';
     }
 

@@ -16,6 +16,10 @@ describe('MongoUserRepository', () => {
         await sut.disconnect();
     });
 
+    beforeEach(async () => {
+        await sut.client.db().dropDatabase();
+    })
+
     describe('CREATE operations', () => {
         it('should forward call to mongodb client', async () => {
             const user: SignUpDTO = {
@@ -68,6 +72,26 @@ describe('MongoUserRepository', () => {
 
             const retrievedData = await sut.findById(insertedId);
             expect(retrievedData).toEqual({ ...insertData, id: insertedId });
+        });
+
+        it('should not insert duplicate emails', async () => {
+            const insertData: SignUpDTO = {
+                name: 'test email',
+                email: 'email@test.dev',
+                password: 'pass',
+                password_confirmation: 'pass',
+                registrationDate: new Date,
+            };
+            
+            let error = null;
+            await sut.storeUser({ ...insertData });
+            try {
+                await sut.storeUser({ ...insertData });
+            } catch (e) {
+                error = e;
+            }
+
+            expect(error).toEqual(new Error('This email address is already taken by another user'));
         });
     });
 });
