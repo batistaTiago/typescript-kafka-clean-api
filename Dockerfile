@@ -2,6 +2,6 @@ FROM node:18
 WORKDIR /usr/app
 
 COPY ./package.json .
-RUN npm install --legacy-peer-deps
+RUN npm install
 
 COPY ./tsconfig.json .
