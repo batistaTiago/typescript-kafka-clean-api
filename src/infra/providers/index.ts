@@ -28,7 +28,7 @@ export const registerAll = () => {
     ];
 
     providers.forEach((provider: ServiceProvider) => {
-        console.log('######## Registering service provider: ' + provider.constructor.name);
+        // console.log('######## Registering service provider: ' + provider.constructor.name);
         provider.register();
     });
 }

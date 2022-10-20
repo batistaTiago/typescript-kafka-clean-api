@@ -10,6 +10,8 @@ export class ErrorResilientController implements Controller {
         try {
             return await this.controller.handle(request);
         } catch (error) {
+            // @@TODO: definir se o erro pode ser enviado para o client ou nao
+            console.error(error);
             return {
                 statusCode: HttpStatus.SERVER_ERROR,
                 body: {

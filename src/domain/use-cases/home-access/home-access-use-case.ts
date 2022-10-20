@@ -2,9 +2,10 @@ import { inject, injectable } from "tsyringe";
 import { Event as EventEntitiy } from "../../entities/event";
 import { Message } from "../../services/messaging/message";
 import { MessageProducer } from "../../services/messaging/message-producer";
+import { UseCase } from "../use-case";
 
 @injectable()
-export class HomeAccessUseCase {
+export class HomeAccessUseCase implements UseCase {
     private topicName: string = 'events';
 
     public constructor(@inject('MessageProducer') private messageProducer: MessageProducer) { }

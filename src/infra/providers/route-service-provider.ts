@@ -6,6 +6,7 @@ import { ExpressControllerAdapter } from '../http/express/express-controller-ada
 import { GenerateVerificationCodeControllerExpressAdapter } from '../http/express/controllers/generate-verification-code-controller-express-adapter';
 import { HomeControllerExpressAdapter } from '../http/express/controllers/home-controller-express-adapter';
 import { SignUpControllerExpressAdapter } from '../http/express/controllers/sign-up-controller-express-adapter';
+import { FindUserControllerExpressAdapter } from '../http/express/controllers/find-user-controller-express-adapter';
 
 promisifyAll(createClient);
 
@@ -15,6 +16,7 @@ export class RouteServiceProvider implements ServiceProvider {
             container.resolve(HomeControllerExpressAdapter),
             container.resolve(GenerateVerificationCodeControllerExpressAdapter),
             container.resolve(SignUpControllerExpressAdapter),
+            container.resolve(FindUserControllerExpressAdapter),
         ];
 
         container.register<ExpressControllerAdapter[]>("ExpressControllers", { useValue: controllers });

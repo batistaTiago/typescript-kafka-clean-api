@@ -1,7 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn, Index } from "typeorm"
 import { EventModel } from "../../../models/event-model";
 
-@Entity()
+@Entity({ name: 'events'})
 export class Event implements EventModel {
     @PrimaryGeneratedColumn('uuid')
     id: string

@@ -3,9 +3,10 @@ import { RandomNumberGenerator } from "../../../utils/random-number-generator";
 import { VerificationCode } from "../../entities/verification-code";
 import { Cache } from "../../services/cache/cache";
 import { VerificationCodeRepository } from "../../services/repositories/verification-code-repository ";
+import { UseCase } from "../use-case";
 
 @injectable()
-export class GenerateVerificationCodeUseCase {
+export class GenerateVerificationCodeUseCase implements UseCase {
     public constructor(
         @inject("VerificationCodeRepository") private readonly verificationCodeRepository: VerificationCodeRepository,
         @inject("Cache") private readonly cache: Cache,

@@ -1,0 +1,1 @@
+// @@TODO: padronizar num enum o nome dos eventos (SERVER RESTART, HOME ACCESS, USER ACCOUT CREATED)

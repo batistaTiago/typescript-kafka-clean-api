@@ -1,11 +1,10 @@
 
 import { inject, injectable } from "tsyringe";
-import { DataSource } from "typeorm";
+import { DataSource, FindOneOptions } from "typeorm";
 import { SignUpDTO, SignUpDTOModel } from "../../../../domain/dto/sign-up";
-import { User as DomainUser} from "../../../../domain/entities/user";
 import { UserRepository } from "../../../../domain/services/repositories/user-repository";
 import { UserModel} from "../../../models/user-model";
-import { User as UserTypeORMModel } from "../entities/user.entity";
+import { User, User as UserTypeORMModel } from "../entities/user.entity";
 
 @injectable()
 export class MysqlUserRepository implements UserRepository {
@@ -19,11 +18,17 @@ export class MysqlUserRepository implements UserRepository {
         return await this.connection.getRepository(UserTypeORMModel).save(data);
     }
 
-    public async findById(id: number): Promise<UserModel> {
+    public async findById(id: string): Promise<UserModel> {
         if (!this.connection.isInitialized) {
             await this.connection.initialize();
         }
-        
-        throw new Error("Method not implemented.");
+
+        const options: FindOneOptions<User> = {
+            where: {
+                id
+            }
+        };
+
+        return await this.connection.getRepository(UserTypeORMModel).findOne(options);
     }
 }

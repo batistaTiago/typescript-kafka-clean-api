@@ -25,7 +25,12 @@ export abstract class MongoBaseRepository {
         return this.client.db().collection(this.collectionName());
     }
 
-    public insertOne(data: object) {
+    protected insertOne(data: object) {
+        // @@TODO: inserir com uuid
         return this.collection().insertOne(data);
+    }
+
+    protected async findOne(filters: object) {
+        return await this.collection().findOne(filters);
     }
 }

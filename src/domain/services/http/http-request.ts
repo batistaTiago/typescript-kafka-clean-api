@@ -1,5 +1,6 @@
 export interface HttpRequest {
-    headers?: any
-    body?: any
+    headers?: any;
+    body?: any;
+    params?: any;
     ip?: string;
 }
