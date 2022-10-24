@@ -3,17 +3,10 @@ import { Cache } from '../../domain/services/cache/cache';
 import { Mailer } from '../../domain/services/mailing/mailer';
 import { MessageProducer } from '../../domain/services/messaging/message-producer';
 import { ServiceProvider } from '../../domain/services/provider';
-import { EventRepository } from '../../domain/services/repositories/event-repository';
-import { UserRepository } from '../../domain/services/repositories/user-repository';
-import { VerificationCodeRepository } from '../../domain/services/repositories/verification-code-repository ';
 import { DiceRoller } from '../../utils/dicer-roller';
 import { RandomHelper } from '../../utils/random-helper';
 import { RandomNumberGenerator } from '../../utils/random-number-generator';
 import { RedisCache } from '../cache/redis-cache';
-import { MongoEventRepository } from '../database/mongo/repositories/mongo-event-repository';
-import { MongoUserRepository } from '../database/mongo/repositories/mongo-user-repository';
-import { MongoVerificationCodeRepository } from '../database/mongo/repositories/mongo-verification-code-repository';
-import { MysqlEventRepository } from '../database/mysql/repositories/mysql-event-repository';
 import { NodeMailerAdapter } from '../mailing/node-mailer-adapter';
 import { KafkaMessageProducerAdapter } from '../messaging/kafka/producer/kafka-message-producer-adapter';
 

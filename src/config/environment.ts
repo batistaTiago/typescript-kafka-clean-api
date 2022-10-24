@@ -4,8 +4,16 @@ export const Environment = {
     APP_NAME: process.env.APP_NAME,
     APP_SALT_ROUNDS: Number(process.env.APP_SALT_ROUNDS),
     APP_PREFERRED_DATABASE: process.env.APP_PREFERRED_DATABASE,
+    APP_DEBUG: process.env.APP_DEBUG === 'true' ? true : false,
+
     API_PORT: process.env.API_PORT,
-    
+
+    MYSQL_HOST: process.env.MYSQL_HOST,
+    MYSQL_PORT: Number(process.env.MYSQL_PORT),
+    MYSQL_USER: process.env.MYSQL_USER,
+    MYSQL_PASSWORD: process.env.MYSQL_PASSWORD,
+    MYSQL_DB_NAME: process.env.MYSQL_DB_NAME,
+
     MONGO_CONNECTION_URI: process.env.MONGO_CONNECTION_URI,
     
     REDIS_HOST: process.env.REDIS_HOST,
