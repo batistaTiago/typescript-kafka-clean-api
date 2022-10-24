@@ -1,20 +1,23 @@
-import { inject, injectable } from "tsyringe";
-import { DataSource } from "typeorm";
+import { injectable } from "tsyringe";
+import { BaseEntity, EntityTarget } from "typeorm";
 import { Event as DomainEvent } from "../../../../domain/entities/event";
 import { EventRepository } from "../../../../domain/services/repositories/event-repository";
 import { EventModel } from "../../../models/event-model";
 import { Event as EventTypeORMModel } from "../entities/event.entity";
+import { MysqlBaseRepository } from "../mysql-base-repository";
 
 @injectable()
-export class MysqlEventRepository implements EventRepository {
-    public constructor(@inject('MysqlConnection') private readonly connection: DataSource) { }
-
+export class MysqlEventRepository extends MysqlBaseRepository implements EventRepository {
     public async storeEvent(data: DomainEvent): Promise<EventModel> {
         if (!this.connection.isInitialized) {
             await this.connection.initialize();
         }
+        
+        const result = await this.getTypeOrmRepo().save(data) as EventModel;
+        return Object.assign({}, data, { id: String(result.id) });
+    }
 
-        const result = await this.connection.getRepository(EventTypeORMModel).save(data);
-        return Object.assign({}, result, { id: String(result.id) });
+    protected entity(): EntityTarget<BaseEntity> {
+        return EventTypeORMModel
     }
 }

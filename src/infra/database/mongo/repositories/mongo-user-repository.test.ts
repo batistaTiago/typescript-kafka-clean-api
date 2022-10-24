@@ -5,7 +5,7 @@ import { SignUpDTO } from '../../../../domain/dto/sign-up';
 import { User } from '../../../../domain/entities/user';
 
 describe('MongoUserRepository', () => {
-    const client = new MongoClient(Environment.MONGO_CONNECTION_URI);
+    const client = new MongoClient(process.env.MONGO_URL ?? Environment.MONGO_CONNECTION_URI);
     const sut = new MongoUserRepository(client);
 
     beforeAll(async () => {
@@ -18,10 +18,10 @@ describe('MongoUserRepository', () => {
 
     beforeEach(async () => {
         await sut.client.db().dropDatabase();
-    })
+    });
 
     describe('CREATE operations', () => {
-        it('should forward call to mongodb client', async () => {
+        it('should return inserted data along with inserted id', async () => {
             const user: SignUpDTO = {
                 name: 'user name',
                 password: 'user password',
@@ -42,7 +42,7 @@ describe('MongoUserRepository', () => {
 
         it('should throw if mongodb client throws', async () => {
             jest.spyOn(client, 'db').mockImplementationOnce(() => {
-                throw new Error('Some hypothetical error');
+                throw new Error('Hypothetical error');
             });
 
             const user: SignUpDTO = {
@@ -55,7 +55,7 @@ describe('MongoUserRepository', () => {
 
             const result = sut.storeUser(user);
 
-            expect(result).rejects.toThrow(new Error('Some hypothetical error'));
+            expect(result).rejects.toThrow(new Error('Hypothetical error'));
         });
     });
 

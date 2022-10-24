@@ -3,6 +3,8 @@ require('dotenv').config(); // @@TODOver uma forma de funcionar sem precisar est
 export const Environment = {
     APP_NAME: process.env.APP_NAME,
     APP_SALT_ROUNDS: Number(process.env.APP_SALT_ROUNDS),
+    APP_PREFERRED_DATABASE: process.env.APP_PREFERRED_DATABASE,
+    API_PORT: process.env.API_PORT,
     
     MONGO_CONNECTION_URI: process.env.MONGO_CONNECTION_URI,
     

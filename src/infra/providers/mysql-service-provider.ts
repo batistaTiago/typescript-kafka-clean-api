@@ -16,6 +16,6 @@ export class MysqlServiceProvider implements ServiceProvider {
             synchronize: true,
         });
 
-        container.registerInstance('MysqlConnection', typeOrmDataSource);
+        container.registerInstance(DataSource, typeOrmDataSource);
     }
 }

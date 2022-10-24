@@ -31,12 +31,12 @@ services:
       - ./.env:/usr/app/.env
     command: npm run dev:api
 
-  worker:
+  worker_events:
     build: .
     restart: always
-    container_name: worker
+    container_name: worker_events
     environment:
-      - KAFKA_CONSUMER_GROUP_ID=WORKER
+      - KAFKA_CONSUMER_GROUP_ID=WORKER_EVENTS
     networks: 
       - app
     depends_on:
@@ -48,12 +48,29 @@ services:
       - ./.env:/usr/app/.env
     command: npm run dev:worker -- events
 
-  worker_retry:
+  worker_registration:
     build: .
     restart: always
-    container_name: worker_retry
+    container_name: worker_registration
     environment:
-      - KAFKA_CONSUMER_GROUP_ID=RETRY
+      - KAFKA_CONSUMER_GROUP_ID=WORKER_REGISTRATION
+    networks: 
+      - app
+    depends_on:
+      - kafka
+      - mongodb
+      - mysql
+    volumes:
+      - ./src:/usr/app/src
+      - ./.env:/usr/app/.env
+    command: npm run dev:worker -- users.created
+
+  worker_retry_events:
+    build: .
+    restart: always
+    container_name: worker_retry_events
+    environment:
+      - KAFKA_CONSUMER_GROUP_ID=WORKER_RETRY_EVENTS
     networks: 
       - app
     depends_on:
