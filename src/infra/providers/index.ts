@@ -8,6 +8,7 @@ import { CryptographyServiceProvider } from "./cryptography-service-provider";
 import { MysqlServiceProvider } from "./mysql-service-provider";
 import { RouteServiceProvider } from "./route-service-provider";
 import { RepositoryServiceProvider } from "./repository-service-provider";
+import { AxiosServiceProvider } from "./axios-service-provider";
 
 
 
@@ -16,12 +17,13 @@ export const registerAll = () => {
 
     // @@TODO: carregar dinamicamente...
     const providers: ServiceProvider[] = [
-        new CryptographyServiceProvider(),
         new MysqlServiceProvider(),
         new MongoServiceProvider(),
         new RedisServiceProvider(),
         new KafkaServiceProvider(),
+        new CryptographyServiceProvider(),
         new MailerServiceProvider(),
+        new AxiosServiceProvider(),
         new AppServiceProvider(),
         new RepositoryServiceProvider(),
         new RouteServiceProvider(),
