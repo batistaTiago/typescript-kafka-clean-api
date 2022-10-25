@@ -1,5 +1,6 @@
 import { inject, injectable } from "tsyringe";
 import { Event as EventEntitiy } from "../../entities/event";
+import { Events } from "../../enums/events";
 import { Message } from "../../services/messaging/message";
 import { MessageProducer } from "../../services/messaging/message-producer";
 import { UseCase } from "../use-case";
@@ -15,7 +16,7 @@ export class HomeAccessUseCase implements UseCase {
         const requestDateTime = new Date();
         const message: Message<EventEntitiy> = { 
             body: {
-                eventName: 'NEW_HOMEPAGE_ACCESS',
+                eventName: Events.NEW_HOMEPAGE_ACCESS,
                 happenedAt: requestDateTime,
                 data
             }

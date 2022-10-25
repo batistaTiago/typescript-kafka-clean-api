@@ -1,5 +1,6 @@
 import { container, injectable } from "tsyringe";
 import { Event } from "../../../domain/entities/event";
+import { Events } from "../../../domain/enums/events";
 import { Message } from "../../../domain/services/messaging/message";
 import { MessageHandler } from "../../../domain/services/messaging/message-handler";
 import { MessageProducer } from "../../../domain/services/messaging/message-producer";
@@ -20,7 +21,7 @@ export class EventTopicHandler implements MessageHandler {
 
         // @@TODO: refatorar esse codigo para Promise.all() e um ou mais outro(s) UseCase(s)...
         await this.saveEventToDatabaseUseCase.execute(message.body);
-        if (message.body.eventName === 'USER_ACCOUNT_CREATED') {
+        if (message.body.eventName === Events.USER_ACCOUNT_CREATED) {
             await producer.publish('users.created', { body: message.body.data });
         };
     }

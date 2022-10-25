@@ -1,3 +1,4 @@
+import { Events } from "../../enums/events";
 import { MessageProducer } from "../../services/messaging/message-producer"
 import { HomeAccessUseCase } from "./home-access-use-case";
 
@@ -17,7 +18,7 @@ describe('HomeAccessUseCase', () => {
 
         const expectedResult = {
             body: {
-                eventName: "NEW_HOMEPAGE_ACCESS", 
+                eventName: Events.NEW_HOMEPAGE_ACCESS, 
                 happenedAt: mockedDate,
                 data: {
                     ip: "10.0.0.1"

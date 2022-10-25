@@ -1,6 +1,7 @@
 import { inject, injectable } from "tsyringe";
 import { UserModel } from "../../../infra/models/user-model";
 import { SignUpDTO } from "../../dto/sign-up";
+import { Events } from "../../enums/events";
 import { Encrypter } from "../../services/cryptography/encrypter";
 import { MessageProducer } from "../../services/messaging/message-producer";
 import { UserRepository } from "../../services/repositories/user-repository";
@@ -25,7 +26,7 @@ export class SignUpUseCase implements UseCase {
     private async publishUserAccountCreatedEvent(user: UserModel): Promise<void> {
         await this.messageProducer.publish('events', {
             body: {
-                eventName: 'USER_ACCOUNT_CREATED',
+                eventName: Events.USER_ACCOUNT_CREATED,
                 happenedAt: new Date(),
                 data: user
             }
