@@ -4,6 +4,7 @@ import { HttpRequest } from "../services/http/http-request";
 import { HttpResponse } from "../services/http/http-response";
 import { HttpStatus } from "../services/http/status";
 import { SignUpUseCase } from "../use-cases/sign-up/sign-up-use-case";
+import { AppError } from '../exceptions/app-error';
 
 @injectable()
 export class SignUpController implements Controller {
@@ -16,16 +17,16 @@ export class SignUpController implements Controller {
     public async handle(request?: HttpRequest): Promise<HttpResponse> {
         this.requiredFields.forEach(field => {
             if (!request.body[field]) {
-                throw new Error(`Missing param: ${field}`);
+                throw new AppError(`Missing param: ${field}`);
             }
         });
 
         if (!this.emailIsValid(request.body.email)) {
-            throw new Error(`Invalid param: email`);
+            throw new AppError(`Invalid param: email`);
         }
 
         if (request.body.password !== request.body.password_confirmation) {
-            throw new Error('Passwords do not match');
+            throw new AppError('Passwords do not match');
         }
 
         return {

@@ -4,6 +4,7 @@ import { UserModel } from "../../../models/user-model";
 import { MongoBaseRepository } from "../mongo-base-repository";
 import { ObjectId } from 'mongodb';
 import { injectable } from "tsyringe";
+import { AppError } from "../../../../domain/exceptions/app-error";
 
 @injectable()
 export class MongoUserRepository extends MongoBaseRepository implements UserRepository {
@@ -15,7 +16,7 @@ export class MongoUserRepository extends MongoBaseRepository implements UserRepo
         const record = await this.findOne({ email: user.email });
 
         if (record) {
-            throw new Error('This email address is already taken by another user');
+            throw new AppError('This email address is already taken by another user');
         }
 
         const result = await this.insertOne(user);
@@ -25,7 +26,7 @@ export class MongoUserRepository extends MongoBaseRepository implements UserRepo
     public async findById(id: string): Promise<UserModel> {
         const findResult = await this.findOne<object>({ _id: new ObjectId(id) });
         if (!findResult) {
-            throw new Error('User not found...');
+            throw new AppError('User not found...');
         }
 
         return this.canonizeId(findResult);
@@ -34,7 +35,7 @@ export class MongoUserRepository extends MongoBaseRepository implements UserRepo
     public async findByEmail(email: string): Promise<UserModel> {
         const findResult = await this.findOne({ email });
         if (!findResult) {
-            throw new Error('User not found...');
+            throw new AppError('User not found...');
         }
 
         return this.canonizeId(findResult);

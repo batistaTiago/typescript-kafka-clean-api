@@ -1,3 +1,4 @@
+import { AppError } from "../exceptions/app-error";
 import { SignUpUseCase } from "../use-cases/sign-up/sign-up-use-case";
 import { SignUpController } from "./sign-up-controller";
 
@@ -25,10 +26,10 @@ jest.spyOn<any, any>(global, 'Date').mockImplementation(() => {
 describe("SignUpController", () => {
     describe.each(testData)("Missing parameters validation", (data) => {
         const sut = new SignUpController({ execute: jest.fn() } as unknown as SignUpUseCase);
-        it(`should throw an error if any parameter is missing`, () => {
+        it(`should throw an error if ${data.missingParamName} parameter is missing`, () => {
             const request = getBaseRequest();
             delete request.body[data.missingParamName];
-            expect(sut.handle(request)).rejects.toThrow(new Error(`Missing param: ${data.missingParamName}`));
+            expect(sut.handle(request)).rejects.toThrow(AppError);
         });
     });
 
@@ -37,13 +38,13 @@ describe("SignUpController", () => {
         it(`should throw an error if password and confirmation do not match`, () => {            
             const request = getBaseRequest();
             request.body.password_confirmation = 'the user password';
-            expect(sut.handle(request)).rejects.toThrow(new Error(`Passwords do not match`));
+            expect(sut.handle(request)).rejects.toThrow(new AppError(`Passwords do not match`));
         });
 
         it(`should throw an error if email is not valid`, () => {            
             const request = getBaseRequest();
             request.body.email = 'invalid email';
-            expect(sut.handle(request)).rejects.toThrow(new Error(`Invalid param: email`));
+            expect(sut.handle(request)).rejects.toThrow(new AppError(`Invalid param: email`));
         });
     });
 

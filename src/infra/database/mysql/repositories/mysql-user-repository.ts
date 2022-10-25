@@ -2,6 +2,7 @@
 import { injectable } from "tsyringe";
 import { EntityTarget } from "typeorm";
 import { SignUpDTO, SignUpDTOModel } from "../../../../domain/dto/sign-up";
+import { AppError } from "../../../../domain/exceptions/app-error";
 import { UserRepository } from "../../../../domain/services/repositories/user-repository";
 import { UserModel} from "../../../models/user-model";
 import { User as UserTypeORMModel } from "../entities/user.entity";
@@ -16,7 +17,7 @@ export class MysqlUserRepository extends MysqlBaseRepository implements UserRepo
 
         const user = await this.getTypeOrmRepo().findOne(this.generateWhereClause({ email: data.email }));
         if (user) {
-            throw new Error('This email address is already taken by another user');
+            throw new AppError('This email address is already taken by another user');
         }
 
         return (await this.getTypeOrmRepo().save(data) as SignUpDTOModel);
@@ -30,7 +31,7 @@ export class MysqlUserRepository extends MysqlBaseRepository implements UserRepo
         const result = await this.getTypeOrmRepo().findOne(this.generateWhereClause({ id })) as UserModel;
 
         if (!result) {
-            throw new Error('User not found');
+            throw new AppError('User not found');
         }
 
         return result;
@@ -43,7 +44,7 @@ export class MysqlUserRepository extends MysqlBaseRepository implements UserRepo
 
         const result = await this.getTypeOrmRepo().findOne(this.generateWhereClause({ email })) as UserModel;
         if (!result) {
-            throw new Error('User not found');
+            throw new AppError('User not found');
         }
 
         return result;
