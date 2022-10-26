@@ -9,5 +9,4 @@ export abstract class ExpressControllerAdapter {
     }
 
     protected abstract handleExpressRequest(req: Request): Promise<HttpResponse>;
-    public abstract route(): ExpressRoute;
 }

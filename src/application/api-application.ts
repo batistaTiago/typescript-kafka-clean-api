@@ -1,12 +1,11 @@
 import { Application as Express, json } from "express";
 import { container } from "tsyringe";
 import { Environment } from "../config/environment";
-import { Mailable } from "../domain/services/mailing/mailable";
-import { Mailer } from "../domain/services/mailing/mailer";
-import { ExpressControllerAdapter } from "../infra/http/express/express-controller-adapter";
 import { contentType } from "../infra/http/express/middleware/content-type";
 import { cors } from "../infra/http/express/middleware/cors";
 import { Application } from "./application";
+import { Routes as routes } from '../infra/http/express/routes';
+import { ExpressRoute } from "../infra/http/express/express-route";
 
 export class ApiApplication extends Application {
     protected api: Express;
@@ -32,24 +31,8 @@ export class ApiApplication extends Application {
     }
 
     private initRoutes() {
-        const expressControllers: ExpressControllerAdapter[] = container.resolve("ExpressControllers");
-        expressControllers.forEach(controller => {
-            this.api[controller.route().method](controller.route().url, (req, res) => controller.handle(req, res));
-        });
-
-        this.api.get('/fire-email', async (req, res) => {
-            const mailable: Mailable = {
-                subject: 'aqui eh o batista',
-                message: 'testando integracao com nodemailer'
-            };
-
-            const mailer: Mailer = container.resolve('Mailer');
-            await mailer.send(mailable, 'nicholasbalby@hotmail.com');
-
-            return res.json({
-                ok: true,
-                message: "deu bom"
-            });
+        routes.forEach((route: ExpressRoute) => {
+            this.api[route.method](route.url, (req, res) => container.resolve(route.controller).handle(req, res));
         });
     }
 }

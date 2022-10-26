@@ -6,11 +6,8 @@ import { RedisServiceProvider } from "./redis-service-provider";
 import { MailerServiceProvider } from "./mailer-service-provider";
 import { CryptographyServiceProvider } from "./cryptography-service-provider";
 import { MysqlServiceProvider } from "./mysql-service-provider";
-import { RouteServiceProvider } from "./route-service-provider";
 import { RepositoryServiceProvider } from "./repository-service-provider";
 import { AxiosServiceProvider } from "./axios-service-provider";
-
-
 
 export const registerAll = () => {
     // console.log('#### Registering service providers');
@@ -26,7 +23,6 @@ export const registerAll = () => {
         new AxiosServiceProvider(),
         new AppServiceProvider(),
         new RepositoryServiceProvider(),
-        new RouteServiceProvider(),
     ];
 
     providers.forEach((provider: ServiceProvider) => {
