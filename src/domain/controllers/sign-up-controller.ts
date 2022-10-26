@@ -25,6 +25,7 @@ export class SignUpController implements Controller {
             throw new AppError(`Invalid param: email`);
         }
 
+        // @@TODO: validar tamanho da senha
         if (request.body.password !== request.body.password_confirmation) {
             throw new AppError('Passwords do not match');
         }

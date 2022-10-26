@@ -3,9 +3,10 @@ import { Environment } from "../../../../config/environment";
 import { MongoUserRepository } from './mongo-user-repository';
 import { SignUpDTO } from '../../../../domain/dto/sign-up';
 import { User } from '../../../../domain/entities/user';
+import { UserModel } from '../../../models/user-model';
 
 describe('MongoUserRepository', () => {
-    const client = new MongoClient(process.env.MONGO_URL ?? Environment.MONGO_CONNECTION_URI);
+    const client = new MongoClient(Environment.MONGO_CONNECTION_URI);
     const sut = new MongoUserRepository(client);
 
     beforeAll(async () => {
@@ -92,6 +93,37 @@ describe('MongoUserRepository', () => {
             }
 
             expect(error).toEqual(new Error('This email address is already taken by another user'));
+        });
+
+        // it('should not return password/confirmation fields', async () => {
+        //     const insertData: SignUpDTO = {
+        //         name: 'test email',
+        //         email: 'email@test.dev',
+        //         password: 'pass',
+        //         password_confirmation: 'pass',
+        //         registrationDate: new Date,
+        //     };
+            
+        //     const insertResult = await sut.storeUser({ ...insertData });
+        //     const retrievedData = await sut.findById(insertResult.id) as any;
+
+        //     expect(retrievedData.password).not.toBeDefined();
+        //     expect(retrievedData.password_confirmation).not.toBeDefined();
+        // });
+
+        it('should not store confirmation field', async () => {
+            const insertData: SignUpDTO = {
+                name: 'test email',
+                email: 'email@test.dev',
+                password: 'pass',
+                password_confirmation: 'pass',
+                registrationDate: new Date,
+            };
+            
+            const insertResult = await sut.storeUser({ ...insertData });
+
+            expect(insertResult.password).toBeDefined();
+            expect(insertResult.password_confirmation).not.toBeDefined();
         });
     });
 });

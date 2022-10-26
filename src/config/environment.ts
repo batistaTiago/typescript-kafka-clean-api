@@ -14,7 +14,7 @@ export const Environment = {
     MYSQL_PASSWORD: process.env.MYSQL_PASSWORD,
     MYSQL_DB_NAME: process.env.MYSQL_DB_NAME,
 
-    MONGO_CONNECTION_URI: process.env.MONGO_CONNECTION_URI,
+    MONGO_CONNECTION_URI: process.env.MONGO_URL ?? process.env.MONGO_CONNECTION_URI,
     
     REDIS_HOST: process.env.REDIS_HOST,
     REDIS_PORT: Number(process.env.REDIS_PORT),

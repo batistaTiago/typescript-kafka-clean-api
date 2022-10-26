@@ -37,7 +37,7 @@ describe('MysqlUserRepository', () => {
 
         const result = await sut.storeUser(sampleData);
 
-        expect(saveSpy).toHaveBeenCalledWith(sampleData);
+        expect(saveSpy).toHaveBeenCalled();
         expect(result.id).toBe('1');
         expect(result.email).toBe('test-email@test.dev');
         expect(result.name).toBe('test name');
@@ -74,5 +74,28 @@ describe('MysqlUserRepository', () => {
         }
 
         expect(error).toEqual(new Error('This email address is already taken by another user'));
+    });
+
+    it('should not store confirmation field', async () => {
+        const fakeDataSourceRepository = {
+            save: jest.fn().mockReturnValueOnce({
+                id: '1',
+                ...sampleData,
+            }),
+            findOne: jest.fn()
+        };
+
+        const dataSource = ({
+            isInitialized: true,
+            getRepository: jest.fn().mockReturnValue(fakeDataSourceRepository)
+        } as unknown) as DataSource;
+
+        const sut = new MysqlUserRepository(dataSource);
+        
+        await sut.storeUser({ ...sampleData }) as any;
+
+        const saveSpy = jest.spyOn(fakeDataSourceRepository, 'save');
+        const { password_confirmation, ...expectedCallValues } = sampleData;
+        expect(saveSpy).toHaveBeenCalledWith(expectedCallValues);
     });
 });

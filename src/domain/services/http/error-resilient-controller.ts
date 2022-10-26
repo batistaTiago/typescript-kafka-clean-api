@@ -1,3 +1,4 @@
+import { Environment } from "../../../config/environment";
 import { AppError } from "../../exceptions/app-error";
 import { Controller } from "./controller";
 import { HttpRequest } from "./http-request";
@@ -22,8 +23,9 @@ export class ErrorResilientController implements Controller {
         return {
             statusCode: isAppError ? HttpStatus.BAD_REQUEST : HttpStatus.SERVER_ERROR,
             body: {
-                error: isAppError ? error.message : 'Unexpected server error, please try again later'
+                error: isAppError ? error.message : 'Unexpected server error, please try again later',
+                details: Environment.APP_DEBUG ? (error.stack ?? "Error stack not found") : null
             }
-        }
+        };
     }
 }

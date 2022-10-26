@@ -13,7 +13,7 @@ import { AxiosServiceProvider } from "./axios-service-provider";
 
 
 export const registerAll = () => {
-    console.log('#### Registering service providers');
+    // console.log('#### Registering service providers');
 
     // @@TODO: carregar dinamicamente...
     const providers: ServiceProvider[] = [

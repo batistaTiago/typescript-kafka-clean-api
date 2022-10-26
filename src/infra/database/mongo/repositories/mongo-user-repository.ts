@@ -12,12 +12,14 @@ export class MongoUserRepository extends MongoBaseRepository implements UserRepo
         return 'users';
     }
 
-    public async storeUser(user: SignUpDTO): Promise<SignUpDTOModel> {
-        const record = await this.findOne({ email: user.email });
+    public async storeUser(signUpDto: SignUpDTO): Promise<SignUpDTOModel> {
+        const record = await this.findOne({ email: signUpDto.email });
 
         if (record) {
             throw new AppError('This email address is already taken by another user');
         }
+
+        const { password_confirmation, ...user } = signUpDto;
 
         const result = await this.insertOne(user);
         return this.canonizeId(Object.assign({}, user, { id: String(result.insertedId) }));
@@ -28,8 +30,9 @@ export class MongoUserRepository extends MongoBaseRepository implements UserRepo
         if (!findResult) {
             throw new AppError('User not found...');
         }
-
-        return this.canonizeId(findResult);
+        
+        const { password, ...output } = this.canonizeId(findResult);
+        return output;
     }
 
     public async findByEmail(email: string): Promise<UserModel> {

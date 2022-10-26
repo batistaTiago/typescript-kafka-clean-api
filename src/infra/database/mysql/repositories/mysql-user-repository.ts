@@ -10,17 +10,19 @@ import { MysqlBaseRepository } from "../mysql-base-repository";
 
 @injectable()
 export class MysqlUserRepository extends MysqlBaseRepository implements UserRepository {
-    public async storeUser(data: SignUpDTO): Promise<SignUpDTOModel> {
+    public async storeUser(signUpDTO: SignUpDTO): Promise<SignUpDTOModel> {
         if (!this.connection.isInitialized) {
             await this.connection.initialize();
         }
 
-        const user = await this.getTypeOrmRepo().findOne(this.generateWhereClause({ email: data.email }));
-        if (user) {
+        const findResult = await this.getTypeOrmRepo().findOne(this.generateWhereClause({ email: signUpDTO.email }));
+        if (findResult) {
             throw new AppError('This email address is already taken by another user');
         }
 
-        return (await this.getTypeOrmRepo().save(data) as SignUpDTOModel);
+        const { password_confirmation, ...dataToSave } = signUpDTO;
+
+        return (await this.getTypeOrmRepo().save(dataToSave) as SignUpDTOModel);
     }
 
     public async findById(id: string): Promise<UserModel> {
@@ -28,13 +30,13 @@ export class MysqlUserRepository extends MysqlBaseRepository implements UserRepo
             await this.connection.initialize();
         }
 
-        const result = await this.getTypeOrmRepo().findOne(this.generateWhereClause({ id })) as UserModel;
+        const findResult = await this.getTypeOrmRepo().findOne(this.generateWhereClause({ id })) as UserModel;
 
-        if (!result) {
+        if (!findResult) {
             throw new AppError('User not found');
         }
 
-        return result;
+        return findResult;
     }
 
     public async findByEmail(email: string): Promise<UserModel> {

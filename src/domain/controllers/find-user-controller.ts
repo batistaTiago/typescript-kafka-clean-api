@@ -16,5 +16,4 @@ export class FindUserController implements Controller {
             body: user
         }
     }
-
 }
