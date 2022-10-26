@@ -18,7 +18,7 @@ export class SignUpUseCase implements UseCase {
     public async execute(data: SignUpDTO): Promise<UserModel> {
         const encryptedPassword = await this.encrypter.encrypt(data.password);
         const insertResult = await this.userRepository.storeUser({ ...data, password: encryptedPassword });
-        const { password, password_confirmation, ...user} = insertResult;
+        const { password, password_confirmation, ...user } = insertResult;
         await this.publishUserAccountCreatedEvent(user);
         return user;
     }
