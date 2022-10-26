@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { Request } from 'express';
 import { injectable } from 'tsyringe';
 import { GenerateVerificationCodeController } from '../../../../domain/controllers/generate-verification-code-controller';
 import { Controller } from '../../../../domain/services/http/controller';

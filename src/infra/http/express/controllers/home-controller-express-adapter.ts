@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { Request } from 'express';
 import { injectable } from 'tsyringe';
 import { HomeController } from '../../../../domain/controllers/home-controller';
 import { Controller } from '../../../../domain/services/http/controller';

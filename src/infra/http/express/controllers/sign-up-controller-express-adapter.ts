@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { Request } from 'express';
 import { injectable } from 'tsyringe';
 import { SignUpController } from '../../../../domain/controllers/sign-up-controller';
 import { Controller } from '../../../../domain/services/http/controller';

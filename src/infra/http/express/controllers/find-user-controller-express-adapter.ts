@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { Request } from 'express';
 import { injectable } from 'tsyringe';
 import { FindUserController } from '../../../../domain/controllers/find-user-controller';
 import { Controller } from '../../../../domain/services/http/controller';
