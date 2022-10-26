@@ -1,12 +1,12 @@
 import { Cache } from "../../domain/services/cache/cache";
 import { inject, singleton } from "tsyringe";
-import { RedisClientType } from '@redis/client';
+import { RedisClientType as RedisClient } from '@redis/client';
 
 @singleton()
 export class RedisCache implements Cache {
     private isConnected: boolean = false;
 
-    public constructor(@inject("RedisClientType") private readonly client: RedisClientType) {
+    public constructor(@inject("RedisClient") private readonly client: RedisClient) {
         this.client.on('connect', () => this.isConnected = true);
         this.client.on('disconnect', () => this.isConnected = false);
     }

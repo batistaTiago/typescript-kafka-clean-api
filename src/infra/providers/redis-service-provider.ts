@@ -23,6 +23,6 @@ const buildConnectionParams = () => {
 
 export class RedisServiceProvider implements ServiceProvider {
     public register(): void {   
-        container.registerInstance("RedisClientType", createClient(buildConnectionParams()));
+        container.registerInstance("RedisClient", createClient(buildConnectionParams()));
     }
 }

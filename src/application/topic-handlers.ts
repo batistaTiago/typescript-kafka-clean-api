@@ -5,4 +5,5 @@ export default {
     "events": EventTopicHandler,
     "retry.events": EventTopicHandler,
     "users.created": UsersCreatedTopicHandler,
+    "retry.users.created": UsersCreatedTopicHandler,
 };
