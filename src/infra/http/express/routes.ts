@@ -1,4 +1,4 @@
-import GenericConstructor from "../../../utils/generic-constructor-type";
+import { GenericConstructor } from "../../../utils/generic-constructor-type";
 import { FindUserControllerExpressAdapter } from "./controllers/find-user-controller-express-adapter";
 import { GenerateVerificationCodeControllerExpressAdapter } from "./controllers/generate-verification-code-controller-express-adapter";
 import { HealthCheckControllerExpressAdapter } from "./controllers/health-check-controller-express-adapter";

@@ -1,7 +1,7 @@
 import { container } from "tsyringe";
 import { MessageHandler } from "../domain/services/messaging/message-handler";
 import { KafkaTopicConsumer } from "../infra/messaging/kafka/consumer/kafka-topic-consumer";
-import GenericConstructor from "../utils/generic-constructor-type";
+import { GenericConstructor } from "../utils/generic-constructor-type";
 import { Application } from "./application";
 import topicHandlers from "./topic-handlers";
 

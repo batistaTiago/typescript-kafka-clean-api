@@ -1,4 +1,4 @@
-import GenericConstructor from "../../../utils/generic-constructor-type";
+import { GenericConstructor } from "../../../utils/generic-constructor-type";
 import { ExpressControllerAdapter } from "./express-controller-adapter";
 
 export interface ExpressRoute {
