@@ -8,6 +8,7 @@ import { Message } from '../domain/services/messaging/message';
 import { KafkaMessageProducerAdapter } from '../infra/messaging/kafka/producer/kafka-message-producer-adapter';
 
 new ApiApplication().start().then(async() => {
+    // @@TODO mover para ApiApplication.start()
     const event: Message<Event> = {
         body: {
             eventName: Events.NEW_HOMEPAGE_ACCESS,

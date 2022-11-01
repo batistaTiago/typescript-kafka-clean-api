@@ -1,5 +1,5 @@
 import { container } from 'tsyringe';
-import {  Kafka as KafkaJS, Consumer as KafkaJSConsumer, Producer as KafkaJSProducer, logLevel as KafkaJSLogLevel } from 'kafkajs';
+import { Kafka as KafkaJS, Consumer as KafkaJSConsumer, Producer as KafkaJSProducer, logLevel as KafkaJSLogLevel } from 'kafkajs';
 import { ServiceProvider } from '../../domain/services/provider';
 import { RandomHelper } from '../../utils/random-helper';
 import { Environment } from '../../config/environment';
@@ -16,7 +16,7 @@ export class KafkaServiceProvider implements ServiceProvider {
     }
 
     public register(): void {   
-        container.registerInstance(KafkaJS, this.kafkaJS);
+        container.registerInstance(KafkaJS, this.kafkaJS); // @@ TODO: ver se eh necessario disponibilizar isso no container ou se os 2 abaixo atendem tudo
         container.registerInstance<KafkaJSProducer>('KafkaJSProducer', this.kafkaJS.producer());
         container.register<KafkaJSConsumer>('KafkaJSConsumer', { useValue: this.makeConsumer() });
     }

@@ -29,6 +29,8 @@ services:
     volumes:
       - ./src:/usr/app/src
       - ./.env:/usr/app/.env
+      - ./jest.setup.ts:/usr/app/jest.setup.ts
+      - ./jest.config.ts:/usr/app/jest.config.ts
     command: npm run dev:api
 
   worker_events:
@@ -46,6 +48,8 @@ services:
     volumes:
       - ./src:/usr/app/src
       - ./.env:/usr/app/.env
+      - ./jest.setup.ts:/usr/app/jest.setup.ts
+      - ./jest.config.ts:/usr/app/jest.config.ts
     command: npm run dev:worker -- events
 
   worker_registration:
@@ -63,6 +67,8 @@ services:
     volumes:
       - ./src:/usr/app/src
       - ./.env:/usr/app/.env
+      - ./jest.setup.ts:/usr/app/jest.setup.ts
+      - ./jest.config.ts:/usr/app/jest.config.ts
     command: npm run dev:worker -- users.created
 
   worker_retry_events:
@@ -80,6 +86,8 @@ services:
     volumes:
       - ./src:/usr/app/src
       - ./.env:/usr/app/.env
+      - ./jest.setup.ts:/usr/app/jest.setup.ts
+      - ./jest.config.ts:/usr/app/jest.config.ts
     command: npm run dev:worker -- retry.events
     
   kafka:

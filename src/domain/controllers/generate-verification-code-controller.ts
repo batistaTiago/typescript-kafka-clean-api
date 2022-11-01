@@ -9,8 +9,9 @@ export class GenerateVerificationCodeController implements Controller {
     public constructor(private readonly useCase: GenerateVerificationCodeUseCase) {}
 
     public async handle(): Promise<HttpResponse> {
-        const email = 'ekyidag@gmail.com';
-        const { code, expiresAt } = await this.useCase.execute({ email })
+        const email = 'ekyidag@gmail.com'; // @@TODO: deve vir do Bearer token
+        const { code, expiresAt } = await this.useCase.execute({ email });
+
         return {
             statusCode: HttpStatus.OK,
             body: { code, expiresAt }

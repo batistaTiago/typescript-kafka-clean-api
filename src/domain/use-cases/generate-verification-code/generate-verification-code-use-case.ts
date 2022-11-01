@@ -16,7 +16,7 @@ export class GenerateVerificationCodeUseCase implements UseCase {
 
     public async execute({ email }: { email: string }): Promise<VerificationCode> {
         const user = await this.userRepository.findByEmail(email);
-        
+
         try {
             return await this.verificationCodeRepository.findByUser(user);
         } catch (error) {
