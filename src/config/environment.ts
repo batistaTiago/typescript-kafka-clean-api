@@ -5,6 +5,7 @@ export const Environment = {
     APP_SALT_ROUNDS: Number(process.env.APP_SALT_ROUNDS),
     APP_PREFERRED_DATABASE: process.env.APP_PREFERRED_DATABASE,
     APP_DEBUG: process.env.APP_DEBUG === 'true' ? true : false,
+    APP_SECRET_KEY: process.env.APP_SECRET_KEY,
 
     API_PORT: process.env.API_PORT,
 
