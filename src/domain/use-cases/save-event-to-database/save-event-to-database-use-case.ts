@@ -1,5 +1,5 @@
 import { inject, injectable } from "tsyringe";
-import { EventModel } from "../../../infra/models/event-model";
+import { EventModel } from "../../dto/event-model";
 import { Event as EventEntitiy } from "../../entities/event";
 import { EventRepository } from "../../services/repositories/event-repository";
 import { UseCase } from "../use-case";

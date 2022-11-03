@@ -3,7 +3,7 @@ import { Environment } from "../../../../config/environment";
 import { MongoUserRepository } from './mongo-user-repository';
 import { SignUpDTO } from '../../../../domain/dto/sign-up';
 import { User } from '../../../../domain/entities/user';
-import { UserModel } from '../../../models/user-model';
+import { UserModel } from '../../../../domain/dto/user-model';
 
 describe('MongoUserRepository', () => {
     const client = new MongoClient(Environment.MONGO_CONNECTION_URI);

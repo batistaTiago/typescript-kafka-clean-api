@@ -1,6 +1,6 @@
 import { SignUpDTO, SignUpDTOModel } from "../../../../domain/dto/sign-up";
 import { UserRepository } from "../../../../domain/services/repositories/user-repository";
-import { UserModel } from "../../../models/user-model";
+import { UserModel } from "../../../../domain/dto/user-model";
 import { MongoBaseRepository } from "../mongo-base-repository";
 import { ObjectId } from 'mongodb';
 import { injectable } from "tsyringe";

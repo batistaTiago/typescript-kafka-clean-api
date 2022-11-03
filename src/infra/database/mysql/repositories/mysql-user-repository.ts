@@ -4,7 +4,7 @@ import { EntityTarget } from "typeorm";
 import { SignUpDTO, SignUpDTOModel } from "../../../../domain/dto/sign-up";
 import { AppError } from "../../../../domain/exceptions/app-error";
 import { UserRepository } from "../../../../domain/services/repositories/user-repository";
-import { UserModel} from "../../../models/user-model";
+import { UserModel} from "../../../../domain/dto/user-model";
 import { User as UserTypeORMModel } from "../entities/user.entity";
 import { MysqlBaseRepository } from "../mysql-base-repository";
 

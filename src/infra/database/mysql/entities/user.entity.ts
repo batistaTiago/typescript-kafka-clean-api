@@ -1,5 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn } from "typeorm"
-import { UserModel } from "../../../models/user-model";
+import { UserModel } from "../../../../domain/dto/user-model";
 
 @Entity({ name: 'users' })
 export class User implements UserModel {

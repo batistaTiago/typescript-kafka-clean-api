@@ -2,7 +2,7 @@ import { injectable } from "tsyringe";
 import { BaseEntity, EntityTarget } from "typeorm";
 import { Event as DomainEvent } from "../../../../domain/entities/event";
 import { EventRepository } from "../../../../domain/services/repositories/event-repository";
-import { EventModel } from "../../../models/event-model";
+import { EventModel } from "../../../../domain/dto/event-model";
 import { Event as EventTypeORMModel } from "../entities/event.entity";
 import { MysqlBaseRepository } from "../mysql-base-repository";
 

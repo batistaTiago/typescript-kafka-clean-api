@@ -1,4 +1,4 @@
-import { VerificationCodeModel } from "../../../infra/models/verification-code-model";
+import { VerificationCodeModel } from "../../dto/verification-code-model";
 import { User } from "../../entities/user";
 import { VerificationCode as VerificationCodeEntitiy } from "../../entities/verification-code";
 

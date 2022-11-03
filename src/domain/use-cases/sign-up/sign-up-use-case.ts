@@ -1,5 +1,5 @@
 import { inject, injectable } from "tsyringe";
-import { UserModel } from "../../../infra/models/user-model";
+import { UserModel } from "../../dto/user-model";
 import { SignUpDTO } from "../../dto/sign-up";
 import { Events } from "../../enums/events";
 import { Hash, HashMake } from "../../services/cryptography/hash";

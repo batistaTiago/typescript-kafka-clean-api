@@ -1,4 +1,4 @@
-import { UserModel } from "../../../infra/models/user-model";
+import { UserModel } from "../../dto/user-model";
 import { SignUpDTO, SignUpDTOModel } from "../../dto/sign-up";
 
 export interface StoreUserRepository {

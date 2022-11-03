@@ -3,7 +3,6 @@ import { inject, injectable } from 'tsyringe';
 import { Encrypter } from '../domain/services/cryptography/encrypter';
 import { Hash } from '../domain/services/cryptography/hash';
 import * as jwt from 'jsonwebtoken'
-import { Environment } from '../config/environment';
 
 @injectable()
 export class BcryptAdapter implements Encrypter, Hash {
@@ -25,7 +24,7 @@ export class BcryptAdapter implements Encrypter, Hash {
     }
 
     public encrypt(data: string | object): string {
-        return jwt.sign(data, Environment.APP_SECRET_KEY);
+        return jwt.sign(data, this.secret);
     }
 
     public decrypt(text: string): string | object {

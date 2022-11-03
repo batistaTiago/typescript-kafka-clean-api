@@ -1,4 +1,4 @@
-import { VerificationCodeModel } from "../../../infra/models/verification-code-model";
+import { VerificationCodeModel } from "../../dto/verification-code-model";
 import { RandomNumberGenerator } from "../../../utils/random-number-generator";
 import { VerificationCode } from "../../entities/verification-code";
 import { Cache } from "../../services/cache/cache";

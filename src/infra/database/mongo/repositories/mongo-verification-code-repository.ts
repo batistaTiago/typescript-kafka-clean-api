@@ -3,7 +3,7 @@ import { User } from "../../../../domain/entities/user";
 import { VerificationCode } from "../../../../domain/entities/verification-code";
 import { AppError } from "../../../../domain/exceptions/app-error";
 import { VerificationCodeRepository } from "../../../../domain/services/repositories/verification-code-repository ";
-import { VerificationCodeModel } from "../../../models/verification-code-model";
+import { VerificationCodeModel } from "../../../../domain/dto/verification-code-model";
 import { MongoBaseRepository } from "../mongo-base-repository";
 
 @injectable()

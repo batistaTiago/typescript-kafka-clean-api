@@ -1,7 +1,7 @@
 import { injectable } from "tsyringe";
 import { Event as EventEntity } from "../../../../domain/entities/event";
 import { EventRepository } from "../../../../domain/services/repositories/event-repository";
-import { EventModel } from "../../../models/event-model";
+import { EventModel } from "../../../../domain/dto/event-model";
 import { MongoBaseRepository } from "../mongo-base-repository";
 
 @injectable()

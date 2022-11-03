@@ -1,6 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, JoinColumn, OneToOne } from "typeorm"
 import { User } from "../../../../domain/entities/user";
-import { VerificationCodeModel } from "../../../models/verification-code-model";
+import { VerificationCodeModel } from "../../../../domain/dto/verification-code-model";
 import { User as TypeORMUserModel } from "./user.entity";
 
 @Entity({ name: 'VerificationCodes' })

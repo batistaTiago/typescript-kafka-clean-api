@@ -1,4 +1,4 @@
-import { Event } from "../../domain/entities/event";
+import { Event } from "../entities/event";
 
 export interface EventModel extends Event {
     id: string;

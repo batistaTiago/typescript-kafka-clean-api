@@ -4,7 +4,7 @@ import { EntityTarget } from "typeorm";
 import { User } from "../../../../domain/entities/user";
 import { VerificationCode } from "../../../../domain/entities/verification-code";
 import { VerificationCodeRepository } from "../../../../domain/services/repositories/verification-code-repository ";
-import { VerificationCodeModel } from "../../../models/verification-code-model";
+import { VerificationCodeModel } from "../../../../domain/dto/verification-code-model";
 import { VerificationCode as VerificationCodeTypeORMEntitiy } from "../entities/verification-code.entitiy";
 import { MysqlBaseRepository } from "../mysql-base-repository";
 

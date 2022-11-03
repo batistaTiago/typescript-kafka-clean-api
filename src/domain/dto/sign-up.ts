@@ -1,4 +1,4 @@
-import { UserModel } from "../../infra/models/user-model";
+import { UserModel } from "./user-model";
 import { User } from "../entities/user";
 
 export interface SignUpDTO extends User {
