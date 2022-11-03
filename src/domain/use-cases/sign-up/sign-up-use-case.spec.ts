@@ -15,7 +15,7 @@ const registrationDate = new Date();
 
 const makeSignUpDto = () => ({ email, name, password, password_confirmation, registrationDate });
 const makeProducer = () => ({ publish: jest.fn() });
-const makeEncrypter = () => ({ encrypt: jest.fn().mockReturnValue('hashed_password') });
+const makeHasher = () => ({ make: jest.fn().mockReturnValue('hashed_password') });
 const makeUserRepo = () => ({ 
     findById: jest.fn(), 
     storeUser: jest.fn().mockResolvedValue({password, password_confirmation}),
@@ -23,11 +23,11 @@ const makeUserRepo = () => ({
 });
 
 describe("SignUpUseCase", () => {
-    it(`should encrypt the provided password before forwarding it to the repository along with the other fields`, async () => {
+    it(`should hash the provided password before forwarding it to the repository along with the other fields`, async () => {
         const repo = makeUserRepo();
         const storeUserSpy = jest.spyOn(repo, 'storeUser');
 
-        const sut = new SignUpUseCase(repo, makeEncrypter(), makeProducer());
+        const sut = new SignUpUseCase(repo, makeHasher(), makeProducer());
         
         const signUpDto = makeSignUpDto();
         await sut.execute(signUpDto);
@@ -39,7 +39,7 @@ describe("SignUpUseCase", () => {
         const producer = makeProducer();
         const publishSpy = jest.spyOn(producer, 'publish');
 
-        const sut = new SignUpUseCase(makeUserRepo(), makeEncrypter(), producer);
+        const sut = new SignUpUseCase(makeUserRepo(), makeHasher(), producer);
         
         const signUpDto = makeSignUpDto();
         await sut.execute(signUpDto);
