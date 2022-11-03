@@ -7,7 +7,8 @@ export class JwtAdapter implements Encrypter {
     public constructor(@inject('AppSecret') private readonly secret: string) { }
     
     public encrypt(data: string | object): string {
-        return jwt.sign(data, this.secret);
+        const text = String(typeof data === 'object' ? JSON.stringify(data) : data);
+        return jwt.sign(text, this.secret);
     }
 
     public decrypt(text: string): string | object {
