@@ -2,6 +2,8 @@ import * as bcrypt from 'bcrypt';
 import { inject, injectable } from 'tsyringe';
 import { Encrypter } from '../domain/services/cryptography/encrypter';
 import { Hash } from '../domain/services/cryptography/hash';
+import * as jwt from 'jsonwebtoken'
+import { Environment } from '../config/environment';
 
 @injectable()
 export class BcryptAdapter implements Encrypter, Hash {
@@ -22,13 +24,11 @@ export class BcryptAdapter implements Encrypter, Hash {
         return await bcrypt.compare(value, hash);
     }
 
-    public async encrypt(text: string | object): Promise<string> {
-        throw new Error('Method not implemented.');
-        return '';
+    public encrypt(data: string | object): string {
+        return jwt.sign(data, Environment.APP_SECRET_KEY);
     }
 
-    public async decrypt(text: string): Promise<string | object> {
-        throw new Error('Method not implemented.');
-        return '';
+    public decrypt(text: string): string | object {
+        return jwt.verify(text, this.secret);
     }
 }

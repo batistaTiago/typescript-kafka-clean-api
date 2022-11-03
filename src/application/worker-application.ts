@@ -12,7 +12,7 @@ export class WorkerApplication extends Application {
         super();
 
         this.handlerMappings = new Map<String, GenericConstructor<MessageHandler>>();
-        for (let topic in topicHandlers) {
+        for (const topic in topicHandlers) {
             this.handlerMappings.set(topic, topicHandlers[topic]);
         }
     }

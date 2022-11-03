@@ -31,16 +31,16 @@ export class KafkaServiceProvider implements ServiceProvider {
     }
 
     private groupId(): string {
-        let groupId = `${Environment.KAFKA_CONSUMER_BASE_GROUP_ID}_`;
+        return `${Environment.KAFKA_CONSUMER_BASE_GROUP_ID}_${this.computeAppend()}`;
+    }
 
+    private computeAppend(): string {
         if (Environment.KAFKA_CONSUMER_GROUP_ID) {
-            groupId += Environment.KAFKA_CONSUMER_GROUP_ID;
-        } else {
-            const rng = new RandomHelper();
-            const random =  rng.generate({ digits: 12 });
-            groupId += `${random}`;
+            return Environment.KAFKA_CONSUMER_GROUP_ID;
         }
 
-        return groupId;
+        const rng = new RandomHelper();
+        const random =  rng.generate({ digits: 12 });
+        return `${random}`;
     }
 }

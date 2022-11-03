@@ -1,4 +1,4 @@
 export interface Encrypter {
-    encrypt(text: string | object): Promise<string>
-    decrypt(text: string): Promise<string | object>
+    encrypt(data: string | object): string
+    decrypt(text: string): string | object
 }

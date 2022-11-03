@@ -1,13 +1,21 @@
 import 'reflect-metadata';
 import { container } from 'tsyringe';
-import { HttpClient } from '../domain/services/http/http-client';
+import { Event } from '../domain/entities/event';
+import { Events } from '../domain/enums/events';
+import { Encrypter } from '../domain/services/cryptography/encrypter';
 import * as Providers from '../infra/providers';
 
 Providers.registerAll();
 
-const httpClient: HttpClient = container.resolve('HttpClient');
+const encrypter: Encrypter = container.resolve('Encrypter');
+const event: Event = {
+    eventName: Events.NEW_HOMEPAGE_ACCESS,
+    happenedAt: new Date(),
+    data: {
+        some: 'data'
+    }
+}
+const jwtString = encrypter.encrypt(event)
+const decrypted = encrypter.decrypt(jwtString);
 
-console.log(httpClient.constructor.name);
-
-// httpClient.request({ url: 'http://viacep.com.br/ws/01001000/json/'})
-//     .then(console.log);
+console.log(decrypted);
