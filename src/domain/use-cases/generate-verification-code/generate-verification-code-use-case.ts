@@ -14,7 +14,13 @@ export class GenerateVerificationCodeUseCase implements UseCase {
 
     public async execute(user: User): Promise<VerificationCode> {
         try {
-            return await this.verificationCodeRepository.findByUser(user);
+            const code = await this.verificationCodeRepository.findByUser(user);
+
+            if (this.codeIsValid(code)) {
+                return code;
+            }
+         
+            return await this.createFromUser(user);
         } catch (error) {
             return await this.createFromUser(user);
         }
@@ -29,5 +35,12 @@ export class GenerateVerificationCodeUseCase implements UseCase {
         };
 
         return await this.verificationCodeRepository.storeValidationCode(code);
+    }
+
+    private codeIsValid(code: VerificationCode): boolean {
+        const now = new Date();
+        const codeExpirationDate = new Date(code.expiresAt);
+
+        return codeExpirationDate > now;
     }
 }
