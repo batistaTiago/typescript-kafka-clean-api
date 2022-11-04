@@ -50,23 +50,6 @@ describe('GenerateVerificationCodeUseCase', () => {
         expect(rngSpy).not.toHaveBeenCalled();
     });
 
-    // it('should call its rng if email does not exist', async () => {
-    //     const rng = makeRng();
-    //     const verificationCodeRepository = makeVerificationCodeRepository();
-
-    //     verificationCodeRepository.findByUser = jest.fn().mockImplementation(() => {
-    //         throw new Error();
-    //     });
-
-    //     const rngSpy = jest.spyOn(rng, 'generate');
-
-    //     const sut = new GenerateVerificationCodeUseCase(verificationCodeRepository, rng);
-
-    //     await sut.execute({ name: 'username', email: 'unexisting-email@test.dev', registrationDate: new Date() });
-
-    //     expect(rngSpy).toHaveBeenCalled();
-    // });
-
     it('should call its repository to save the recently generated code', async () => {
         const rng = makeRng();
         const verificationCodeRepository = makeVerificationCodeRepository();
