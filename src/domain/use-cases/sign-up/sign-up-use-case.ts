@@ -1,16 +1,16 @@
 import { inject, injectable } from "tsyringe";
-import { UserModel } from "../../dto/user-model";
-import { SignUpDTO } from "../../dto/sign-up";
+import { UserModel } from "../../dto/user/user-model";
+import { SignUpDTO } from "../../dto/user/sign-up";
 import { Events } from "../../enums/events";
 import { Hash, HashMake } from "../../services/cryptography/hash";
 import { MessageProducer } from "../../services/messaging/message-producer";
-import { UserRepository } from "../../services/repositories/user-repository";
+import { StoreUserRepository } from "../../services/repositories/user-repository";
 import { UseCase } from "../use-case";
 
 @injectable()
 export class SignUpUseCase implements UseCase {
     public constructor(
-        @inject("UserRepository") private readonly userRepository: UserRepository,
+        @inject("UserRepository") private readonly userRepository: StoreUserRepository,
         @inject("HashMake") private readonly hash: HashMake,
         @inject("MessageProducer") private readonly messageProducer: MessageProducer
     ) { }

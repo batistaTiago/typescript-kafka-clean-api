@@ -1,5 +1,5 @@
 import { Request } from 'express';
-import { injectable } from 'tsyringe';
+import { inject, injectable } from 'tsyringe';
 import { GenerateVerificationCodeController } from '../../../../domain/controllers/generate-verification-code-controller';
 import { Controller } from '../../../../domain/services/http/controller';
 import { ErrorResilientController } from '../../../../domain/services/http/error-resilient-controller';
@@ -10,7 +10,7 @@ import { ExpressControllerAdapter } from '../express-controller-adapter';
 export class GenerateVerificationCodeControllerExpressAdapter extends ExpressControllerAdapter {
     private readonly domainController: Controller;
 
-    public constructor(domainController: GenerateVerificationCodeController) {
+    public constructor(@inject(GenerateVerificationCodeController) domainController: Controller) {
         super();
 
         this.domainController = new ErrorResilientController(domainController);

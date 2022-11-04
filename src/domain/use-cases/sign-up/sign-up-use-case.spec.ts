@@ -1,4 +1,4 @@
-import { SignUpDTO } from "../../dto/sign-up";
+import { SignUpDTO } from "../../dto/user/sign-up";
 import { MessageProducer } from "../../services/messaging/message-producer";
 import { SignUpUseCase } from "./sign-up-use-case";
 

@@ -1,4 +1,5 @@
 import { injectable } from "tsyringe";
+import { Authentication } from "../services/auth/authentication";
 import { Controller } from "../services/http/controller";
 import { HttpResponse } from "../services/http/http-response";
 import { HttpStatus } from "../services/http/status";
@@ -6,11 +7,14 @@ import { GenerateVerificationCodeUseCase } from "../use-cases/generate-verificat
 
 @injectable()
 export class GenerateVerificationCodeController implements Controller {
-    public constructor(private readonly useCase: GenerateVerificationCodeUseCase) {}
+    public constructor(
+        private readonly useCase: GenerateVerificationCodeUseCase,
+        private readonly auth: Authentication
+    ) {}
 
     public async handle(): Promise<HttpResponse> {
-        const email = 'ekyidag@gmail.com'; // @@TODO: deve vir do Bearer token
-        const { code, expiresAt } = await this.useCase.execute({ email });
+        const user = this.auth.user();
+        const { code, expiresAt } = await this.useCase.execute(user);
 
         return {
             statusCode: HttpStatus.OK,

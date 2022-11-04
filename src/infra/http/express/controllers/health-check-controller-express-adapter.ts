@@ -40,7 +40,6 @@ export class HealthCheckControllerExpressAdapter extends ExpressControllerAdapte
             await this.kafka.disconnect();
             return { status: true };
         } catch (err: unknown) {
-            console.log(err);
             return { status: false };
         }
     }
@@ -51,7 +50,6 @@ export class HealthCheckControllerExpressAdapter extends ExpressControllerAdapte
             await this.mysql.destroy();
             return { status: true };
         } catch (err: unknown) {
-            console.log(err);
             return { status: false };
         }
     }
@@ -61,7 +59,6 @@ export class HealthCheckControllerExpressAdapter extends ExpressControllerAdapte
             await this.mongo.connect();
             return { status: true };
         } catch (err: unknown) {
-            console.log(err);
             return { status: false };
         }
     }
@@ -72,7 +69,6 @@ export class HealthCheckControllerExpressAdapter extends ExpressControllerAdapte
             await this.redis.disconnect();
             return { status: true };
         } catch (err: unknown) {
-            console.log(err);
             return { status: false };
         }
     }

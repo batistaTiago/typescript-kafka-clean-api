@@ -1,13 +1,16 @@
-import { SignUpDTO, SignUpDTOModel } from "../../../../domain/dto/sign-up";
+import { SignUpDTO, SignUpDTOModel } from "../../../../domain/dto/user/sign-up";
 import { UserRepository } from "../../../../domain/services/repositories/user-repository";
-import { UserModel } from "../../../../domain/dto/user-model";
+import { UserModel } from "../../../../domain/dto/user/user-model";
 import { MongoBaseRepository } from "../mongo-base-repository";
 import { ObjectId } from 'mongodb';
 import { injectable } from "tsyringe";
 import { AppError } from "../../../../domain/exceptions/app-error";
+import { UserAccount } from "../../../../domain/dto/user/user-account";
 
 @injectable()
 export class MongoUserRepository extends MongoBaseRepository implements UserRepository {
+
+
     public collectionName(): string {
         return 'users';
     }
@@ -41,6 +44,16 @@ export class MongoUserRepository extends MongoBaseRepository implements UserRepo
             throw new AppError('User not found...');
         }
 
+        const { password, ...output } = this.canonizeId(findResult);
+        return output;
+    }    
+    
+    public async findAccount(email: string): Promise<UserAccount> {
+        const findResult = await this.findOne<object>({ email });
+        if (!findResult) {
+            throw new AppError('User not found...');
+        }
+        
         return this.canonizeId(findResult);
     }
 }

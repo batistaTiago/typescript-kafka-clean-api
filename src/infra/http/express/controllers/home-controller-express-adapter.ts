@@ -1,5 +1,5 @@
 import { Request } from 'express';
-import { injectable } from 'tsyringe';
+import { inject, injectable } from 'tsyringe';
 import { HomeController } from '../../../../domain/controllers/home-controller';
 import { Controller } from '../../../../domain/services/http/controller';
 import { ErrorResilientController } from '../../../../domain/services/http/error-resilient-controller';
@@ -10,7 +10,7 @@ import { ExpressControllerAdapter } from '../express-controller-adapter';
 export class HomeControllerExpressAdapter extends ExpressControllerAdapter {
     private readonly domainController: Controller;
 
-    public constructor(domainController: HomeController) {
+    public constructor(@inject(HomeController) domainController: Controller) {
         super();
         this.domainController = new ErrorResilientController(domainController);
     }

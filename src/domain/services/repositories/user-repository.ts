@@ -1,5 +1,6 @@
-import { UserModel } from "../../dto/user-model";
-import { SignUpDTO, SignUpDTOModel } from "../../dto/sign-up";
+import { UserModel } from "../../dto/user/user-model";
+import { SignUpDTO, SignUpDTOModel } from "../../dto/user/sign-up";
+import { UserAccount } from "../../dto/user/user-account";
 
 export interface StoreUserRepository {
     storeUser(user: SignUpDTO): Promise<SignUpDTOModel>;
@@ -13,6 +14,9 @@ export interface FindByEmailUserRepository {
     findByEmail(email: string): Promise<UserModel>;
 }
 
+export interface AccountRepository {
+    findAccount(email: string): Promise<UserAccount>;
+}
 
-export declare type UserRepository = StoreUserRepository & FindByIdUserRepository & FindByEmailUserRepository;
-// export interface UserRepository extends StoreUserRepository, FindByIdUserRepository, FindByEmailUserRepository {}
+
+export declare type UserRepository = StoreUserRepository & FindByIdUserRepository & FindByEmailUserRepository & AccountRepository;

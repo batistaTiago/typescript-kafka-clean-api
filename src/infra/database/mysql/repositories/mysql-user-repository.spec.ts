@@ -1,6 +1,6 @@
 
 import { DataSource } from "typeorm";
-import { SignUpDTO } from "../../../../domain/dto/sign-up";
+import { SignUpDTO } from "../../../../domain/dto/user/sign-up";
 import { MysqlUserRepository } from "./mysql-user-repository";
 
 const mockedDate = new Date('2022-10-10');

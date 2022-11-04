@@ -7,7 +7,7 @@ export class BcryptAdapter implements Hash {
     public constructor(@inject('HashSalt') private readonly salt: number) { }
     
     public async make(data: string | object): Promise<string> {
-        const text = String(typeof data === 'object' ? JSON.stringify(data) : data);
+        const text = String(typeof data === 'string' ? data : JSON.stringify(data));
         return await bcrypt.hash(text, this.salt);
     }
 

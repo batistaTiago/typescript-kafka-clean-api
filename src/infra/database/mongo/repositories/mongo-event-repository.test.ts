@@ -17,7 +17,7 @@ describe('MongoEventRepository', () => {
 
     it('should forward call to mongodb client', async () => {
         const event: EventEntity = {
-            eventName: 'abc',
+            eventName: 'SOME_EVENT_NAME',
             happenedAt: new Date(),
         };
 
@@ -35,7 +35,7 @@ describe('MongoEventRepository', () => {
         });
 
         const event: EventEntity = {
-            eventName: 'abc',
+            eventName: 'SOME_EVENT_NAME',
             happenedAt: new Date(),
         };
 

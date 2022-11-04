@@ -1,5 +1,5 @@
 import { Request } from 'express';
-import { injectable } from 'tsyringe';
+import { inject, injectable } from 'tsyringe';
 import { FindUserController } from '../../../../domain/controllers/find-user-controller';
 import { Controller } from '../../../../domain/services/http/controller';
 import { ErrorResilientController } from '../../../../domain/services/http/error-resilient-controller';
@@ -10,7 +10,7 @@ import { ExpressControllerAdapter } from '../express-controller-adapter';
 export class FindUserControllerExpressAdapter extends ExpressControllerAdapter {
     private readonly domainController: Controller;
 
-    public constructor(domainController: FindUserController) {
+    public constructor(@inject(FindUserController) domainController: Controller) {
         super();
         this.domainController = new ErrorResilientController(domainController);
     }

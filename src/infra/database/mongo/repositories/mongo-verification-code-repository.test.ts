@@ -17,7 +17,7 @@ describe('MongoVerificationCodeRepository', () => {
 
     it('should forward call to mongodb client', async () => {
         const code: VerificationCode = {
-            code: 'ABC',
+            code: 'RANDOM_CODE',
             user: {
                 email: 'email@test.dev',
                 name: 'test name',
@@ -29,7 +29,7 @@ describe('MongoVerificationCodeRepository', () => {
 
         expect((result as any)._id).not.toBeDefined();
         expect(result.id).toBeDefined();
-        expect(result.code).toEqual('ABC');
+        expect(result.code).toEqual('RANDOM_CODE');
     });
 
     it('should throw if mongodb client throws', async () => {
@@ -38,7 +38,7 @@ describe('MongoVerificationCodeRepository', () => {
         });
 
         const code: VerificationCode = {
-            code: 'ABC',
+            code: 'RANDOM_CODE',
             user: {
                 email: 'email@test.dev',
                 name: 'test name',
