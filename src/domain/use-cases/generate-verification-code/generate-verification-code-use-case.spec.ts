@@ -1,4 +1,3 @@
-import { User } from "../../entities/user";
 import { GenerateVerificationCodeUseCase } from "./generate-verification-code-use-case";
 
 const makeRng = () => ({ generate: jest.fn() });
