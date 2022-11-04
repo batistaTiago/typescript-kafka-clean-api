@@ -6,11 +6,10 @@ import { ObjectId } from 'mongodb';
 import { injectable } from "tsyringe";
 import { AppError } from "../../../../domain/exceptions/app-error";
 import { UserAccount } from "../../../../domain/dto/user/user-account";
+import { UserUpdateableFields } from "../../../../domain/dto/user/update-account";
 
 @injectable()
 export class MongoUserRepository extends MongoBaseRepository implements UserRepository {
-
-
     public collectionName(): string {
         return 'users';
     }
@@ -33,7 +32,7 @@ export class MongoUserRepository extends MongoBaseRepository implements UserRepo
         if (!findResult) {
             throw new AppError('User not found...');
         }
-        
+
         const { password, ...output } = this.canonizeId(findResult);
         return output;
     }
@@ -46,14 +45,31 @@ export class MongoUserRepository extends MongoBaseRepository implements UserRepo
 
         const { password, ...output } = this.canonizeId(findResult);
         return output;
-    }    
-    
-    public async findAccount(email: string): Promise<UserAccount> {
+    }
+
+    public async findAccountByEmail(email: string): Promise<UserAccount> {
         const findResult = await this.findOne<object>({ email });
         if (!findResult) {
             throw new AppError('User not found...');
         }
-        
+
         return this.canonizeId(findResult);
+    }
+
+    public async findAccountById(id: string): Promise<UserAccount> {
+        const findResult = await this.findOne<object>({ _id: new ObjectId(id) });
+        if (!findResult) {
+            throw new AppError('User not found...');
+        }
+
+        return this.canonizeId(findResult);
+    }
+
+    public async updateAccount(account: UserAccount, fields: UserUpdateableFields): Promise<UserAccount> {
+        const updatedAccount = Object.assign({}, account, { ...fields });
+        
+        await this.updateOne({ _id: new ObjectId(account.id) }, { $set: { ...fields } });
+        
+        return updatedAccount;
     }
 }

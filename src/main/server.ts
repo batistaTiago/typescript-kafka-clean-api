@@ -11,7 +11,7 @@ new ApiApplication().start().then(async() => {
     // @@TODO mover para ApiApplication.start()
     const event: Message<Event> = {
         body: {
-            eventName: Events.NEW_HOMEPAGE_ACCESS,
+            eventName: Events.SERVER_RESTART,
             happenedAt: new Date(),
             data: {
                 port: Environment.API_PORT

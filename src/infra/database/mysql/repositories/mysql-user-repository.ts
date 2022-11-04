@@ -8,6 +8,7 @@ import { UserModel} from "../../../../domain/dto/user/user-model";
 import { User as UserTypeORMModel } from "../entities/user.entity";
 import { MysqlBaseRepository } from "../mysql-base-repository";
 import { UserAccount } from "../../../../domain/dto/user/user-account";
+import { UserUpdateableFields } from "../../../../domain/dto/user/update-account";
 
 @injectable()
 export class MysqlUserRepository extends MysqlBaseRepository implements UserRepository {
@@ -57,7 +58,7 @@ export class MysqlUserRepository extends MysqlBaseRepository implements UserRepo
         return output;
     }
 
-    public async findAccount(email: string): Promise<UserAccount> {
+    public async findAccountByEmail(email: string): Promise<UserAccount> {
         if (!this.connection.isInitialized) {
             await this.connection.initialize();
         }
@@ -68,6 +69,23 @@ export class MysqlUserRepository extends MysqlBaseRepository implements UserRepo
         }
 
         return findResult;
+    }
+
+    public async findAccountById(id: string): Promise<UserAccount> {
+        if (!this.connection.isInitialized) {
+            await this.connection.initialize();
+        }
+
+        const findResult = await this.getTypeOrmRepo().findOne(this.generateWhereClause({ id })) as UserAccount;
+        if (!findResult) {
+            throw new AppError('User not found');
+        }
+
+        return findResult;
+    }
+
+    public async updateAccount(account: UserAccount, fields: UserUpdateableFields): Promise<UserAccount> {
+        throw new Error("Method not implemented.");
     }
 
     protected entity(): EntityTarget<object> {

@@ -18,6 +18,7 @@ describe('MongoVerificationCodeRepository', () => {
     it('should forward call to mongodb client', async () => {
         const code: VerificationCode = {
             code: 'RANDOM_CODE',
+            expiresAt: new Date(),
             user: {
                 email: 'email@test.dev',
                 name: 'test name',
@@ -39,6 +40,7 @@ describe('MongoVerificationCodeRepository', () => {
 
         const code: VerificationCode = {
             code: 'RANDOM_CODE',
+            expiresAt: new Date(),
             user: {
                 email: 'email@test.dev',
                 name: 'test name',
@@ -50,4 +52,22 @@ describe('MongoVerificationCodeRepository', () => {
 
         expect(result).rejects.toThrow();
     });
+
+    it('should save the date in ISOString format', async () => {
+        const expirationDate = new Date();
+        const isoConversionSpy = jest.spyOn(expirationDate, 'toISOString');
+
+        const code: VerificationCode = {
+            code: 'RANDOM_CODE',
+            expiresAt: expirationDate,
+            user: {
+                email: 'email@test.dev',
+                name: 'test name',
+                registrationDate: new Date()
+            }
+        };
+
+        await sut.storeValidationCode(code);
+        expect(isoConversionSpy).toHaveBeenCalled();
+    })
 });

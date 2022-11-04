@@ -11,7 +11,7 @@ export class JwtAdapter implements Encrypter {
         return jwt.sign(text, this.secret);
     }
 
-    public decrypt(text: string): string | object {
+    public decrypt(text: string): any {
         return jwt.verify(text, this.secret);
     }
 }

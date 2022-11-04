@@ -13,7 +13,7 @@ export class MongoVerificationCodeRepository extends MongoBaseRepository impleme
     }
 
     public async storeValidationCode(data: VerificationCode): Promise<VerificationCodeModel> {
-        const result = await this.insertOne(data);
+        const result = await this.insertOne({ ...data, expiresAt: data.expiresAt.toISOString() });
         return this.canonizeId(Object.assign({}, data, { id: String(result.insertedId) }));
     }
 

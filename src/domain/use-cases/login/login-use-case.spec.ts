@@ -1,5 +1,5 @@
 describe('LoginUseCase', () => {
-    it('tbd', () => {
+    it.skip('tbd', () => {
         expect(true).toBeTruthy();
     })
 })

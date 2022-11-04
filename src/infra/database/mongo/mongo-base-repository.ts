@@ -33,4 +33,8 @@ export abstract class MongoBaseRepository {
     protected async findOne<T>(filters: object): Promise<T> {
         return await this.collection().findOne(filters) as T;
     }
+
+    protected async updateOne<T>(filters: object, fields: object): Promise<T> {
+        return await this.collection().updateOne(filters, fields) as T;
+    }
 }

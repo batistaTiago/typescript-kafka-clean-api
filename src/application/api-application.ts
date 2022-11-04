@@ -8,7 +8,6 @@ import { Routes as routes } from '../infra/http/express/routes';
 import { ExpressRoute } from "../infra/http/express/express-route";
 import { GenericConstructor } from "../utils/generic-constructor-type";
 import { ExpressMiddleware } from "../infra/http/express/middleware/express-middleware";
-import { AppError } from "../domain/exceptions/app-error";
 
 export class ApiApplication extends Application {
     protected api: Express;
@@ -37,7 +36,7 @@ export class ApiApplication extends Application {
         routes.forEach((route: ExpressRoute) => {
             route.middleware?.forEach((Middleware: GenericConstructor<ExpressMiddleware>) => {
                 const middleware = new Middleware();
-                this.api.use(route.url, (req: Request, res: Response, next: NextFunction) => middleware.handle(req, res, next));
+                this.api.use(route.url, (req: Request, res: Response, next: NextFunction) => middleware.apply(req, res, next));
             });
 
             this.api[route.method](route.url, (req: Request, res: Response) => container.resolve(route.controller).handle(req, res));

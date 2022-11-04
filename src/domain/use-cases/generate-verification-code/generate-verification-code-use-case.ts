@@ -19,7 +19,7 @@ export class GenerateVerificationCodeUseCase implements UseCase {
             if (this.codeIsValid(code)) {
                 return code;
             }
-         
+
             return await this.createFromUser(user);
         } catch (error) {
             return await this.createFromUser(user);

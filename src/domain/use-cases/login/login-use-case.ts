@@ -16,11 +16,11 @@ export class LoginUseCase implements UseCase {
     ) { }
 
     public async execute({ email, password }: LoginDTO): Promise<object> {
-        const user: UserAccount = await this.userRepository.findAccount(email);
+        const user: UserAccount = await this.userRepository.findAccountByEmail(email);
         if (!await this.hash.check(password, user.password)) {
             throw new AppError('Unauthorized');
         }
 
-        return { accessToken: this.encrypter.encrypt({ id: user.id }) };
+        return { accessToken: this.encrypter.encrypt({ id: user.id, issuedAt: new Date() }) };
     }
 }
