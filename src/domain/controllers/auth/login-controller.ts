@@ -1,9 +1,9 @@
 import { injectable } from "tsyringe";
-import { Controller } from "../services/http/controller";
-import { HttpRequest } from "../services/http/http-request";
-import { HttpResponse } from "../services/http/http-response";
-import { HttpStatus } from "../services/http/status";
-import { LoginUseCase } from "../use-cases/login/login-use-case";
+import { Controller } from "../../services/http/controller";
+import { HttpRequest } from "../../services/http/http-request";
+import { HttpResponse } from "../../services/http/http-response";
+import { HttpStatus } from "../../services/http/status";
+import { LoginUseCase } from "../../use-cases/login/login-use-case";
 
 @injectable()
 export class LoginController implements Controller {

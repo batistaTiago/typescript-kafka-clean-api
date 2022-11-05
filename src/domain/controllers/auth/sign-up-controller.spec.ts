@@ -1,5 +1,5 @@
-import { AppError } from "../exceptions/app-error";
-import { SignUpUseCase } from "../use-cases/sign-up/sign-up-use-case";
+import { AppError } from "../../exceptions/app-error";
+import { SignUpUseCase } from "../../use-cases/sign-up/sign-up-use-case";
 import { SignUpController } from "./sign-up-controller";
 
 const testData = [

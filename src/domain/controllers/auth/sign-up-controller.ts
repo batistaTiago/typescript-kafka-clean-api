@@ -1,10 +1,10 @@
 import { injectable } from "tsyringe";
-import { Controller } from "../services/http/controller";
-import { HttpRequest } from "../services/http/http-request";
-import { HttpResponse } from "../services/http/http-response";
-import { HttpStatus } from "../services/http/status";
-import { SignUpUseCase } from "../use-cases/sign-up/sign-up-use-case";
-import { AppError } from '../exceptions/app-error';
+import { Controller } from "../../services/http/controller";
+import { HttpRequest } from "../../services/http/http-request";
+import { HttpResponse } from "../../services/http/http-response";
+import { HttpStatus } from "../../services/http/status";
+import { SignUpUseCase } from "../../use-cases/sign-up/sign-up-use-case";
+import { AppError } from '../../exceptions/app-error';
 
 @injectable()
 export class SignUpController implements Controller {

@@ -1,11 +1,11 @@
 import request from 'supertest';
 import { MongoClient } from 'mongodb';
-import { MongoUserRepository } from '../../infra/database/mongo/repositories/mongo-user-repository';
-import { Environment } from '../../config/environment';
-import { HttpStatus } from '../services/http/status';
+import { MongoUserRepository } from '../../../infra/database/mongo/repositories/mongo-user-repository';
+import { Environment } from '../../../config/environment';
+import { HttpStatus } from '../../services/http/status';
 import { container } from 'tsyringe';
-import { UserRepository } from '../services/repositories/user-repository';
-import { Authentication } from '../services/auth/authentication';
+import { UserRepository } from '../../services/repositories/user-repository';
+import { Authentication } from '../../services/auth/authentication';
 
 describe('Find User Controller', () => {
     const client = new MongoClient(Environment.MONGO_CONNECTION_URI);

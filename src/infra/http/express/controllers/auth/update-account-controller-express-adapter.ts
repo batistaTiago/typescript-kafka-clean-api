@@ -1,10 +1,10 @@
 import { Request } from 'express';
 import { inject, injectable } from 'tsyringe';
-import { UpdateAccountController } from '../../../../domain/controllers/update-account-controller';
-import { Controller } from '../../../../domain/services/http/controller';
-import { ErrorResilientController } from '../../../../domain/services/http/error-resilient-controller';
-import { HttpResponse } from '../../../../domain/services/http/http-response';
-import { ExpressControllerAdapter } from '../express-controller-adapter';
+import { UpdateAccountController } from '../../../../../domain/controllers/auth/update-account-controller';
+import { Controller } from '../../../../../domain/services/http/controller';
+import { ErrorResilientController } from '../../../../../domain/services/http/error-resilient-controller';
+import { HttpResponse } from '../../../../../domain/services/http/http-response';
+import { ExpressControllerAdapter } from '../../express-controller-adapter';
 
 @injectable()
 export class UpdateAccountControllerExpressAdapter extends ExpressControllerAdapter {

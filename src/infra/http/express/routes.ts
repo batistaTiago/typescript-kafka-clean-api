@@ -1,12 +1,12 @@
-import { FindUserControllerExpressAdapter } from "./controllers/find-user-controller-express-adapter";
+import { FindUserControllerExpressAdapter } from "./controllers/admin/find-user-controller-express-adapter";
 import { GenerateVerificationCodeControllerExpressAdapter } from "./controllers/generate-verification-code-controller-express-adapter";
 import { HealthCheckControllerExpressAdapter } from "./controllers/health-check-controller-express-adapter";
 import { HomeControllerExpressAdapter } from "./controllers/home-controller-express-adapter";
-import { LoginControllerExpressAdapter } from "./controllers/login-controller-express-adapter";
-import { SignUpControllerExpressAdapter } from "./controllers/sign-up-controller-express-adapter";
-import { UpdateAccountControllerExpressAdapter } from "./controllers/update-account-controller-express-adapter";
+import { LoginControllerExpressAdapter } from "./controllers/auth/login-controller-express-adapter";
 import { ExpressRoute } from "./express-route";
 import { AuthenticateUser } from "./middleware/authenticate-user";
+import { UpdateAccountControllerExpressAdapter } from "./controllers/auth/update-account-controller-express-adapter";
+import { SignUpControllerExpressAdapter } from "./controllers/auth/sign-up-controller-express-adapter";
 
 export const Routes: Array<ExpressRoute> = [
     // Basic
