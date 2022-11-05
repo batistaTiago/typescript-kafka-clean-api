@@ -17,8 +17,8 @@ jobs:
         with:
           node-version: 18.x
           cache: 'npm'
-      # - name: 'Create env file'
-      #   run: ./.github/scripts/create-env.sh
+      - name: 'Copy env file'
+        run: cp ./.github/data/.env.testing .env
       - name: Install app dependencies
         run: npm ci --legacy-peer-deps
       - name: Setup TERM variable
