@@ -101,4 +101,4 @@ jobs:
     - name: Compile TS into JS
       run: npm run build
     - name: Run tests for builded code
-      run: cd dist && npm run test
+      run: cd dist && TERM=xterm npm run test
