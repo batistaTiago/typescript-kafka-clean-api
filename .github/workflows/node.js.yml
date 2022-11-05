@@ -17,6 +17,7 @@ jobs:
         with:
           node-version: 18.x
           cache: 'npm'
+      - run: ls -lah
       - name: 'Create env file'
         run: ./.github/scripts/create-env.sh
       - name: Install app dependencies
