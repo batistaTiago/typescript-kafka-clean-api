@@ -98,6 +98,8 @@ jobs:
       run: npm install --omit=dev --legacy-peer-deps
     - name: Setup TERM variable
       run: export TERM
+    - name: Install TS compiler
+      run: npm install -g typescript
     - name: Compile TS into JS
       run: npm run build
 

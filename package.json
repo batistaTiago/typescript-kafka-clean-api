@@ -11,7 +11,7 @@
         "test:verbose": "jest --passWithNoTests",
         "test:watch": "npm test -- --watch",
         "test:ci": " jest --passWithNoTests --silent --coverage --runInBand",
-        "build": "node_modules/.bin/tsc && cp ./.env ./dist/.env"
+        "build": "tsc && cp ./.env ./dist/.env"
     },
     "keywords": [],
     "author": "",
