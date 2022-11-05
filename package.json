@@ -10,7 +10,7 @@
         "test": "clear && jest --passWithNoTests --silent --noStackTrace",
         "test:verbose": "jest --passWithNoTests",
         "test:watch": "npm test -- --watch",
-        "test:ci": "npm test -- --coverage --runInBand"
+        "test:ci": " jest --passWithNoTests --coverage --runInBand"
     },
     "keywords": [],
     "author": "",
