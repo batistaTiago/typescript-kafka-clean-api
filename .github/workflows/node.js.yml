@@ -45,7 +45,7 @@ jobs:
         echo MAIL_PASSWORD='mybdrznvpjktvhez' >> .env
         cat .env
     - name: Install app dependencies
-      run: npm install --legacy-peer-deps
+      run: npm ci --legacy-peer-deps
     - name: Setup TERM variable
       run: export TERM
     - name: Run tests
