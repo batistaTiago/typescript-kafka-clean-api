@@ -27,5 +27,5 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: npm i --legacy-peer-deps
-    - run: set | grep TERM
-    - run: TERM=test npm run test:ci
+    - run: export TERM=xterm
+    - run: npm run test:ci
