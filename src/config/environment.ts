@@ -22,7 +22,7 @@ export const Environment = {
     REDIS_PORT: Number(process.env.REDIS_PORT),
     REDIS_PASSWORD: process.env.REDIS_PASSWORD,
 
-    KAFKA_BROKERS: process.env.KAFKA_BROKERS,
+    KAFKA_BROKERS: process.env.KAFKA_BROKERS ?? '',
     KAFKA_CONSUMER_BASE_GROUP_ID: process.env.KAFKA_CONSUMER_BASE_GROUP_ID,
     KAFKA_CONSUMER_GROUP_ID: process.env.KAFKA_CONSUMER_GROUP_ID,
     KAFKA_CONSUMER_MIN_BYTES: Number(process.env.KAFKA_CONSUMER_MIN_BYTES ?? '5'),
