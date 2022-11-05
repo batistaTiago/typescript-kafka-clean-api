@@ -48,8 +48,8 @@ jobs:
         run: npm ci --legacy-peer-deps
       - name: Setup TERM variable
         run: export TERM
-      # - name: Run tests
-      #   run: npm run test:ci
+      - name: Run tests
+        run: npm run test:ci
       - name: Compile TS into JS
         run: npm run build
       - name: Upload artifact for deployment job
