@@ -31,10 +31,10 @@ export abstract class MongoBaseRepository {
     }
 
     protected async findOne<T>(filters: object): Promise<T> {
-        return await this.collection().findOne(filters) as T;
+        return await this.collection().findOne(filters) as unknown as T;
     }
 
     protected async updateOne<T>(filters: object, fields: object): Promise<T> {
-        return await this.collection().updateOne(filters, fields) as T;
+        return await this.collection().updateOne(filters, fields) as unknown as T;
     }
 }

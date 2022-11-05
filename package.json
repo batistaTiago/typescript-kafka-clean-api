@@ -10,7 +10,8 @@
         "test": "clear && jest --passWithNoTests --silent --noStackTrace",
         "test:verbose": "jest --passWithNoTests",
         "test:watch": "npm test -- --watch",
-        "test:ci": " jest --passWithNoTests --silent --coverage --runInBand"
+        "test:ci": " jest --passWithNoTests --silent --coverage --runInBand",
+        "build": "tsc && cp ./.env ./dist/.env"
     },
     "keywords": [],
     "author": "",

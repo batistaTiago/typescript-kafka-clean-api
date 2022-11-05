@@ -48,4 +48,5 @@ jobs:
         echo MAIL_PASSWORD='mybdrznvpjktvhez' >> .env
         cat .env
     - run: npm i --legacy-peer-deps
-    - run: TERM=xterm npm run test:ci
+    - run: export TERM
+    - run: npm run test:ci
