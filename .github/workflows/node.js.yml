@@ -48,7 +48,7 @@ jobs:
         echo MAIL_PASSWORD='mybdrznvpjktvhez' >> .env
         cat .env
     - name: Install app dependencies
-      run: npm i --legacy-peer-deps
+      run: npm install --legacy-peer-deps
     - name: Setup TERM variable
       run: export TERM
     - name: Run tests
@@ -94,11 +94,10 @@ jobs:
         echo MAIL_USERNAME='python.email.smtp.modules@gmail.com' >> .env
         echo MAIL_PASSWORD='mybdrznvpjktvhez' >> .env
         cat .env
-    - name: Install app dependencies
-      run: npm i --legacy-peer-deps
+    - name: Install production only dependencies
+      run: npm install --omit=dev
     - name: Setup TERM variable
       run: export TERM
     - name: Compile TS into JS
       run: npm run build
-    - name: Run tests for builded code
-      run: cd dist && TERM=xterm npm run test
+    
