@@ -95,9 +95,9 @@ jobs:
         echo MAIL_PASSWORD='mybdrznvpjktvhez' >> .env
         cat .env
     - name: Install production only dependencies
-      run: npm install --omit=dev
+      run: npm install --omit=dev --legacy-peer-deps
     - name: Setup TERM variable
       run: export TERM
     - name: Compile TS into JS
       run: npm run build
-    
+
