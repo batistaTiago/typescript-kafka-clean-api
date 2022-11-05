@@ -45,8 +45,8 @@ jobs:
         echo REDIS_HOST='host.docker.internal' >> .env
         echo REDIS_PORT=6379 >> .env
         echo REDIS_PASSWORD='' >> .env
-        ehco KAFKA_BROKERS='kafka:29092' >> .env
-        ehco KAFKA_CONSUMER_BASE_GROUP_ID='APP_CONSUMER_GROUP' >> .env
+        echo KAFKA_BROKERS='kafka:29092' >> .env
+        echo KAFKA_CONSUMER_BASE_GROUP_ID='APP_CONSUMER_GROUP' >> .env
         echo MAIL_FROM='Batista' >> .env
         echo MAIL_SERVER='smtp.gmail.com' >> .env
         echo MAIL_PORT=465 >> .env
