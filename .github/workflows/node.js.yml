@@ -47,9 +47,12 @@ jobs:
         echo MAIL_USERNAME='python.email.smtp.modules@gmail.com' >> .env
         echo MAIL_PASSWORD='mybdrznvpjktvhez' >> .env
         cat .env
-    - run: npm i --legacy-peer-deps
-    - run: export TERM
-    - run: npm run test:ci
+    - name: Install app dependencies
+      run: npm i --legacy-peer-deps
+    - name: Setup TERM variable
+      run: export TERM
+    - name: Run tests
+      run: npm run test:ci
 
   build:
     runs-on: ubuntu-latest
