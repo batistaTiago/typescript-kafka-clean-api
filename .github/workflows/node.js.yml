@@ -61,6 +61,7 @@ jobs:
         with:
           node-version: 18.x
           cache: 'npm'
+      - run: ls
       - name: Compile TS into JS
         run: npm run build
 
