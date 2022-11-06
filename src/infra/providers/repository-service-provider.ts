@@ -13,14 +13,20 @@ import { MysqlVerificationCodeRepository } from '../database/mysql/repositories/
 
 export class RepositoryServiceProvider implements ServiceProvider {
     public async register(): Promise<void> {
-        if (Environment.APP_PREFERRED_DATABASE === 'mysql') {
-            container.register<EventRepository>("EventRepository", { useClass: MysqlEventRepository });
-            container.register<VerificationCodeRepository>("VerificationCodeRepository", { useClass: MysqlVerificationCodeRepository });
-            container.register<UserRepository>("UserRepository", { useClass: MysqlUserRepository });
-        } else if (Environment.APP_PREFERRED_DATABASE === 'mongodb') {
-            container.register<EventRepository>("EventRepository", { useClass: MongoEventRepository });
-            container.register<VerificationCodeRepository>("VerificationCodeRepository", { useClass: MongoVerificationCodeRepository });
-            container.register<UserRepository>("UserRepository", { useClass: MongoUserRepository });
-        }
+        Environment.APP_PREFERRED_DATABASE === 'mysql' ? 
+            this.registerMySqlRepositories() :
+            this.registerMongoRepositories();
+    }
+
+    private registerMySqlRepositories() {
+        container.register<EventRepository>("EventRepository", { useClass: MysqlEventRepository });
+        container.register<VerificationCodeRepository>("VerificationCodeRepository", { useClass: MysqlVerificationCodeRepository });
+        container.register<UserRepository>("UserRepository", { useClass: MysqlUserRepository });
+    }
+
+    private registerMongoRepositories() {
+        container.register<EventRepository>("EventRepository", { useClass: MongoEventRepository });
+        container.register<VerificationCodeRepository>("VerificationCodeRepository", { useClass: MongoVerificationCodeRepository });
+        container.register<UserRepository>("UserRepository", { useClass: MongoUserRepository });
     }
 }
