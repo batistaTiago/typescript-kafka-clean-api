@@ -1,6 +1,5 @@
 import { inject, injectable } from "tsyringe";
 import { LoginDTO } from "../../dto/user/login";
-import { UserAccount } from "../../dto/user/user-account";
 import { AppError } from "../../exceptions/app-error";
 import { Encrypter } from "../../services/cryptography/encrypter";
 import { HashCheck } from "../../services/cryptography/hash";
@@ -16,7 +15,7 @@ export class LoginUseCase implements UseCase {
     ) { }
 
     public async execute({ email, password }: LoginDTO): Promise<object> {
-        const user: UserAccount = await this.userRepository.findAccountByEmail(email);
+        const user = await this.userRepository.findAccountByEmail(email);
         if (!await this.hash.check(password, user.password)) {
             throw new AppError('Unauthorized');
         }
