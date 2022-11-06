@@ -11,7 +11,8 @@
         "test:verbose": "jest --passWithNoTests",
         "test:watch": "npm test -- --watch",
         "test:ci": " jest --passWithNoTests --silent --coverage --runInBand",
-        "build": "tsc && cp ./.env ./dist/.env"
+        "build": "tsc && cp ./.env ./dist/.env && cp ./package.json ./dist/package.json && cp ./package-lock.json ./dist/package-lock.json && cd dist && npm ci --legacy-peer-deps",
+        "start": "node main/server.js"
     },
     "keywords": [],
     "author": "",
