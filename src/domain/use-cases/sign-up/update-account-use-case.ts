@@ -19,6 +19,7 @@ export class UpdateAccountUseCase implements UseCase {
     ) { }
 
     public async execute({ account, fields }: { account: UserAccount, fields: UpdateAccountDTO }): Promise<object> {
+        // @@TODO: quem deveria validar isso? no usecase de sign up esta sendo validado no controller...
         if (fields.password) {
             await this.validatePasswordChange(account, fields);
         }
