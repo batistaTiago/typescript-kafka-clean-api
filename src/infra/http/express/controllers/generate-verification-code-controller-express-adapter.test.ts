@@ -1,9 +1,9 @@
 import request from "supertest";
-import { UserFactory } from "../../../src/infra/database/factories/user-factory";
-import { Encrypter } from "../../../src/domain/services/cryptography/encrypter";
+import { UserFactory } from "../../../database/factories/user-factory";
+import { Encrypter } from "../../../../domain/services/cryptography/encrypter";
 import { container } from 'tsyringe';
 import { MongoClient } from "mongodb";
-import { Environment } from "../../../src/config/environment";
+import { Environment } from "../../../../config/environment";
 
 describe('Code Generation API', () => {
     const jwt: Encrypter = container.resolve('Encrypter');
