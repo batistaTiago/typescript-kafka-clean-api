@@ -8,6 +8,6 @@ export interface UpdateAccountDTO extends SignUpDTO {
 export interface UpdateAccountDTOModel extends UpdateAccountDTO, UserModel { }
 
 export interface UserUpdateableFields {
-    name: string;
-    password: string;
+    name?: string;
+    password?: string;
 }

@@ -1,5 +1,5 @@
 import { inject, injectable } from "tsyringe";
-import { UpdateAccountDTO } from "../../dto/user/update-account";
+import { UpdateAccountDTO, UserUpdateableFields } from "../../dto/user/update-account";
 import { UserAccount } from "../../dto/user/user-account";
 import { Event } from "../../entities/event";
 import { Events } from "../../enums/events";
@@ -20,14 +20,15 @@ export class UpdateAccountUseCase implements UseCase {
 
     public async execute({ account, fields }: { account: UserAccount, fields: UpdateAccountDTO }): Promise<object> {
         // @@TODO: quem deveria validar isso? no usecase de sign up esta sendo validado no controller...
-        if (fields.password) {
-            await this.validatePasswordChange(account, fields);
+        const fieldsToUpdate: UserUpdateableFields = { name: fields.name };
+        const newPassword = await this.getPasswordUpdatedValue(account, fields);
+
+        if (newPassword) {
+            fieldsToUpdate.password = newPassword;
         }
 
-        const { password, ...updatedAccount } = await this.accountRepository.updateAccount(account, {
-            name: fields.name,
-            password: await this.hash.make(fields.password)
-        });
+        // @@TODO: testar se esse cara ta sendo enviado para o update...
+        const { password, ...updatedAccount } = await this.accountRepository.updateAccount(account, fieldsToUpdate);
 
         const message: Message<Event> = {
             body: {
@@ -42,13 +43,23 @@ export class UpdateAccountUseCase implements UseCase {
         return { success: true, updatedAccount };
     }
 
-    private async validatePasswordChange(account: UserAccount, fields: UpdateAccountDTO) {
-        if (!await this.hash.check(fields.current_password, account.password)) {
+    private async getPasswordUpdatedValue(account: UserAccount, fields: UpdateAccountDTO): Promise<string> {
+        if (!fields.password) {
+            return null;
+        }
+
+        if (!fields.current_password) {
             throw new AppError('You must confirm your current password');
         }
 
-        if (fields.password != fields.password_confirmation) {
-            throw new AppError('Password and confirmation do not match!');
+        if (!await this.hash.check(fields.current_password, account.password)) {
+            throw new AppError('The provided current password is incorrect');
         }
+
+        if (fields.password != fields.password_confirmation) {
+            throw new AppError('Password and confirmation do not match');
+        }
+
+        return await this.hash.make(fields.password);
     }
 }
