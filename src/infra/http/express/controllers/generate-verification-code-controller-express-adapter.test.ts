@@ -64,6 +64,7 @@ describe('Code Generation API', () => {
         const token = jwt.encrypt({ id: user.id, issuedAt: new Date() });
 
         const response = await makeRequest(token);
+        expect(response.statusCode).toBe(200);
         
         const verificationCode = await client.db().collection('verification_codes').findOne({ code: response.body.code, "user.email": 'test@email.dev' });
 
@@ -81,6 +82,7 @@ describe('Code Generation API', () => {
         const token = jwt.encrypt({ id: user.id, issuedAt: new Date() });
 
         const response = await makeRequest(token);
+        expect(response.statusCode).toBe(200);
 
         expect(response.body.code).toBeDefined();
         expect(response.body.expiresAt).toBeDefined();
@@ -97,6 +99,8 @@ describe('Code Generation API', () => {
         const token = jwt.encrypt({ id: user.id, issuedAt: new Date() });
 
         const [ response, secondResponse ] = await Promise.all([makeRequest(token), makeRequest(token)]);
+        expect(response.statusCode).toBe(200);
+        expect(secondResponse.statusCode).toBe(200);
 
         expect(response.body.code).toBeDefined();
         expect(response.body.expiresAt).toBeDefined();
@@ -116,8 +120,8 @@ describe('Code Generation API', () => {
 
         expect((await client.db().collection('verification_codes').find({}).toArray()).length).toEqual(0);
 
-        await makeRequest(token);
-        await makeRequest(token);
+        expect((await makeRequest(token)).statusCode).toBe(200);
+        expect((await makeRequest(token)).statusCode).toBe(200);
 
         const verificationCodes = await client.db().collection('verification_codes').find({ "user.email": 'test@email.dev' }).toArray();
 
