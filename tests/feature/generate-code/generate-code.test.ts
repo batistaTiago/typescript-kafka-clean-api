@@ -4,12 +4,11 @@ import { Encrypter } from "../../../src/domain/services/cryptography/encrypter";
 import { container } from 'tsyringe';
 import { MongoClient } from "mongodb";
 import { Environment } from "../../../src/config/environment";
-import { AuthenticateUser } from '../../../src/infra/http/express/middleware/authenticate-user';
 
 describe('Code Generation API', () => {
     const jwt: Encrypter = container.resolve('Encrypter');
     const api = global.expressTestServer;
-    const client = new MongoClient(Environment.MONGO_CONNECTION_URI as any);
+    const client = container.resolve(MongoClient);
     const factory = new UserFactory();
     Environment.APP_DEBUG = false;
     
@@ -20,7 +19,7 @@ describe('Code Generation API', () => {
     });
 
     afterAll(async () => {
-        await client.connect();
+        await client.close();
     });
 
     beforeEach(async () => {
