@@ -53,6 +53,39 @@ describe('Code Generation API', () => {
         expect(response.body.expiresAt).not.toBeDefined();
     });
 
+    it('should create a record in the database for the current user', async () => {
+        const user = await factory.create({
+            name: "testuser",
+            email: "test@email.dev",
+            registrationDate: new Date(),
+            password: "userpassword",
+        });
+
+        const token = jwt.encrypt({ id: user.id, issuedAt: new Date() });
+
+        const response = await makeRequest(token);
+        
+        const verificationCode = await client.db().collection('verification_codes').findOne({ code: response.body.code, "user.email": 'test@email.dev' });
+
+        expect(verificationCode).toBeTruthy();
+    });
+
+    it('should return a verification same code for that user', async () => {
+        const user = await factory.create({
+            name: "testuser",
+            email: "test@email.dev",
+            registrationDate: new Date(),
+            password: "userpassword",
+        });
+
+        const token = jwt.encrypt({ id: user.id, issuedAt: new Date() });
+
+        const response = await makeRequest(token);
+
+        expect(response.body.code).toBeDefined();
+        expect(response.body.expiresAt).toBeDefined();
+    });
+
     it('should return the same code if called twice in a row', async () => {
         const user = await factory.create({
             name: "testuser",
@@ -89,22 +122,5 @@ describe('Code Generation API', () => {
         const verificationCodes = await client.db().collection('verification_codes').find({ "user.email": 'test@email.dev' }).toArray();
 
         expect(verificationCodes.length).toEqual(1);
-    });
-
-    it('should create a record in the database for the current user', async () => {
-        const user = await factory.create({
-            name: "testuser",
-            email: "test@email.dev",
-            registrationDate: new Date(),
-            password: "userpassword",
-        });
-
-        const token = jwt.encrypt({ id: user.id, issuedAt: new Date() });
-
-        const response = await makeRequest(token);
-        
-        const verificationCode = await client.db().collection('verification_codes').findOne({ code: response.body.code, "user.email": 'test@email.dev' });
-
-        expect(verificationCode).toBeTruthy();
     });
 });
