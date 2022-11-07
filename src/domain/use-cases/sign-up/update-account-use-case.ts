@@ -1,4 +1,5 @@
 import { inject, injectable } from "tsyringe";
+import { ObjectHelper } from "../../../utils/object-helper";
 import { UpdateAccountDTO, UserUpdateableFields } from "../../dto/user/update-account";
 import { UserAccount } from "../../dto/user/user-account";
 import { Event } from "../../entities/event";
@@ -15,7 +16,8 @@ export class UpdateAccountUseCase implements UseCase {
     public constructor(
         @inject('UserRepository') private readonly accountRepository: AccountRepository,
         @inject("Hash") private readonly hash: Hash,
-        @inject("MessageProducer") private readonly messageProducer: MessageProducer
+        @inject("MessageProducer") private readonly messageProducer: MessageProducer,
+        private readonly objectHelper: ObjectHelper,
     ) { }
 
     public async execute({ account, fields }: { account: UserAccount, fields: UpdateAccountDTO }): Promise<object> {
@@ -27,8 +29,9 @@ export class UpdateAccountUseCase implements UseCase {
             fieldsToUpdate.password = newPassword;
         }
 
-        // @@TODO: testar se esse cara ta sendo enviado para o update...
-        const { password, ...updatedAccount } = await this.accountRepository.updateAccount(account, fieldsToUpdate);
+        console.log(fieldsToUpdate, this.objectHelper.removeEmpty(fieldsToUpdate));
+
+        const { password, ...updatedAccount } = await this.accountRepository.updateAccount(account, this.objectHelper.removeEmpty(fieldsToUpdate));
 
         const message: Message<Event> = {
             body: {

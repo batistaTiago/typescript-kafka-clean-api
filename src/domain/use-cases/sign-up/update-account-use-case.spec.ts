@@ -1,3 +1,4 @@
+import { ObjectHelper } from "../../../utils/object-helper"
 import { UpdateAccountDTO } from "../../dto/user/update-account"
 import { UserAccount } from "../../dto/user/user-account"
 import { AppError } from "../../exceptions/app-error"
@@ -28,6 +29,8 @@ const getAccountData = () => ({
     registrationDate: new Date(),
 });
 
+const helper = new ObjectHelper();
+
 describe('UpdateAccountCseCase', () => {
     it('should not call hash check and make component if its not updating the password', async () => {
         const repo = makeRepo();
@@ -37,7 +40,7 @@ describe('UpdateAccountCseCase', () => {
         const makeSpy = jest.spyOn(hash, 'make');
         const checkSpy = jest.spyOn(hash, 'check');
 
-        const sut = new UpdateAccountUseCase(repo, hash, producer);
+        const sut = new UpdateAccountUseCase(repo, hash, producer, helper);
 
         const account: UserAccount = getAccountData();
 
@@ -59,7 +62,7 @@ describe('UpdateAccountCseCase', () => {
         const makeSpy = jest.spyOn(hash, 'make');
         const checkSpy = jest.spyOn(hash, 'check');
 
-        const sut = new UpdateAccountUseCase(repo, hash, producer);
+        const sut = new UpdateAccountUseCase(repo, hash, producer, helper);
 
         const account: UserAccount = getAccountData();
 
@@ -76,14 +79,14 @@ describe('UpdateAccountCseCase', () => {
         expect(makeSpy).toHaveBeenCalledWith(fields.password);
     });
 
-    it('should call repo to update the account information', async () => {
+    it('should call repo to update the user name', async () => {
         const repo = makeRepo();
         const hash = makeHash();
         const producer = makeProducer();
 
         const repoSpy = jest.spyOn(repo, 'updateAccount');
 
-        const sut = new UpdateAccountUseCase(repo, hash, producer);
+        const sut = new UpdateAccountUseCase(repo, hash, producer, helper);
 
         const account: UserAccount = getAccountData();
 
@@ -93,7 +96,52 @@ describe('UpdateAccountCseCase', () => {
 
         await sut.execute({ account, fields });
 
-        expect(repoSpy).toHaveBeenCalledWith(account, fields);
+        expect(repoSpy).toHaveBeenCalledWith(account, { name: fields.name });
+    });
+
+    it('should call repo to update the user name and password', async () => {
+        const repo = makeRepo();
+        const hash = makeHash();
+        const producer = makeProducer();
+
+        const repoSpy = jest.spyOn(repo, 'updateAccount');
+
+        const sut = new UpdateAccountUseCase(repo, hash, producer, helper);
+
+        const account: UserAccount = getAccountData();
+
+        const fields = {
+            name: "new name",
+            current_password: "userpassword",
+            password: "new_password",
+            password_confirmation: "new_password",
+        } as unknown as UpdateAccountDTO;
+
+        await sut.execute({ account, fields });
+
+        expect(repoSpy).toHaveBeenCalledWith(account, { name: fields.name, password: 'hashed' });
+    });
+
+    it('should not update an empty name', async () => {
+        const repo = makeRepo();
+        const hash = makeHash();
+        const producer = makeProducer();
+
+        const repoSpy = jest.spyOn(repo, 'updateAccount');
+
+        const sut = new UpdateAccountUseCase(repo, hash, producer, helper);
+
+        const account: UserAccount = getAccountData();
+
+        const fields = {
+            current_password: "userpassword",
+            password: "new_password",
+            password_confirmation: "new_password",
+        } as unknown as UpdateAccountDTO;
+
+        await sut.execute({ account, fields });
+
+        expect(repoSpy).toHaveBeenCalledWith(account, { password: 'hashed' });
     });
 
     it('should call producer to send a new event about the account updated event', async () => {
@@ -103,7 +151,7 @@ describe('UpdateAccountCseCase', () => {
 
         const producerSpy = jest.spyOn(producer, 'publish');
 
-        const sut = new UpdateAccountUseCase(repo, hash, producer);
+        const sut = new UpdateAccountUseCase(repo, hash, producer, helper);
 
         const account: UserAccount = getAccountData();
 
@@ -129,7 +177,7 @@ describe('UpdateAccountCseCase', () => {
         const hash = makeHash();
         const producer = makeProducer();
 
-        const sut = new UpdateAccountUseCase(repo, hash, producer);
+        const sut = new UpdateAccountUseCase(repo, hash, producer, helper);
 
         const account: UserAccount = getAccountData();
 
@@ -151,7 +199,7 @@ describe('UpdateAccountCseCase', () => {
 
         hash.check = jest.fn().mockResolvedValueOnce(false);
 
-        const sut = new UpdateAccountUseCase(repo, hash, producer);
+        const sut = new UpdateAccountUseCase(repo, hash, producer, helper);
 
         const account: UserAccount = getAccountData();
 
