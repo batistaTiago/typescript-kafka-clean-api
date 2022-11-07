@@ -1,4 +1,4 @@
-import { SignUpDTO, SignUpDTOModel } from "../../../../domain/dto/user/sign-up";
+import { SignUpDTO } from "../../../../domain/dto/user/sign-up";
 import { UserRepository } from "../../../../domain/services/repositories/user-repository";
 import { UserModel } from "../../../../domain/dto/user/user-model";
 import { MongoBaseRepository } from "../mongo-base-repository";
@@ -14,14 +14,12 @@ export class MongoUserRepository extends MongoBaseRepository implements UserRepo
         return 'users';
     }
 
-    public async storeUser(signUpDto: SignUpDTO): Promise<SignUpDTOModel> {
-        const record = await this.findOne({ email: signUpDto.email });
+    public async storeUser(user: Omit<UserAccount, 'id'>): Promise<UserAccount> {
+        const record = await this.findOne({ email: user.email });
 
         if (record) {
             throw new AppError('This email address is already taken by another user');
         }
-
-        const { password_confirmation, ...user } = signUpDto;
 
         const result = await this.insertOne(user);
         return this.canonizeId(Object.assign({}, user, { id: String(result.insertedId) }));

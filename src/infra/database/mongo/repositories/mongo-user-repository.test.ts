@@ -123,7 +123,6 @@ describe('MongoUserRepository', () => {
             const insertResult = await sut.storeUser({ ...insertData });
 
             expect(insertResult.password).toBeDefined();
-            expect(insertResult.password_confirmation).not.toBeDefined();
         });
     });
 });

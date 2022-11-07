@@ -1,10 +1,9 @@
 import { UserModel } from "../../dto/user/user-model";
-import { SignUpDTO, SignUpDTOModel } from "../../dto/user/sign-up";
 import { UserAccount } from "../../dto/user/user-account";
 import { UserUpdateableFields } from "../../dto/user/update-account";
 
 export interface StoreUserRepository {
-    storeUser(user: SignUpDTO): Promise<SignUpDTOModel>;
+    storeUser(user: Omit<UserAccount, 'id'>): Promise<UserAccount>;
 }
 
 export interface FindByIdUserRepository {

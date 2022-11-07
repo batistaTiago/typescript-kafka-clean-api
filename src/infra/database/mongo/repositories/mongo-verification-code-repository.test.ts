@@ -31,7 +31,7 @@ describe('MongoVerificationCodeRepository', () => {
 
     beforeEach(async () => {
         await sut.client.db().dropDatabase();
-    });
+    }); 
 
     it('should forward call to mongodb client', async () => {
         const code: VerificationCode = getMockCode()

@@ -10,7 +10,7 @@ import { Authentication } from '../../services/auth/authentication';
 describe('Find User Controller', () => {
     const client = new MongoClient(Environment.MONGO_CONNECTION_URI);
     const userRepo = new MongoUserRepository(client);
-    container.registerInstance<UserRepository>('UserRepository', userRepo)
+    container.registerInstance<UserRepository>('UserRepository', userRepo);
 
     beforeAll(async () => {
         await userRepo.connect();
@@ -39,7 +39,6 @@ describe('Find User Controller', () => {
         const date = new Date();
         const insertResult = await userRepo.storeUser({
             password: '123456',
-            password_confirmation: '123456',
             name: 'test',
             email: 'email@test.dev',
             registrationDate: date,
