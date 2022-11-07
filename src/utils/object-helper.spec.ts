@@ -112,42 +112,52 @@ const removeEmptySampleData = [
 
 const isObjectSampleData = [
     {
+        descriptor: 'an empty object',
         input: {},
         expectation: true,
     },
     {
+        descriptor: 'null',
         input: null,
         expectation: false,
     },
     {
+        descriptor: 'undefined',
         input: undefined,
         expectation: false,
     },
     {
+        descriptor: 'an empty array',
         input: [],
         expectation: false,
     },
     {
+        descriptor: 'an arbitrary object',
         input: { field: 'value' },
         expectation: true,
     },
     {
+        descriptor: 'an empty string',
         input: '',
         expectation: false,
     },
     {
-        input: 'absease',
+        descriptor: 'a non-empty string',
+        input: 'some string',
         expectation: false,
     },
     {
+        descriptor: 'a non-empty array',
         input: [{}],
         expectation: false,
     },
     {
-        input: { a: []},
+        descriptor: 'a non-empty object',
+        input: { a: [] },
         expectation: true,
     },
     {
+        descriptor: 'a function',
         input: () => {},
         expectation: false,
     },
@@ -174,8 +184,8 @@ describe('ObjectHelper', () => {
         });
     });
 
-    describe.each(isObjectSampleData)('isObject', ({ input, expectation }) => {
-        it('should return check various types', () => {
+    describe.each(isObjectSampleData)('isObject', ({ descriptor, input, expectation }) => {
+        it(`should evaluate ${descriptor} types into ${expectation}`, () => {
             const sut = new ObjectHelper();
             expect(sut.isObject(input)).toBe(expectation);
         });
