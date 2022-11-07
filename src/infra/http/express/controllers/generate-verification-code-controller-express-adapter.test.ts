@@ -26,6 +26,8 @@ describe('Code Generation API', () => {
         await client.db().dropDatabase();
     });
 
+    console.log(Environment.APP_SECRET_KEY);
+
     // it.skip('should call the authentication middleware', async () => {
     //     const middleware = container.resolve(AuthenticateUser);
     //     const applySpy = jest.spyOn(middleware, 'apply');
@@ -38,6 +40,7 @@ describe('Code Generation API', () => {
     it('should return unauthenticated if no token is provided', async () => {
         const response = await request(api).get('/verification-code');
 
+        expect(response.statusCode).toBe(401);
         expect(response.body.error).toBeDefined();
         expect(response.body.error).toEqual('Unauthorized');
         expect(response.body.code).not.toBeDefined();
@@ -47,6 +50,7 @@ describe('Code Generation API', () => {
     it('should return unauthenticated if a invalid token is provided', async () => {
         const response = await makeRequest('abcd');
 
+        expect(response.statusCode).toBe(401);
         expect(response.body.error).toBeDefined();
         expect(response.body.error).toEqual('Unauthorized');
         expect(response.body.code).not.toBeDefined();
@@ -62,6 +66,9 @@ describe('Code Generation API', () => {
         });
 
         const token = jwt.encrypt({ id: user.id, issuedAt: new Date() });
+
+        console.log(token);
+        console.log(jwt.decrypt(token));
 
         const response = await makeRequest(token);
         expect(response.statusCode).toBe(200);
