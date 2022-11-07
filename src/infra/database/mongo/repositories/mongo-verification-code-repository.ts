@@ -5,6 +5,7 @@ import { AppError } from "../../../../domain/exceptions/app-error";
 import { VerificationCodeRepository } from "../../../../domain/services/repositories/verification-code-repository ";
 import { VerificationCodeModel } from "../../../../domain/dto/verification-code-model";
 import { MongoBaseRepository } from "../mongo-base-repository";
+import { RepositorySearchOptions } from "../../../../domain/services/repositories/repository-search-options";
 
 @injectable()
 export class MongoVerificationCodeRepository extends MongoBaseRepository implements VerificationCodeRepository {
@@ -17,8 +18,11 @@ export class MongoVerificationCodeRepository extends MongoBaseRepository impleme
         return this.canonizeId(Object.assign({}, data, { id: String(result.insertedId) }));
     }
 
-    public async findByUser(user: User): Promise<VerificationCode> {
-        const findResult = await this.findOne<VerificationCode>({ "user.email": user.email });
+    public async findByUser(user: User, options?: RepositorySearchOptions): Promise<VerificationCode> {
+        const libOptions = options?.reverse ? { sort: { _id: -1 } } : {};
+
+        // @@ TODO: indexar essa "coluna"
+        const findResult = await this.findOne<VerificationCode>({ "user.email": user.email }, libOptions);
         if (!findResult) {
             throw new AppError('Code not found');
         }

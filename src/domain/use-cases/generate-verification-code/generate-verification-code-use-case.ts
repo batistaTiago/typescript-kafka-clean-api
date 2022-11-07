@@ -14,7 +14,9 @@ export class GenerateVerificationCodeUseCase implements UseCase {
 
     public async execute(user: User): Promise<VerificationCode> {
         try {
-            const code = await this.verificationCodeRepository.findByUser(user);
+            const code = await this.verificationCodeRepository.findByUser(user, { reverse: true });
+
+            console.log(code);
 
             if (this.codeIsValid(code)) {
                 return code;
@@ -40,6 +42,8 @@ export class GenerateVerificationCodeUseCase implements UseCase {
     private codeIsValid(code: VerificationCode): boolean {
         const now = new Date();
         const codeExpirationDate = new Date(code.expiresAt);
+
+        console.log(codeExpirationDate, now, codeExpirationDate > now);
 
         return codeExpirationDate > now;
     }
