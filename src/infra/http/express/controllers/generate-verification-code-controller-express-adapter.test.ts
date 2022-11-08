@@ -4,6 +4,7 @@ import { Encrypter } from "../../../../domain/services/cryptography/encrypter";
 import { container } from 'tsyringe';
 import { MongoClient } from "mongodb";
 import { Environment } from "../../../../config/environment";
+import { HttpStatus } from "../../../../domain/services/http/status";
 
 describe('Code Generation API', () => {
     const jwt: Encrypter = container.resolve('Encrypter');
@@ -38,7 +39,7 @@ describe('Code Generation API', () => {
     it('should return unauthenticated if no token is provided', async () => {
         const response = await request(api).get('/verification-code');
 
-        expect(response.statusCode).toBe(401);
+        expect(response.statusCode).toBe(HttpStatus.UNAUTHORIZED);
         expect(response.body.error).toBeDefined();
         expect(response.body.error).toEqual('Unauthorized');
         expect(response.body.code).not.toBeDefined();
@@ -48,7 +49,7 @@ describe('Code Generation API', () => {
     it('should return unauthenticated if a invalid token is provided', async () => {
         const response = await makeRequest('abcd');
 
-        expect(response.statusCode).toBe(401);
+        expect(response.statusCode).toBe(HttpStatus.UNAUTHORIZED);
         expect(response.body.error).toBeDefined();
         expect(response.body.error).toEqual('Unauthorized');
         expect(response.body.code).not.toBeDefined();
@@ -66,7 +67,7 @@ describe('Code Generation API', () => {
         const token = jwt.encrypt({ id: user.id, issuedAt: new Date() });
 
         const response = await makeRequest(token);
-        expect(response.statusCode).toBe(200);
+        expect(response.statusCode).toBe(HttpStatus.OK);
         
         const verificationCode = await client.db().collection('verification_codes').findOne({ code: response.body.code, "user.email": 'test@email.dev' });
 
@@ -84,7 +85,7 @@ describe('Code Generation API', () => {
         const token = jwt.encrypt({ id: user.id, issuedAt: new Date() });
 
         const response = await makeRequest(token);
-        expect(response.statusCode).toBe(200);
+        expect(response.statusCode).toBe(HttpStatus.OK);
 
         expect(response.body.code).toBeDefined();
         expect(response.body.expiresAt).toBeDefined();
@@ -101,8 +102,8 @@ describe('Code Generation API', () => {
         const token = jwt.encrypt({ id: user.id, issuedAt: new Date() });
 
         const [ response, secondResponse ] = await Promise.all([makeRequest(token), makeRequest(token)]);
-        expect(response.statusCode).toBe(200);
-        expect(secondResponse.statusCode).toBe(200);
+        expect(response.statusCode).toBe(HttpStatus.OK);
+        expect(secondResponse.statusCode).toBe(HttpStatus.OK);
 
         expect(response.body.code).toBeDefined();
         expect(response.body.expiresAt).toBeDefined();
@@ -122,8 +123,8 @@ describe('Code Generation API', () => {
 
         expect((await client.db().collection('verification_codes').find({}).toArray()).length).toEqual(0);
 
-        expect((await makeRequest(token)).statusCode).toBe(200);
-        expect((await makeRequest(token)).statusCode).toBe(200);
+        expect((await makeRequest(token)).statusCode).toBe(HttpStatus.OK);
+        expect((await makeRequest(token)).statusCode).toBe(HttpStatus.OK);
 
         const verificationCodes = await client.db().collection('verification_codes').find({ "user.email": 'test@email.dev' }).toArray();
 

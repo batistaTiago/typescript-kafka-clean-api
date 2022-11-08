@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { autoInjectable, inject } from "tsyringe";
 import { Environment } from "../../../../config/environment";
 import { Authentication } from "../../../../domain/services/auth/authentication";
+import { HttpStatus } from "../../../../domain/services/http/status";
 import { ExpressMiddleware } from "./express-middleware";
 
 @autoInjectable()
@@ -15,7 +16,7 @@ export class AuthenticateUser implements ExpressMiddleware {
             await this.auth.authenticate(token);
             next();
         } catch (err) {        
-            res.status(401).json({
+            res.status(HttpStatus.UNAUTHORIZED).json({
                 error: Environment.APP_DEBUG ? (err.message ?? 'Unauthorized') : 'Unauthorized'
             });
         }

@@ -6,6 +6,7 @@ import { HttpResponse } from '../../../../domain/services/http/http-response';
 import { ExpressControllerAdapter } from '../express-controller-adapter';
 import { Producer as KafkaJSProducer } from 'kafkajs';
 import { RedisClientType as RedisClient } from 'redis';
+import { HttpStatus } from '../../../../domain/services/http/status';
 
 interface ServiceStatus {
     status: boolean
@@ -29,7 +30,7 @@ export class HealthCheckControllerExpressAdapter extends ExpressControllerAdapte
         const redis = await this.redisStatus();
 
         return {
-            statusCode: 200,
+            statusCode: HttpStatus.OK,
             body: { services: { kafka, mysql, mongo, redis } }
         }
     }
