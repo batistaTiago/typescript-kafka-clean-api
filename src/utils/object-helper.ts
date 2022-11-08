@@ -21,4 +21,15 @@ export class ObjectHelper {
             input !== null &&
             input !== undefined;
     }
+
+    public swapKeys(input: object, from: string, to: string): object {
+        const clone = Object.assign({}, input);
+
+        const valueFrom = clone[from];
+        delete clone[from];
+        delete clone[to];
+        clone[to] = valueFrom;
+
+        return clone;
+    }
 }

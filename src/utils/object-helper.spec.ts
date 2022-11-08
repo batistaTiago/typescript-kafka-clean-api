@@ -163,6 +163,27 @@ const isObjectSampleData = [
     },
 ];
 
+const swapKeysSampleData = [
+    {
+        input: { a: 'b' },
+        from: 'a',
+        to: 'b',
+        expectation: { b: 'b' }
+    },
+    {
+        input: { b: 'a' },
+        from: 'b',
+        to: 'a',
+        expectation: { a: 'a' }
+    },
+    {
+        input: { b: 'a', c: 'unchanged' },
+        from: 'b',
+        to: 'a',
+        expectation: { a: 'a', c: 'unchanged' }
+    }
+];
+
 describe('ObjectHelper', () => {
     describe.each(removeEmptySampleData)('removeEmpty', ({ recursive, entry, expectedResult }) => {
         it('should remove null or undefined values in an object', () => {
@@ -188,6 +209,13 @@ describe('ObjectHelper', () => {
         it(`should evaluate ${descriptor} types into ${expectation}`, () => {
             const sut = new ObjectHelper();
             expect(sut.isObject(input)).toBe(expectation);
+        });
+    });
+
+    describe.each(swapKeysSampleData)('swapKeys', ({ input, from, to, expectation }) => {
+        it(`should swap keys`, () => {
+            const sut = new ObjectHelper();
+            expect(sut.swapKeys(input, from, to)).toEqual(expectation);
         });
     });
 });
