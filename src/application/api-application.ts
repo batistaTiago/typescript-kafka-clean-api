@@ -1,4 +1,4 @@
-import { Application as Express, json, NextFunction, Request, Response } from "express";
+import createApi, { Application as Express, json, NextFunction, Request, Response } from "express";
 import { container } from "tsyringe";
 import { Environment } from "../config/environment";
 import { contentType } from "../infra/http/express/middleware/content-type";
@@ -8,14 +8,13 @@ import { Routes as routes } from '../infra/http/express/routes';
 import { ExpressRoute } from "../infra/http/express/express-route";
 import { GenericConstructor } from "../utils/generic-constructor-type";
 import { ExpressMiddleware } from "../infra/http/express/middleware/express-middleware";
-
 export class ApiApplication extends Application {
     protected api: Express;
 
     public constructor() {
         super();
 
-        this.api = require('express')();
+        this.api = createApi();
         this.api.set('trust proxy', true);
         
         this.registerMiddleware();
