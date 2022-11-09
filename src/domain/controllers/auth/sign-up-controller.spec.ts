@@ -1,4 +1,5 @@
 import { AppError } from "../../exceptions/app-error";
+import { Validator } from "../../services/validation/validator";
 import { SignUpUseCase } from "../../use-cases/sign-up/sign-up-use-case";
 import { SignUpController } from "./sign-up-controller";
 
@@ -23,34 +24,13 @@ jest.spyOn<any, any>(global, 'Date').mockImplementation(() => {
     return mockedDate;
 });
 
+const makeUseCase = () => ({ execute: jest.fn() } as unknown as SignUpUseCase);
+const makeValidator = () => ({ validate: jest.fn() } as unknown as Validator);
+
 describe("SignUpController", () => {
-    describe.each(testData)("Missing parameters validation", (data) => {
-        const sut = new SignUpController({ execute: jest.fn() } as unknown as SignUpUseCase);
-        it(`should throw an error if ${data.missingParamName} parameter is missing`, () => {
-            const request = getBaseRequest();
-            delete request.body[data.missingParamName];
-            expect(sut.handle(request)).rejects.toThrow(AppError);
-        });
-    });
-
-    describe("Parameter values validation", () => {
-        const sut = new SignUpController({ execute: jest.fn() } as unknown as SignUpUseCase);
-        it(`should throw an error if password and confirmation do not match`, () => {            
-            const request = getBaseRequest();
-            request.body.password_confirmation = 'the user password';
-            expect(sut.handle(request)).rejects.toThrow(new AppError(`Passwords do not match`));
-        });
-
-        it(`should throw an error if email is not valid`, () => {            
-            const request = getBaseRequest();
-            request.body.email = 'invalid email';
-            expect(sut.handle(request)).rejects.toThrow(new AppError(`Invalid param: email`));
-        });
-    });
-
-    it('should forward call to usecase', async () => {
-        const useCase = { execute: jest.fn() } as unknown as SignUpUseCase;
-        const sut = new SignUpController(useCase);
+    it('should call usecase with correct values', async () => {
+        const useCase = makeUseCase();
+        const sut = new SignUpController(useCase, makeValidator());
         const executeSpy = jest.spyOn(useCase, 'execute');
 
         const request = getBaseRequest();
@@ -59,6 +39,19 @@ describe("SignUpController", () => {
         expect(executeSpy).toHaveBeenCalledWith({
             ...request.body,
             registrationDate: new Date()
+        });
+    });
+
+    it('should call validator with correct values', async () => {
+        const validator = makeValidator();
+        const sut = new SignUpController(makeUseCase(), validator);
+        const validateSpy = jest.spyOn(validator, 'validate');
+
+        const request = getBaseRequest();
+        await sut.handle(request);
+
+        expect(validateSpy).toHaveBeenCalledWith({
+            ...request.body
         });
     });
 });
