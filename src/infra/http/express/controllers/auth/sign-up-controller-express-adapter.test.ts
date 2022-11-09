@@ -44,6 +44,22 @@ describe('Sign Up API', () => {
         expect(record).toBeTruthy();
     });
 
+    it('should not insert the password_confirmation in the database', async () => {
+        expect(await client.db().collection('users').countDocuments()).toBe(0);
+
+        const response = await makeRequest({
+            email: 'email@test.dev',
+            name: 'username',
+            password: 'userpassword',
+            password_confirmation: 'userpassword',
+        });
+
+        expect(response.statusCode).toBe(HttpStatus.OK);
+
+        const record = await client.db().collection('users').findOne({ email: 'email@test.dev' });
+        expect(record.password_confirmation).toBeUndefined();
+    });
+
     it('should now insert a duplicate email in the database', async () => {
         expect(await client.db().collection('users').countDocuments()).toBe(0);
 
