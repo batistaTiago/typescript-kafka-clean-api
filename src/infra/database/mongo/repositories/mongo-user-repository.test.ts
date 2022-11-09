@@ -3,10 +3,11 @@ import { Environment } from "../../../../config/environment";
 import { MongoUserRepository } from './mongo-user-repository';
 import { SignUpDTO } from '../../../../domain/dto/user/sign-up';
 import { User } from '../../../../domain/entities/user';
-import { UserModel } from '../../../../domain/dto/user/user-model';
+import { container } from 'tsyringe';
 
 describe('MongoUserRepository', () => {
     const client = new MongoClient(Environment.MONGO_CONNECTION_URI);
+    const db = client.db(container.resolve('MongoDatabaseName'));
     const sut = new MongoUserRepository(client);
 
     beforeAll(async () => {
@@ -18,7 +19,7 @@ describe('MongoUserRepository', () => {
     });
 
     beforeEach(async () => {
-        await sut.client.db().dropDatabase();
+        await db.dropDatabase();
     });
 
     describe('CREATE operations', () => {
@@ -68,7 +69,7 @@ describe('MongoUserRepository', () => {
                 registrationDate: new Date
             };
             
-            const insertResult = await client.db().collection(sut.collectionName()).insertOne({ ...insertData });
+            const insertResult = await db.collection(sut.collectionName()).insertOne({ ...insertData });
             const insertedId = String(insertResult.insertedId);
 
             const retrievedData = await sut.findById(insertedId);

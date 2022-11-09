@@ -10,6 +10,7 @@ describe('Code Generation API', () => {
     const jwt: Encrypter = container.resolve('Encrypter');
     const api = global.expressTestServer;
     const client = container.resolve(MongoClient);
+    const db = client.db(container.resolve('MongoDatabaseName'));
     const factory = new UserFactory();
     Environment.APP_DEBUG = false;
     
@@ -24,7 +25,7 @@ describe('Code Generation API', () => {
     });
 
     beforeEach(async () => {
-        await client.db().dropDatabase();
+        await db.dropDatabase();
     });
 
     // it.skip('should call the authentication middleware', async () => {
@@ -67,9 +68,12 @@ describe('Code Generation API', () => {
         const token = jwt.encrypt({ id: user.id, issuedAt: new Date() });
 
         const response = await makeRequest(token);
+
+        console.log(response.body);
+
         expect(response.statusCode).toBe(HttpStatus.OK);
         
-        const verificationCode = await client.db().collection('verification_codes').findOne({ code: response.body.code, "user.email": 'test@email.dev' });
+        const verificationCode = await db.collection('verification_codes').findOne({ code: response.body.code, "user.email": 'test@email.dev' });
 
         expect(verificationCode).toBeTruthy();
     });
@@ -121,12 +125,12 @@ describe('Code Generation API', () => {
 
         const token = jwt.encrypt({ id: user.id, issuedAt: new Date() });
 
-        expect((await client.db().collection('verification_codes').find({}).toArray()).length).toEqual(0);
+        expect((await db.collection('verification_codes').find({}).toArray()).length).toEqual(0);
 
         expect((await makeRequest(token)).statusCode).toBe(HttpStatus.OK);
         expect((await makeRequest(token)).statusCode).toBe(HttpStatus.OK);
 
-        const verificationCodes = await client.db().collection('verification_codes').find({ "user.email": 'test@email.dev' }).toArray();
+        const verificationCodes = await db.collection('verification_codes').find({ "user.email": 'test@email.dev' }).toArray();
 
         expect(verificationCodes.length).toEqual(1);
     });

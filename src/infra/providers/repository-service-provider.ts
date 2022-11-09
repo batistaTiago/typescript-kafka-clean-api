@@ -1,3 +1,4 @@
+import { MongoClient } from 'mongodb';
 import { container } from 'tsyringe';
 import { Environment } from '../../config/environment';
 import { ServiceProvider } from '../../domain/services/provider';
@@ -25,8 +26,11 @@ export class RepositoryServiceProvider implements ServiceProvider {
     }
 
     private registerMongoRepositories() {
-        container.register<EventRepository>("EventRepository", { useClass: MongoEventRepository });
-        container.register<VerificationCodeRepository>("VerificationCodeRepository", { useClass: MongoVerificationCodeRepository });
-        container.register<UserRepository>("UserRepository", { useClass: MongoUserRepository });
+        const client = container.resolve(MongoClient);
+        const databaseName = container.resolve('MongoDatabaseName');
+
+        container.registerInstance<EventRepository>("EventRepository", new MongoEventRepository(client, String(databaseName)));
+        container.registerInstance<VerificationCodeRepository>("VerificationCodeRepository", new MongoVerificationCodeRepository(client, String(databaseName)));
+        container.registerInstance<UserRepository>("UserRepository", new MongoUserRepository(client, String(databaseName)));
     }
 }

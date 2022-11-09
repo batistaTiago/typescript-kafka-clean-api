@@ -9,12 +9,12 @@ import { MysqlServiceProvider } from "./mysql-service-provider";
 import { RepositoryServiceProvider } from "./repository-service-provider";
 import { AxiosServiceProvider } from "./axios-service-provider";
 import { ValidationServiceProvider } from "./validation-service-provider";
+import { ConfigServiceProdvider } from "./config-service-provider";
 
 export const registerAll = () => {
-    // console.log('#### Registering service providers');
-
     // @@TODO: carregar dinamicamente...
-    const providers: ServiceProvider[] = [
+    [
+        new ConfigServiceProdvider(),
         new MysqlServiceProvider(),
         new MongoServiceProvider(),
         new RedisServiceProvider(),
@@ -25,11 +25,6 @@ export const registerAll = () => {
         new AppServiceProvider(),
         new RepositoryServiceProvider(),
         new ValidationServiceProvider(),
-    ];
-
-    providers.forEach((provider: ServiceProvider) => {
-        // console.log('######## Registering service provider: ' + provider.constructor.name);
-        provider.register();
-    });
+    ].forEach(provider => provider.register());
 }
 

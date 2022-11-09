@@ -1,8 +1,16 @@
 import { MongoClient } from 'mongodb';
-import { inject } from 'tsyringe';
+import { container, inject } from 'tsyringe';
+import { Environment } from '../../../config/environment';
 
 export abstract class MongoBaseRepository {
-    public constructor(@inject("MongoClient") public readonly client: MongoClient) { }
+    private readonly dbName: string;
+
+    public constructor(
+        @inject("MongoClient") public readonly client: MongoClient,
+        @inject('MongoDatabaseName') dbName?: string
+    ) { 
+        this.dbName = dbName ?? Environment.MONGO_DATABASE_NAME;
+    }
 
     public abstract collectionName(): string;
 
@@ -22,7 +30,7 @@ export abstract class MongoBaseRepository {
     }
 
     private collection() {
-        return this.client.db().collection(this.collectionName());
+        return this.client.db(this.dbName).collection(this.collectionName());
     }
 
     protected insertOne(data: object) {

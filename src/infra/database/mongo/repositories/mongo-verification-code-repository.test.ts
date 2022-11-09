@@ -1,6 +1,7 @@
 import { MongoClient } from 'mongodb';
 import { Environment } from '../../../../config/environment';
 import { VerificationCode } from '../../../../domain/entities/verification-code';
+import { RandomHelper } from '../../../../utils/random-helper';
 import { MongoVerificationCodeRepository } from './mongo-verification-code-repository';
 
 const fakeUserRegistrationDate = new Date('2022-07-11');
@@ -18,8 +19,11 @@ const getMockCode = () => {
 
 
 describe('MongoVerificationCodeRepository', () => {
+    const rng = new RandomHelper();
+    const testDatabaseName = `test_db_${rng.generate({ digits: 10 })}` 
     const client = new MongoClient(Environment.MONGO_CONNECTION_URI);
-    const sut = new MongoVerificationCodeRepository(client);
+    const db = client.db(testDatabaseName);
+    const sut = new MongoVerificationCodeRepository(client, testDatabaseName);
 
     beforeAll(async () => {
         await sut.connect();
@@ -30,7 +34,7 @@ describe('MongoVerificationCodeRepository', () => {
     });
 
     beforeEach(async () => {
-        await sut.client.db().dropDatabase();
+        await db.dropDatabase();
     }); 
 
     it('should forward call to mongodb client', async () => {

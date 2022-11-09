@@ -12,6 +12,7 @@ describe('Sign Up API', () => {
     container.registerInstance("MessageProducer", fakeProducer);
     const api = global.expressTestServer;
     const client = container.resolve(MongoClient);
+    const db = client.db(container.resolve('MongoDatabaseName'));
     const userFactory = new UserFactory();
     const hash: HashMake = container.resolve('HashMake');
     Environment.APP_DEBUG = false;
@@ -30,7 +31,7 @@ describe('Sign Up API', () => {
     });
 
     beforeEach(async () => {
-        await client.db().dropDatabase();
+        await db.dropDatabase();
     });
 
     it('should return an error if provided credentials are invalid', async () => {

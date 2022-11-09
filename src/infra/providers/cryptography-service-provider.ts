@@ -13,7 +13,6 @@ export class CryptographyServiceProvider implements ServiceProvider {
     }
 
     private registerHash(): void {
-        container.register("HashSalt", { useValue: Environment.APP_SALT_ROUNDS });
         const bcryptAdapter = new BcryptAdapter(container.resolve("HashSalt"));
         container.registerInstance<HashMake>("HashMake", bcryptAdapter);
         container.registerInstance<HashCheck>("HashCheck", bcryptAdapter);
@@ -21,7 +20,6 @@ export class CryptographyServiceProvider implements ServiceProvider {
     }
 
     private registerJwt(): void {
-        container.register("AppSecret", { useValue: Environment.APP_SECRET_KEY });
         const jwtEncrypter = new JwtAdapter(container.resolve("AppSecret"));
         container.registerInstance<Encrypter>("Encrypter", jwtEncrypter);
     }

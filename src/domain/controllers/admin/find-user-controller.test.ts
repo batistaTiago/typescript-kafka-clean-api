@@ -10,6 +10,7 @@ import { Encrypter } from '../../services/cryptography/encrypter';
 
 describe('Find User Controller', () => {
     const client = new MongoClient(Environment.MONGO_CONNECTION_URI);
+    const db = client.db(container.resolve('MongoDatabaseName'));
     const userRepo = new MongoUserRepository(client);
     container.registerInstance<UserRepository>('UserRepository', userRepo);
 
@@ -22,7 +23,7 @@ describe('Find User Controller', () => {
     });
 
     beforeEach(async () => {
-        await userRepo.client.db().dropDatabase();
+        await db.dropDatabase();
     });
 
     it.skip('should provide an endpoint to find an user by id', async () => {
