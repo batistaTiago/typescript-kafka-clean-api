@@ -6,6 +6,7 @@ import { HttpStatus } from '../../services/http/status';
 import { container } from 'tsyringe';
 import { UserRepository } from '../../services/repositories/user-repository';
 import { Authentication } from '../../services/auth/authentication';
+import { Encrypter } from '../../services/cryptography/encrypter';
 
 describe('Find User Controller', () => {
     const client = new MongoClient(Environment.MONGO_CONNECTION_URI);
@@ -44,14 +45,16 @@ describe('Find User Controller', () => {
             registrationDate: date,
         });
 
-        await request(global.expressTestServer)
+        const token = (container.resolve('Encrypter') as Encrypter).encrypt({ id: user.id, issuedAt: new Date() });
+
+        const response = await request(global.expressTestServer)
             .get(`/users/${insertResult.id}`)
-            .expect((response) => {
-                expect(response.status).toBe(HttpStatus.OK);
-                expect(response.body.id).toEqual(insertResult.id);
-                expect(response.body.name).toEqual('test');
-                expect(response.body.email).toEqual('email@test.dev');
-                expect(response.body.registrationDate).toEqual(date.toISOString());
-            });
+            .set('Authorization', `Bearer ${token}`)
+
+            expect(response.status).toBe(HttpStatus.OK);
+            expect(response.body.id).toEqual(insertResult.id);
+            expect(response.body.name).toEqual('test');
+            expect(response.body.email).toEqual('email@test.dev');
+            expect(response.body.registrationDate).toEqual(date.toISOString());
     });
 });
