@@ -32,7 +32,9 @@ describe("SignUpUseCase", () => {
         const signUpDto = makeSignUpDto();
         await sut.execute(signUpDto);
 
-        expect(storeUserSpy).toHaveBeenCalledWith({ ...signUpDto, password: 'hashed_password', registrationDate: new Date() });
+        const { password_confirmation, ...payload } = signUpDto;
+
+        expect(storeUserSpy).toHaveBeenCalledWith({ ...payload, password: 'hashed_password', registrationDate: new Date() });
     });
 
     it(`should publish a message in the events topic alerting a user has created an account`, async () => {

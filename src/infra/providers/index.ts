@@ -8,6 +8,7 @@ import { CryptographyServiceProvider } from "./cryptography-service-provider";
 import { MysqlServiceProvider } from "./mysql-service-provider";
 import { RepositoryServiceProvider } from "./repository-service-provider";
 import { AxiosServiceProvider } from "./axios-service-provider";
+import { ValidationServiceProvider } from "./validation-service-provider";
 
 export const registerAll = () => {
     // console.log('#### Registering service providers');
@@ -23,6 +24,7 @@ export const registerAll = () => {
         new AxiosServiceProvider(),
         new AppServiceProvider(),
         new RepositoryServiceProvider(),
+        new ValidationServiceProvider(),
     ];
 
     providers.forEach((provider: ServiceProvider) => {
