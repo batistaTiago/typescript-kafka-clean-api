@@ -13,6 +13,7 @@ export class GenerateVerificationCodeUseCase implements UseCase {
     ) {}
 
     public async execute(user: User): Promise<VerificationCode> {
+        // @@TODO: talvez filtrar o expires_at direto no BD e melhorar essa duplicidade no this.createUser
         try {
             const code = await this.verificationCodeRepository.findByUser(user, { reverse: true });
 
