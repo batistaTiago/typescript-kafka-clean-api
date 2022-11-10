@@ -47,8 +47,6 @@ describe('Sign Up API', () => {
 
         const response = await makeRequest(baseRequest());
 
-        console.log(response.body);
-
         expect(response.statusCode).toBe(HttpStatus.OK);
 
         const record = await db.collection('users').findOne({ email: 'email@test.dev' });
@@ -117,7 +115,6 @@ describe('Sign Up API', () => {
             request.password_confirmation = 'mismatching passwords';
 
             const response = await makeRequest(request);
-            console.log(response.body);
 
             expect(response.statusCode).toBe(400);
             expect(response.body.error).toEqual('Fields password and password_confirmation do not match');

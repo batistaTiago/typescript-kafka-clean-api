@@ -29,8 +29,6 @@ export class UpdateAccountUseCase implements UseCase {
             fieldsToUpdate.password = newPassword;
         }
 
-        console.log(fieldsToUpdate, this.objectHelper.removeEmpty(fieldsToUpdate));
-
         const { password, ...updatedAccount } = await this.accountRepository.updateAccount(account, this.objectHelper.removeEmpty(fieldsToUpdate));
 
         const message: Message<Event> = {

@@ -69,8 +69,6 @@ describe('Code Generation API', () => {
 
         const response = await makeRequest(token);
 
-        console.log(response.body);
-
         expect(response.statusCode).toBe(HttpStatus.OK);
         
         const verificationCode = await db.collection('verification_codes').findOne({ code: response.body.code, "user.email": 'email@test.dev' });
