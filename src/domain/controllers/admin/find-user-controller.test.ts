@@ -6,7 +6,7 @@ import { HttpStatus } from '../../services/http/status';
 import { container } from 'tsyringe';
 import { UserRepository } from '../../services/repositories/user-repository';
 import { Authentication } from '../../services/auth/authentication';
-import { Encrypter } from '../../services/cryptography/encrypter';
+import { generateAccessToken } from '../../../utils/access-token-generator';
 
 describe('Find User Controller', () => {
     const client = new MongoClient(Environment.MONGO_CONNECTION_URI);
@@ -46,7 +46,7 @@ describe('Find User Controller', () => {
             registrationDate: date,
         });
 
-        const token = (container.resolve('Encrypter') as Encrypter).encrypt({ id: user.id, issuedAt: new Date() });
+        const token = generateAccessToken(user);
 
         const response = await request(global.expressTestServer)
             .get(`/users/${insertResult.id}`)

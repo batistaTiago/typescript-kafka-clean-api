@@ -1,4 +1,5 @@
 import { inject, injectable } from "tsyringe";
+import { generateAccessToken } from "../../../utils/access-token-generator";
 import { LoginDTO } from "../../dto/user/login";
 import { AppError } from "../../exceptions/app-error";
 import { Encrypter } from "../../services/cryptography/encrypter";
@@ -20,6 +21,6 @@ export class LoginUseCase implements UseCase {
             throw new AppError('Unauthorized');
         }
 
-        return { accessToken: this.encrypter.encrypt({ id: user.id, issuedAt: new Date() }) };
+        return { accessToken: generateAccessToken(user, this.encrypter) };
     }
 }

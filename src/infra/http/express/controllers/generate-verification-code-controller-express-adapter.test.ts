@@ -1,13 +1,12 @@
 import request from "supertest";
 import { UserFactory } from "../../../database/factories/user-factory";
-import { Encrypter } from "../../../../domain/services/cryptography/encrypter";
 import { container } from 'tsyringe';
 import { MongoClient } from "mongodb";
 import { Environment } from "../../../../config/environment";
 import { HttpStatus } from "../../../../domain/services/http/status";
+import { generateAccessToken } from "../../../../utils/access-token-generator";
 
 describe('Code Generation API', () => {
-    const jwt: Encrypter = container.resolve('Encrypter');
     const api = global.expressTestServer;
     const client = container.resolve(MongoClient);
     const db = client.db(container.resolve('MongoDatabaseName'));
@@ -65,7 +64,7 @@ describe('Code Generation API', () => {
             password: "userpassword",
         });
 
-        const token = jwt.encrypt({ id: user.id, issuedAt: new Date() });
+        const token = generateAccessToken(user);
 
         const response = await makeRequest(token);
 
@@ -84,7 +83,7 @@ describe('Code Generation API', () => {
             password: "userpassword",
         });
 
-        const token = jwt.encrypt({ id: user.id, issuedAt: new Date() });
+        const token = generateAccessToken(user);
 
         const response = await makeRequest(token);
         expect(response.statusCode).toBe(HttpStatus.OK);
@@ -101,7 +100,7 @@ describe('Code Generation API', () => {
             password: "userpassword",
         });
 
-        const token = jwt.encrypt({ id: user.id, issuedAt: new Date() });
+        const token = generateAccessToken(user);
 
         const [ response, secondResponse ] = await Promise.all([makeRequest(token), makeRequest(token)]);
         expect(response.statusCode).toBe(HttpStatus.OK);
@@ -121,7 +120,7 @@ describe('Code Generation API', () => {
             password: "userpassword",
         });
 
-        const token = jwt.encrypt({ id: user.id, issuedAt: new Date() });
+        const token = generateAccessToken(user);
 
         expect((await db.collection('verification_codes').find({}).toArray()).length).toEqual(0);
 
