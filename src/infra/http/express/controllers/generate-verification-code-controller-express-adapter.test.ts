@@ -60,7 +60,7 @@ describe('Code Generation API', () => {
     it('should create a record in the database for the current user', async () => {
         const user = await factory.create({
             name: "testuser",
-            email: "test@email.dev",
+            email: "email@test.dev",
             registrationDate: new Date(),
             password: "userpassword",
         });
@@ -73,7 +73,7 @@ describe('Code Generation API', () => {
 
         expect(response.statusCode).toBe(HttpStatus.OK);
         
-        const verificationCode = await db.collection('verification_codes').findOne({ code: response.body.code, "user.email": 'test@email.dev' });
+        const verificationCode = await db.collection('verification_codes').findOne({ code: response.body.code, "user.email": 'email@test.dev' });
 
         expect(verificationCode).toBeTruthy();
     });
@@ -81,7 +81,7 @@ describe('Code Generation API', () => {
     it('should return a verification same code for that user', async () => {
         const user = await factory.create({
             name: "testuser",
-            email: "test@email.dev",
+            email: "email@test.dev",
             registrationDate: new Date(),
             password: "userpassword",
         });
@@ -98,7 +98,7 @@ describe('Code Generation API', () => {
     it('should return the same code if called twice in a row', async () => {
         const user = await factory.create({
             name: "testuser",
-            email: "test@email.dev",
+            email: "email@test.dev",
             registrationDate: new Date(),
             password: "userpassword",
         });
@@ -118,7 +118,7 @@ describe('Code Generation API', () => {
     it('should create a single record in the database for the current user even if called multiple times', async () => {
         const user = await factory.create({
             name: "testuser",
-            email: "test@email.dev",
+            email: "email@test.dev",
             registrationDate: new Date(),
             password: "userpassword",
         });
@@ -130,7 +130,7 @@ describe('Code Generation API', () => {
         expect((await makeRequest(token)).statusCode).toBe(HttpStatus.OK);
         expect((await makeRequest(token)).statusCode).toBe(HttpStatus.OK);
 
-        const verificationCodes = await db.collection('verification_codes').find({ "user.email": 'test@email.dev' }).toArray();
+        const verificationCodes = await db.collection('verification_codes').find({ "user.email": 'email@test.dev' }).toArray();
 
         expect(verificationCodes.length).toEqual(1);
     });

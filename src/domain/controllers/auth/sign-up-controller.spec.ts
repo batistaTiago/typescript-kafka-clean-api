@@ -12,7 +12,7 @@ const testData = [
 
 const getBaseRequest = () => ({
     body: {
-        email: "test@email.dev",
+        email: "email@test.dev",
         name: "test name",
         password: "the_user_password",
         password_confirmation: "the_user_password",

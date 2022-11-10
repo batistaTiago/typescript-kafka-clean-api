@@ -5,11 +5,12 @@ import { HttpResponse } from "../../services/http/http-response";
 import { HttpStatus } from "../../services/http/status";
 import { SignUpUseCase } from "../../use-cases/sign-up/sign-up-use-case";
 import { Validator } from "../../services/validation/validator";
+import { UseCase } from "../../use-cases/use-case";
 
 @injectable()
 export class SignUpController implements Controller {
     public constructor(
-        private readonly useCase: SignUpUseCase,
+        @inject(SignUpUseCase) private readonly useCase: UseCase,
         @inject('SignUpValidator') private readonly validator: Validator
     ) {
     }

@@ -7,7 +7,7 @@ jest.spyOn<any, any>(global, 'Date').mockImplementation(() => {
     return mockedDate;
 });
 
-const email = "test@email.dev";
+const email = "email@test.dev";
 const name = "test name";
 const password = "the_user_password";
 const password_confirmation = "the_user_password";

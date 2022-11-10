@@ -8,8 +8,8 @@ import { CryptographyServiceProvider } from "./cryptography-service-provider";
 import { MysqlServiceProvider } from "./mysql-service-provider";
 import { RepositoryServiceProvider } from "./repository-service-provider";
 import { AxiosServiceProvider } from "./axios-service-provider";
-import { ValidationServiceProvider } from "./validation-service-provider";
 import { ConfigServiceProdvider } from "./config-service-provider";
+import { SignUpValidatorServiceProvider } from "./signup-validator-service-provider";
 
 export const registerAll = () => {
     // @@TODO: carregar dinamicamente...
@@ -24,7 +24,7 @@ export const registerAll = () => {
         new AxiosServiceProvider(),
         new AppServiceProvider(),
         new RepositoryServiceProvider(),
-        new ValidationServiceProvider(),
+        new SignUpValidatorServiceProvider(),
     ].forEach(provider => provider.register());
 }
 

@@ -13,13 +13,11 @@ const testData = [
     { missingParamName: "password_confirmation" },
 ];
 
-const getBaseRequest = () => ({
-    body: {
-        email: "test@email.dev",
-        name: "test name",
-        password: "the_user_password",
-        password_confirmation: "the_user_password",
-    },
+const baseRequest = () => ({
+    email: "email@test.dev",
+    name: "test name",
+    password: "ValidPassword123!",
+    password_confirmation: "ValidPassword123!",
 });
 
 describe('Sign Up API', () => {
@@ -47,12 +45,9 @@ describe('Sign Up API', () => {
     it('should insert a user in the database', async () => {
         expect(await db.collection('users').countDocuments()).toBe(0);
 
-        const response = await makeRequest({
-            email: 'email@test.dev',
-            name: 'username',
-            password: 'userpassword',
-            password_confirmation: 'userpassword',
-        });
+        const response = await makeRequest(baseRequest());
+
+        console.log(response.body);
 
         expect(response.statusCode).toBe(HttpStatus.OK);
 
@@ -64,12 +59,7 @@ describe('Sign Up API', () => {
     it('should not insert the password_confirmation in the database', async () => {
         expect(await db.collection('users').countDocuments()).toBe(0);
 
-        const response = await makeRequest({
-            email: 'email@test.dev',
-            name: 'username',
-            password: 'userpassword',
-            password_confirmation: 'userpassword',
-        });
+        const response = await makeRequest(baseRequest());
 
         expect(response.statusCode).toBe(HttpStatus.OK);
 
@@ -80,12 +70,7 @@ describe('Sign Up API', () => {
     it('should now insert a duplicate email in the database', async () => {
         expect(await db.collection('users').countDocuments()).toBe(0);
 
-        const response = await makeRequest({
-            email: 'email@test.dev',
-            name: 'username',
-            password: 'userpassword',
-            password_confirmation: 'userpassword',
-        });
+        const response = await makeRequest(baseRequest());
 
         expect(response.statusCode).toBe(HttpStatus.OK);
 
@@ -104,12 +89,7 @@ describe('Sign Up API', () => {
     it('should encrypt the password before saving it to the database', async () => {
         expect(await db.collection('users').countDocuments()).toBe(0);
 
-        const response = await makeRequest({
-            email: 'email@test.dev',
-            name: 'username',
-            password: 'userpassword',
-            password_confirmation: 'userpassword',
-        });
+        const response = await makeRequest(baseRequest());
 
         expect(response.statusCode).toBe(HttpStatus.OK);
 
@@ -122,11 +102,9 @@ describe('Sign Up API', () => {
 
     describe.each(testData)("Missing parameters validation", (data) => {
         it(`should throw an error if ${data.missingParamName} parameter is missing`, async () => {
-            const request = getBaseRequest();
-            delete request.body[data.missingParamName];
-            const response = await makeRequest(request.body);
-
-            console.log(response.body);
+            const request = baseRequest();
+            delete request[data.missingParamName];
+            const response = await makeRequest(request);
 
             expect(response.statusCode).toBe(400);
             expect(response.body.error).toEqual(`Required field was not provided: ${data.missingParamName}`);
@@ -135,10 +113,10 @@ describe('Sign Up API', () => {
 
     describe("Parameter values validation", () => {
         it(`should respond with a bad request if password and confirmation do not match`, async () => {            
-            const request = getBaseRequest();
-            request.body.password_confirmation = 'mismatching passwords';
+            const request = baseRequest();
+            request.password_confirmation = 'mismatching passwords';
 
-            const response = await makeRequest(request.body);
+            const response = await makeRequest(request);
             console.log(response.body);
 
             expect(response.statusCode).toBe(400);
@@ -146,14 +124,13 @@ describe('Sign Up API', () => {
         });
 
         it(`should respond with a bad request if email is not valid`, async () => {            
-            const request = getBaseRequest();
-            request.body.email = 'invalid email';
-            console.log(request.body);
+            const request = baseRequest();
+            request.email = 'invalid email';
             
-            const response = await makeRequest(request.body);
+            const response = await makeRequest(request);
 
             expect(response.statusCode).toBe(400);
-            expect(response.body.error).toEqual(`Invalid email: ${request.body.email}`);
+            expect(response.body.error).toEqual(`Invalid email: ${request.email}`);
         });
     });
 });
