@@ -1,5 +1,5 @@
-import { AppError } from "../../domain/exceptions/app-error";
-import { Rule } from "../../domain/services/validation/rule";
+import { AppError } from "../../../domain/exceptions/app-error";
+import { Rule } from "../../../domain/services/validation/rule";
 
 export class CompareFieldsRule implements Rule {
     public constructor(private readonly fields: [string, string]) { }

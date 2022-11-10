@@ -1,9 +1,9 @@
-import { CompositeRule } from "../../domain/services/validation/composite-rule";
+import { CompositeRule } from "./abstractions/composite-rule";
 import { Rule } from "../../domain/services/validation/rule";
-import { CompareFieldsRule } from "./compare-fields-rule";
-import { IsEmailRule } from "./is-email-rule";
-import { PasswordValidationRule } from "./password-validation-rule";
-import { RequiredFieldRule } from "./required-field-rule";
+import { CompareFieldsRule } from "./abstractions/compare-fields-rule";
+import { IsEmailRule } from "./abstractions/is-email-rule";
+import { PasswordValidationRule } from "./abstractions/password-validation-rule";
+import { RequiredFieldRule } from "./abstractions/required-field-rule";
 
 export class SignUpRequestValidationRule implements Rule {
     private readonly rule: Rule;
@@ -13,12 +13,11 @@ export class SignUpRequestValidationRule implements Rule {
             new RequiredFieldRule('email'),
             new IsEmailRule('email'),
             new RequiredFieldRule('name'),
-            new RequiredFieldRule('email'),
             new RequiredFieldRule('password'),
-            new PasswordValidationRule('password'),
             new RequiredFieldRule('password_confirmation'),
             new CompareFieldsRule(['password', 'password_confirmation']),
-        ])
+            new PasswordValidationRule('password'),
+        ]);
     }
 
     public applyRule(input: any): Error {

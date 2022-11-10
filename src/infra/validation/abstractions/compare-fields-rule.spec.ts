@@ -1,4 +1,4 @@
-import { AppError } from "../../domain/exceptions/app-error";
+import { AppError } from "../../../domain/exceptions/app-error";
 import { CompareFieldsRule } from "./compare-fields-rule";
 
 const invalidParams = [

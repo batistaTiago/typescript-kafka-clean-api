@@ -1,4 +1,4 @@
-import { AppError } from "../../domain/exceptions/app-error";
+import { AppError } from "../../../domain/exceptions/app-error";
 import { MinLengthRule } from "./min-length-rule";
 
 const invalidParams = [

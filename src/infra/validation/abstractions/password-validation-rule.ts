@@ -1,6 +1,6 @@
-import { AppError } from "../../domain/exceptions/app-error";
-import { CompositeRule } from "../../domain/services/validation/composite-rule";
-import { Rule } from "../../domain/services/validation/rule";
+import { AppError } from "../../../domain/exceptions/app-error";
+import { CompositeRule } from "./composite-rule";
+import { Rule } from "../../../domain/services/validation/rule";
 import { MaxLengthRule } from "./max-length-rule";
 import { MinLengthRule } from "./min-length-rule";
 

@@ -1,4 +1,4 @@
-import { AppError } from "../../domain/exceptions/app-error";
+import { AppError } from "../../../domain/exceptions/app-error";
 import { PasswordValidationRule } from "./password-validation-rule";
 
 const invalidPasswords = [

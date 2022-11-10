@@ -1,9 +1,9 @@
-import { CompositeRule } from "../../domain/services/validation/composite-rule";
+import { CompositeRule } from "./abstractions/composite-rule";
 import { Rule } from "../../domain/services/validation/rule";
-import { ConditionallyAppliedRule } from "./conditionally-applied-rule";
-import { IsEmailRule } from "./is-email-rule";
-import { PasswordValidationRule } from "./password-validation-rule";
-import { RequiredFieldRule } from "./required-field-rule";
+import { ConditionallyAppliedRule } from "./abstractions/conditionally-applied-rule";
+import { IsEmailRule } from "./abstractions/is-email-rule";
+import { PasswordValidationRule } from "./abstractions/password-validation-rule";
+import { RequiredFieldRule } from "./abstractions/required-field-rule";
 
 export class UpdateAccountRequestValidationRule implements Rule {
     private readonly decoratedRule: Rule;

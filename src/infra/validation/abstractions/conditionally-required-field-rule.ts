@@ -1,4 +1,4 @@
-import { Rule } from "../../domain/services/validation/rule";
+import { Rule } from "../../../domain/services/validation/rule";
 import { ConditionallyAppliedRule } from "./conditionally-applied-rule";
 import { RequiredFieldRule } from "./required-field-rule";
 

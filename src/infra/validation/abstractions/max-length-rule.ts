@@ -1,8 +1,8 @@
 import { Document } from "mongodb";
-import { AppError } from "../../domain/exceptions/app-error";
-import { Rule } from "../../domain/services/validation/rule";
+import { AppError } from "../../../domain/exceptions/app-error";
+import { Rule } from "../../../domain/services/validation/rule";
 
-export class MinLengthRule implements Rule {
+export class MaxLengthRule implements Rule {
     public constructor(private readonly fieldName: string, private readonly minLength: number) { }
 
     public applyRule(input: any): Error {
@@ -12,8 +12,8 @@ export class MinLengthRule implements Rule {
             return new Error(`Invalid argument, propery ${this.fieldName} must be a string`);
         }
 
-        if (value.length < this.minLength) {
-            return new AppError(`Field ${this.fieldName} must be a string with at least ${this.minLength} characters`);
+        if (value.length > this.minLength) {
+            return new AppError(`Field ${this.fieldName} must be a string with at most ${this.minLength} characters`);
         }
     }
 }

@@ -1,4 +1,4 @@
-import { AppError } from "../../domain/exceptions/app-error";
+import { AppError } from "../../../domain/exceptions/app-error";
 import { IsEmailRule } from "./is-email-rule";
 
 const invalidEmails = [
