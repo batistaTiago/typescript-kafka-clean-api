@@ -172,26 +172,6 @@ describe('UpdateAccountCseCase', () => {
         expect(producerSpy).toHaveBeenCalledWith('events', message);
     });
 
-    it('should throw an error if attempting to update the password without providing the current password', () => {
-        const repo = makeRepo();
-        const hash = makeHash();
-        const producer = makeProducer();
-
-        const sut = new UpdateAccountUseCase(repo, hash, producer, helper);
-
-        const account: UserAccount = getAccountData();
-
-        const fields = {
-            name: "new name",
-            password: "new_password",
-            password_confirmation: "new_password",
-        } as unknown as UpdateAccountDTO;
-
-        const executionPromise = sut.execute({ account, fields });
-
-        expect(executionPromise).rejects.toThrow(new AppError('You must confirm your current password'));
-    });
-
     it('should throw an error if attempting to update the password providing a wrong current password', () => {
         const repo = makeRepo();
         const hash = makeHash();

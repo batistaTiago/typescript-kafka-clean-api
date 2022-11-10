@@ -49,16 +49,8 @@ export class UpdateAccountUseCase implements UseCase {
             return null;
         }
 
-        if (!fields.current_password) {
-            throw new AppError('You must confirm your current password');
-        }
-
         if (!await this.hash.check(fields.current_password, account.password)) {
             throw new AppError('The provided current password is incorrect');
-        }
-
-        if (fields.password != fields.password_confirmation) {
-            throw new AppError('Password and confirmation do not match');
         }
 
         return await this.hash.make(fields.password);
