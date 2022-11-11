@@ -23,8 +23,8 @@ export const registerAll = () => {
         new CryptographyServiceProvider(),
         new MailerServiceProvider(),
         new AxiosServiceProvider(),
-        new AppServiceProvider(),
         new RepositoryServiceProvider(),
+        new AppServiceProvider(),
     ].forEach(provider => provider.register());
 }
 

@@ -1,7 +1,7 @@
 import { inject, singleton } from "tsyringe";
-import { Environment } from "../../../config/environment";
-import { AccessTokenData } from "../../dto/user/access-token-data";
+import { User } from "../../../infra/database/mysql/entities/user.entity";
 import { UserAccount } from "../../dto/user/user-account";
+import { AccessToken } from "../../entities/access-token";
 import { Encrypter } from "../cryptography/encrypter";
 import { UserRepository } from "../repositories/user-repository";
 
@@ -14,26 +14,18 @@ export class Authentication {
         @inject("Encrypter") private readonly encrypter?: Encrypter
     ) { }
 
-    public async authenticate(token: string) {
-        const decrypted = this.encrypter.decrypt(token) as any;
-        const accessTokenData = new AccessTokenData(decrypted.id, decrypted.issuedAt);
-
-        if (this.tokenIsExpired(accessTokenData)) {
-            throw new Error('Unauthenticated');
-        }
-
-        this.loggedUser = await this.userRepository.findAccountById(accessTokenData.id);
+    public async authenticate(accessToken: AccessToken) {
+        const { id } = this.encrypter.decrypt(accessToken.token) as Pick<User, 'id'>;
+        const account = await this.userRepository.findAccountById(id)
+        this.actingAs(account);
     }
 
     public user(): UserAccount {
         return this.loggedUser;
     }
 
-    private tokenIsExpired({ issuedAt }: AccessTokenData): boolean {
-        const now = new Date();
-        const expirationDate = new Date(issuedAt.toISOString());
-        expirationDate.setDate(expirationDate.getDate() + Environment.APP_AUTH_TOKEN_DURATION_DAYS);
-
-        return expirationDate < now;
+    // @@TODO: refatorar os testes para usar esse metodo
+    public actingAs(user: UserAccount) {
+        this.loggedUser = user;
     }
 }

@@ -4,7 +4,7 @@ import { container } from 'tsyringe';
 import { MongoClient } from "mongodb";
 import { Environment } from "../../../../config/environment";
 import { HttpStatus } from "../../../../domain/services/http/status";
-import { generateAccessToken } from "../../../../utils/access-token-generator";
+import { HashMake } from "../../../../domain/services/cryptography/hash";
 
 describe('Code Generation API', () => {
     const api = global.expressTestServer;
@@ -12,8 +12,22 @@ describe('Code Generation API', () => {
     const db = client.db(container.resolve('MongoDatabaseName'));
     const factory = new UserFactory();
     Environment.APP_DEBUG = false;
+    const hashMake: HashMake = container.resolve('HashMake');
+
+    const name = "testuser";
+    const registrationDate = new Date();
+    const email = 'email@test.dev';
+    const password = 'ValidPassword123!';
+
+    const getAuthString = async () => {
+        const loginResponse = await request(api)
+            .post('/auth/login')
+            .send({ email, password });
+
+        return `Bearer ${loginResponse.body.accessToken}`;
+    }
     
-    const makeRequest = async (token: string) => await request(api).get('/verification-code').set('Authorization', `Bearer ${token}`);
+    const makeRequest = async (authString: string = null) => await request(api).get('/verification-code').set('Authorization', (authString ?? (await getAuthString())));
 
     beforeAll(async () => {
         await client.connect();
@@ -25,6 +39,7 @@ describe('Code Generation API', () => {
 
     beforeEach(async () => {
         await db.dropDatabase();
+        await factory.create({ name, email, registrationDate, password: await hashMake.make(password) });
     });
 
     // it.skip('should call the authentication middleware', async () => {
@@ -57,16 +72,7 @@ describe('Code Generation API', () => {
     });
 
     it('should create a record in the database for the current user', async () => {
-        const user = await factory.create({
-            name: "testuser",
-            email: "email@test.dev",
-            registrationDate: new Date(),
-            password: "userpassword",
-        });
-
-        const token = generateAccessToken(user);
-
-        const response = await makeRequest(token);
+        const response = await makeRequest();
 
         expect(response.statusCode).toBe(HttpStatus.OK);
         
@@ -76,16 +82,7 @@ describe('Code Generation API', () => {
     });
 
     it('should return a verification same code for that user', async () => {
-        const user = await factory.create({
-            name: "testuser",
-            email: "email@test.dev",
-            registrationDate: new Date(),
-            password: "userpassword",
-        });
-
-        const token = generateAccessToken(user);
-
-        const response = await makeRequest(token);
+        const response = await makeRequest();
         expect(response.statusCode).toBe(HttpStatus.OK);
 
         expect(response.body.code).toBeDefined();
@@ -93,16 +90,7 @@ describe('Code Generation API', () => {
     });
 
     it('should return the same code if called twice in a row', async () => {
-        const user = await factory.create({
-            name: "testuser",
-            email: "email@test.dev",
-            registrationDate: new Date(),
-            password: "userpassword",
-        });
-
-        const token = generateAccessToken(user);
-
-        const [ response, secondResponse ] = await Promise.all([makeRequest(token), makeRequest(token)]);
+        const [ response, secondResponse ] = await Promise.all([makeRequest(), makeRequest()]);
         expect(response.statusCode).toBe(HttpStatus.OK);
         expect(secondResponse.statusCode).toBe(HttpStatus.OK);
 
@@ -113,19 +101,10 @@ describe('Code Generation API', () => {
     });
 
     it('should create a single record in the database for the current user even if called multiple times', async () => {
-        const user = await factory.create({
-            name: "testuser",
-            email: "email@test.dev",
-            registrationDate: new Date(),
-            password: "userpassword",
-        });
-
-        const token = generateAccessToken(user);
-
         expect((await db.collection('verification_codes').find({}).toArray()).length).toEqual(0);
 
-        expect((await makeRequest(token)).statusCode).toBe(HttpStatus.OK);
-        expect((await makeRequest(token)).statusCode).toBe(HttpStatus.OK);
+        expect((await makeRequest()).statusCode).toBe(HttpStatus.OK);
+        expect((await makeRequest()).statusCode).toBe(HttpStatus.OK);
 
         const verificationCodes = await db.collection('verification_codes').find({ "user.email": 'email@test.dev' }).toArray();
 

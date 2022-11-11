@@ -1,3 +1,4 @@
+// @@TODO trocar para um export ja do objeto pronto ou usar classe estatica
 export class ObjectHelper {
     public removeEmpty(input: Object, recursive: boolean = true): Object {
         const copy = Object.assign({}, input);

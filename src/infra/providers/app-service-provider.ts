@@ -4,13 +4,14 @@ import { HttpClient } from '../../domain/services/http/http-client';
 import { Mailer } from '../../domain/services/mailing/mailer';
 import { MessageProducer } from '../../domain/services/messaging/message-producer';
 import { ServiceProvider } from '../../domain/services/provider';
-import { DiceRoller } from '../../utils/dicer-roller';
+import { DiceRoller } from '../../domain/services/randomizer/dicer-roller';
 import { RandomHelper } from '../../utils/random-helper';
-import { RandomNumberGenerator } from '../../utils/random-number-generator';
+import { RandomNumberGenerator } from '../../domain/services/randomizer/random-number-generator';
 import { RedisCache } from '../cache/redis-cache';
 import { AxiosHttpClientAdapter } from '../http/client/axios-http-client-adapter';
 import { NodeMailerAdapter } from '../mailing/node-mailer-adapter';
 import { KafkaMessageProducerAdapter } from '../messaging/kafka/producer/kafka-message-producer-adapter';
+import { Authentication } from '../../domain/services/auth/authentication';
 
 export class AppServiceProvider implements ServiceProvider {
     public async register(): Promise<void> {

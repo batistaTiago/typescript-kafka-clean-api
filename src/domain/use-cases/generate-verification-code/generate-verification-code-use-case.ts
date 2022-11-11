@@ -1,5 +1,5 @@
 import { inject, injectable } from "tsyringe";
-import { RandomNumberGenerator } from "../../../utils/random-number-generator";
+import { RandomNumberGenerator } from "../../services/randomizer/random-number-generator";
 import { User } from "../../entities/user";
 import { VerificationCode } from "../../entities/verification-code";
 import { VerificationCodeRepository } from "../../services/repositories/verification-code-repository ";

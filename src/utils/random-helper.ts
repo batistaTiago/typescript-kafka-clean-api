@@ -1,6 +1,6 @@
 import { injectable } from "tsyringe";
-import { DiceRoller } from "./dicer-roller";
-import { RandomNumberGenerator, RandomNumberGeneratorOptions } from "./random-number-generator";
+import { DiceRoller } from "../domain/services/randomizer/dicer-roller";
+import { RandomNumberGenerator, RandomNumberGeneratorOptions } from "../domain/services/randomizer/random-number-generator";
 
 @injectable()
 export class RandomHelper implements RandomNumberGenerator, DiceRoller {

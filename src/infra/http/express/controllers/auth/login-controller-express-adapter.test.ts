@@ -32,11 +32,10 @@ describe('Sign Up API', () => {
 
     beforeEach(async () => {
         await db.dropDatabase();
+        await makeUser();
     });
 
     it('should return an error if provided credentials are invalid', async () => {
-        await makeUser();
-
         const response = await makeRequest({ email: 'email@test.dev', password: 'wrong'});
         expect(response.statusCode).toBe(HttpStatus.BAD_REQUEST);
         expect(response.body.error).toBeDefined();
@@ -44,9 +43,7 @@ describe('Sign Up API', () => {
     });
 
     it('should return an access token if provided credentials are valid', async () => {
-        await makeUser();
         const response = await makeRequest({ email: 'email@test.dev', password: 'userpassword'});
-
         expect(response.statusCode).toBe(HttpStatus.OK);
         expect(response.body.accessToken).toBeDefined();
     });
