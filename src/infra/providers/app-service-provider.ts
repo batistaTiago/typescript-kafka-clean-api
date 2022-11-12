@@ -16,7 +16,7 @@ import { Authentication } from '../../domain/services/auth/authentication';
 export class AppServiceProvider implements ServiceProvider {
     public async register(): Promise<void> {
         container.register<HttpClient>("HttpClient", { useClass: AxiosHttpClientAdapter });
-        container.register<MessageProducer>("MessageProducer", { useClass: KafkaMessageProducerAdapter });
+        container.registerInstance<MessageProducer>("MessageProducer", container.resolve(KafkaMessageProducerAdapter));
         container.register<Cache>("Cache", { useClass: RedisCache });
         container.register<Mailer>("Mailer", { useClass: NodeMailerAdapter });
         container.register<RandomNumberGenerator>("RandomNumberGenerator", { useClass: RandomHelper });
