@@ -19,7 +19,12 @@ const makeRepo = () => ({
     })
 } as unknown as AccountRepository);
 
-const makeHash = () => ({ make: jest.fn().mockReturnValue('hashed'), check: jest.fn().mockReturnValue(true) } as unknown as Hash);
+const makeHash = () => {
+    return { 
+        make: jest.fn().mockReturnValue('hashed'), 
+        check: jest.fn().mockReturnValue(true) 
+    } as unknown as Hash;
+};
 
 const getAccountData = () => ({
     id: "user-id",
@@ -31,7 +36,7 @@ const getAccountData = () => ({
 
 const helper = new ObjectHelper();
 
-describe('UpdateAccountCseCase', () => {
+describe('UpdateAccountUseCase', () => {
     it('should not call hash check and make component if its not updating the password', async () => {
         const repo = makeRepo();
         const hash = makeHash();

@@ -11,7 +11,6 @@ import { RedisCache } from '../cache/redis-cache';
 import { AxiosHttpClientAdapter } from '../http/client/axios-http-client-adapter';
 import { NodeMailerAdapter } from '../mailing/node-mailer-adapter';
 import { KafkaMessageProducerAdapter } from '../messaging/kafka/producer/kafka-message-producer-adapter';
-import { Authentication } from '../../domain/services/auth/authentication';
 
 export class AppServiceProvider implements ServiceProvider {
     public async register(): Promise<void> {
