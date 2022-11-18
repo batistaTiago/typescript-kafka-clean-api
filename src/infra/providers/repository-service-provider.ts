@@ -36,7 +36,7 @@ export class RepositoryServiceProvider implements ServiceProvider {
 
         container.registerInstance("EventRepository", new MongoEventRepository());
         container.registerInstance("UserRepository", new MongoUserRepository());
-        container.registerInstance("VerificationCodeRepository", new MongoVerificationCodeRepository());
+        container.registerInstance<VerificationCodeRepository>("VerificationCodeRepository", new MongoVerificationCodeRepository(client, String(databaseName)));
 
         container.registerInstance("AccessTokenRepository", new MongoAccessTokenRepository(client, String(databaseName)));
         container.registerInstance("PasswordRecoveryRepository", new MongoPasswordRecoveryRepository(client, String(databaseName)));
