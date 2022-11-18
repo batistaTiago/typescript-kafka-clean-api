@@ -26,11 +26,11 @@ export class MongoGenericRepository<T> implements Repository<T> {
         return this.canonizeId(Object.assign({}, data, { id: String(insertedId) }));
     }
 
-    public async findOne<T>(filters: Partial<T>, options?: object): Promise<T> {
+    public async findOne<T>(filters: object, options?: object): Promise<T> {
         return await this.collection.findOne(filters, options) as T;
     }
 
-    public async updateOne<T>(filters: Partial<T>, fields: object): Promise<T> {
+    public async updateOne<T>(filters: object, fields: object): Promise<T> {
         return await this.collection.updateOne(filters, fields) as T;
     }
 }
