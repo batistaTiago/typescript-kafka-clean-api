@@ -4,11 +4,12 @@ import { AccessToken } from "../../../../domain/entities/access-token";
 import { AppError } from "../../../../domain/exceptions/app-error";
 import { AccessTokenRepository } from "../../../../domain/services/repositories/access-token-repository";
 import { MongoBaseRepository } from "../mongo-base-repository";
+import { MongoGenericRepository } from "../mongo-generic-repository";
 
 @injectable()
-export class MongoAccessTokenRepository extends MongoBaseRepository implements AccessTokenRepository {
-    public collectionName(): string {
-        return 'access_tokens';
+export class MongoAccessTokenRepository extends MongoGenericRepository<AccessToken> implements AccessTokenRepository {
+    public constructor(){
+        super('access_tokens');
     }
 
     public async findToken(token: string): Promise<AccessTokenModel> {
@@ -20,9 +21,8 @@ export class MongoAccessTokenRepository extends MongoBaseRepository implements A
         return this.canonizeId(findResult);
     }
 
-    public async storeToken(data: Partial<AccessToken>): Promise<AccessTokenModel> {
-        const insertResult = await this.insertOne({ ...data });
-        return this.canonizeId(Object.assign({}, data, { id: String(insertResult.insertedId) }));
+    public async storeToken(data: AccessToken): Promise<AccessTokenModel> {
+        return await this.insertOne({ ...data });
     }
 
     public async revokeToken(token: string): Promise<boolean> {
