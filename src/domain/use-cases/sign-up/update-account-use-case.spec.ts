@@ -1,6 +1,5 @@
 import { ObjectHelper } from "../../../utils/object-helper"
 import { UpdateAccountDTO } from "../../dto/user/update-account"
-import { UserAccount } from "../../dto/user/user-account"
 import { AppError } from "../../exceptions/app-error"
 import { Hash } from "../../services/cryptography/hash"
 import { MessageProducer } from "../../services/messaging/message-producer"
@@ -47,7 +46,7 @@ describe('UpdateAccountUseCase', () => {
 
         const sut = new UpdateAccountUseCase(repo, hash, producer, helper);
 
-        const account: UserAccount = getAccountData();
+        const account = getAccountData();
 
         const fields = {
             name: "new name",
@@ -69,7 +68,7 @@ describe('UpdateAccountUseCase', () => {
 
         const sut = new UpdateAccountUseCase(repo, hash, producer, helper);
 
-        const account: UserAccount = getAccountData();
+        const account = getAccountData();
 
         const fields = {
             name: "new name",
@@ -93,7 +92,7 @@ describe('UpdateAccountUseCase', () => {
 
         const sut = new UpdateAccountUseCase(repo, hash, producer, helper);
 
-        const account: UserAccount = getAccountData();
+        const account = getAccountData();
 
         const fields = {
             name: "new name",
@@ -113,7 +112,7 @@ describe('UpdateAccountUseCase', () => {
 
         const sut = new UpdateAccountUseCase(repo, hash, producer, helper);
 
-        const account: UserAccount = getAccountData();
+        const account = getAccountData();
 
         const fields = {
             name: "new name",
@@ -136,7 +135,7 @@ describe('UpdateAccountUseCase', () => {
 
         const sut = new UpdateAccountUseCase(repo, hash, producer, helper);
 
-        const account: UserAccount = getAccountData();
+        const account = getAccountData();
 
         const fields = {
             current_password: "userpassword",
@@ -158,7 +157,7 @@ describe('UpdateAccountUseCase', () => {
 
         const sut = new UpdateAccountUseCase(repo, hash, producer, helper);
 
-        const account: UserAccount = getAccountData();
+        const account = getAccountData();
 
         const fields = {
             name: "new name",
@@ -186,7 +185,7 @@ describe('UpdateAccountUseCase', () => {
 
         const sut = new UpdateAccountUseCase(repo, hash, producer, helper);
 
-        const account: UserAccount = getAccountData();
+        const account = getAccountData();
 
         const fields = {
             name: "new name",

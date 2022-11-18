@@ -1,13 +1,13 @@
 import { inject, singleton } from "tsyringe";
 import { User } from "../../../infra/database/mysql/entities/user.entity";
-import { UserAccount } from "../../dto/user/user-account";
+import { UserModel } from "../../dto/user/user-model";
 import { AccessToken } from "../../entities/access-token";
 import { Encrypter } from "../cryptography/encrypter";
 import { UserRepository } from "../repositories/user-repository";
 
 @singleton()
 export class Authentication {
-    private loggedUser?: UserAccount;
+    private loggedUser?: UserModel;
 
     public constructor(
         @inject("UserRepository") private readonly userRepository?: UserRepository,
@@ -20,12 +20,12 @@ export class Authentication {
         this.actingAs(account);
     }
 
-    public user(): UserAccount {
+    public user(): UserModel {
         return this.loggedUser;
     }
 
     // @@TODO: refatorar os testes para usar esse metodo
-    public actingAs(user: UserAccount) {
+    public actingAs(user: UserModel) {
         this.loggedUser = user;
     }
 }

@@ -42,13 +42,8 @@ describe('Code Generation API', () => {
         await factory.create({ name, email, registrationDate, password: await hashMake.make(password) });
     });
 
-    // it.skip('should call the authentication middleware', async () => {
-    //     const middleware = container.resolve(AuthenticateUser);
-    //     const applySpy = jest.spyOn(middleware, 'apply');
-    //     await request(api)
-    //         .get('/verification-code');
-
-    //     expect(applySpy).toHaveBeenCalled();
+    // it('should enable cors in this route', async () => {
+    //     await (request(api).get('/verification-code').expect('access-control-allow-origin', '*'));
     // });
 
     it('should return unauthenticated if no token is provided', async () => {

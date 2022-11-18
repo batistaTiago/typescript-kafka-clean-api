@@ -1,19 +1,29 @@
 import request from "supertest";
 import { container } from 'tsyringe';
-import { MongoClient } from "mongodb";
+import { Db, MongoClient } from "mongodb";
 import { Environment } from "../../../../../config/environment";
 import { HttpStatus } from "../../../../../domain/services/http/status";
 import { MessageProducer } from "../../../../../domain/services/messaging/message-producer";
-import { UserFactory } from "../../../../database/factories/user-factory";
 import { HashMake } from "../../../../../domain/services/cryptography/hash";
+import { AbstractFactory } from "../../../../database/factories/abstract-factory";
+import { User } from "../../../../../domain/entities/user";
+import { MongoUserRepository } from "../../../../database/mongo/repositories/mongo-user-repository";
+
+const defaults = {
+    password: "userpassword",
+    name: "username",
+    email: "email@test.dev",
+    registrationDate: new Date('2022-11-10')
+}
 
 describe('Sign Up API', () => {
     const fakeProducer: MessageProducer = { publish: jest.fn() };
     container.registerInstance("MessageProducer", fakeProducer);
     const api = global.expressTestServer;
     const client = container.resolve(MongoClient);
-    const db = client.db(container.resolve('MongoDatabaseName'));
-    const userFactory = new UserFactory();
+    const db: Db = container.resolve('MongoDatabaseConnection');
+    const userRepo = new MongoUserRepository();
+    const userFactory = new AbstractFactory<User>(defaults, userRepo);
     const hash: HashMake = container.resolve('HashMake');
     Environment.APP_DEBUG = false;
     

@@ -1,4 +1,4 @@
-import { UserAccount } from '../../../domain/dto/user/user-account';
+import { User } from '../../../domain/entities/user';
 import { UserRepository } from '../../../domain/services/repositories/user-repository';
 import { UserFactory } from './user-factory';
 
@@ -80,7 +80,7 @@ describe('UserFactory', () => {
 
     describe('create method', () => {
         it('should make the object before calling repository', async () => {
-            const input: Partial<Omit<UserAccount, 'id'>> = { name: 'changed' };
+            const input: Partial<Omit<User, 'id'>> = { name: 'changed' };
             const fakeRepo = makeFakeRepo();
             fakeRepo.storeUser = jest.fn();
             const createSpy = jest.spyOn(fakeRepo, 'storeUser');

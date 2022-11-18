@@ -12,7 +12,7 @@ describe('GenerateVerificationCodeUseCase', () => {
 
         const sut = new GenerateVerificationCodeUseCase(verificationCodeRepository, rng);
 
-        await sut.execute({ name: 'username', email: 'email@test.dev', registrationDate: new Date() });
+        await sut.execute({ name: 'username', email: 'email@test.dev', password: 'pass', registrationDate: new Date() });
         
         expect(rngSpy).toHaveBeenCalled();
     });
@@ -28,7 +28,7 @@ describe('GenerateVerificationCodeUseCase', () => {
 
         const sut = new GenerateVerificationCodeUseCase(verificationCodeRepository, rng);
 
-        await sut.execute({ name: 'username', email: 'email@test.dev', registrationDate: new Date() });
+        await sut.execute({ name: 'username', email: 'email@test.dev', password: 'pass', registrationDate: new Date() });
         
         expect(rngSpy).toHaveBeenCalled();
     });
@@ -44,7 +44,7 @@ describe('GenerateVerificationCodeUseCase', () => {
 
         const sut = new GenerateVerificationCodeUseCase(verificationCodeRepository, rng);
 
-        await sut.execute({ name: 'username', email: 'email@test.dev', registrationDate: new Date() });
+        await sut.execute({ name: 'username', email: 'email@test.dev', password: 'pass', registrationDate: new Date() });
         
         expect(rngSpy).not.toHaveBeenCalled();
     });
@@ -57,7 +57,7 @@ describe('GenerateVerificationCodeUseCase', () => {
 
         const sut = new GenerateVerificationCodeUseCase(verificationCodeRepository, rng);
 
-        await sut.execute({ name: 'username', email: 'unexisting-email@test.dev', registrationDate: new Date() });
+        await sut.execute({ name: 'username', email: 'unexisting-email@test.dev', password: 'pass', registrationDate: new Date() });
         
         expect(storeSpy).toHaveBeenCalled();
     });

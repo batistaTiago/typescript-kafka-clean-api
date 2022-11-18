@@ -1,18 +1,17 @@
-import { UserAccount } from "../../dto/user/user-account";
+import { User } from "../../entities/user";
 import { Authentication } from "../../services/auth/authentication";
 import { Validator } from "../../services/validation/validator";
 import { UpdateAccountUseCase } from "../../use-cases/sign-up/update-account-use-case";
 import { UpdateAccountController } from "./update-account-controller";
 
-const userAccount: UserAccount = {
-    id: 'user-id',
+const user: User = {
     name: 'name',
     email: 'email@test.dev',
     password: '-',
     registrationDate: new Date()
 };
 
-const makeAuth = () => ({ user: jest.fn().mockReturnValue(userAccount) } as unknown as Authentication);
+const makeAuth = () => ({ user: jest.fn().mockReturnValue(user) } as unknown as Authentication);
 
 describe('UpdateAccountController', () => {
     it('should call its components with correct values', async () => {
@@ -31,6 +30,6 @@ describe('UpdateAccountController', () => {
         await sut.handle({ body });
 
         expect(userSpy).toHaveBeenCalled();
-        expect(executeSpy).toHaveBeenCalledWith({ account: userAccount, fields: body });
+        expect(executeSpy).toHaveBeenCalledWith({ account: user, fields: body });
     });
 });

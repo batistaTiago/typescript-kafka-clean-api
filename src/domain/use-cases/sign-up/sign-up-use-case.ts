@@ -15,7 +15,7 @@ export class SignUpUseCase implements UseCase {
         @inject("MessageProducer") private readonly messageProducer: MessageProducer
     ) { }
 
-    public async execute(data: SignUpDTO): Promise<UserModel> {
+    public async execute(data: SignUpDTO): Promise<Omit<UserModel, 'password'>> {
         const encryptedPassword = await this.hash.make(data.password);
         const { password_confirmation, ...insertData } = { ...data, password: encryptedPassword };
         const insertResult = await this.userRepository.storeUser(insertData);
@@ -24,7 +24,7 @@ export class SignUpUseCase implements UseCase {
         return user;
     }
 
-    private async publishUserAccountCreatedEvent(user: UserModel): Promise<void> {
+    private async publishUserAccountCreatedEvent(user: Omit<UserModel, 'password'>): Promise<void> {
         await this.messageProducer.publish('events', {
             body: {
                 eventName: Events.USER_ACCOUNT_CREATED,

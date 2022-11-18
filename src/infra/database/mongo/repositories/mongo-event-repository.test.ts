@@ -1,21 +1,26 @@
 import { MongoEventRepository } from "./mongo-event-repository"
-import { MongoClient } from 'mongodb';
+import { Db, MongoClient } from 'mongodb';
 import { Event as EventEntity } from "../../../../domain/entities/event";
-import { Environment } from "../../../../config/environment";
+import { container } from "tsyringe";
 
 describe('MongoEventRepository', () => {
-    const client = new MongoClient(Environment.MONGO_CONNECTION_URI);
-    const sut = new MongoEventRepository(client);
+    const client = container.resolve(MongoClient);
+    const db: Db = client.db(container.resolve('MongoDatabaseName'));
+    const sut = new MongoEventRepository();
 
     beforeAll(async () => {
-        await sut.connect();
+        await client.connect();
     });
 
     afterAll(async () => {
-        await sut.disconnect();
+        await client.close();
     });
 
-    it('should forward call to mongodb client', async () => {
+    beforeEach(async () => {
+        await db.dropDatabase();
+    });
+
+    it('should save a record in the database', async () => {
         const event: EventEntity = {
             eventName: 'SOME_EVENT_NAME',
             happenedAt: new Date(),
@@ -29,8 +34,8 @@ describe('MongoEventRepository', () => {
         expect(result.happenedAt).toBeDefined();
     });
 
-    it('should throw if mongodb client throws', async () => {
-        jest.spyOn(client, 'db').mockImplementationOnce(() => {
+    it('should throw if mongodb connection throws', async () => {
+        jest.spyOn(db, 'collection').mockImplementationOnce(() => {
             throw new Error();
         });
 

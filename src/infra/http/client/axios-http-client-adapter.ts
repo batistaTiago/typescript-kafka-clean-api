@@ -4,6 +4,7 @@ import { HttpClient, HttpRequestOptions } from '../../../domain/services/http/ht
 import { HttpResponse } from '../../../domain/services/http/http-response';
 
 
+// @@TODO: Fazer um outro componente decorando este, logando o resultado em um algum tipo de output interface (bd, arquivo, topico, ...)
 @injectable()
 export class AxiosHttpClientAdapter implements HttpClient {
     public constructor(private readonly axios: Axios) { }

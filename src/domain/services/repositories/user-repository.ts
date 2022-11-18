@@ -1,9 +1,9 @@
 import { UserModel } from "../../dto/user/user-model";
-import { UserAccount } from "../../dto/user/user-account";
 import { UserUpdateableFields } from "../../dto/user/update-account";
+import { User } from "../../entities/user";
 
 export interface StoreUserRepository {
-    storeUser(user: Omit<UserAccount, 'id'>): Promise<UserAccount>;
+    storeUser(user: User): Promise<UserModel>;
 }
 
 export interface FindByIdUserRepository {
@@ -15,9 +15,9 @@ export interface FindByEmailUserRepository {
 }
 
 export interface AccountRepository {
-    findAccountByEmail(email: string): Promise<UserAccount>;
-    findAccountById(id: string): Promise<UserAccount>;
-    updateAccount(account: UserAccount, fields: UserUpdateableFields): Promise<UserAccount>;
+    findAccountByEmail(email: string): Promise<UserModel>;
+    findAccountById(id: string): Promise<UserModel>;
+    updateAccount(account: UserModel, fields: UserUpdateableFields): Promise<UserModel>;
 }
 
 

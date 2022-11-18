@@ -9,7 +9,7 @@ describe('GenerateVerificationCodeController', () => {
         const name = 'username';
         const registrationDate = new Date();
         const returnMock = { code: '13510', expiresAt: new Date() };
-        const user = { name, email, registrationDate };
+        const user = { name, email, registrationDate, password: 'pass' };
         const auth = { user: (): User => user } as unknown as Authentication;
         const useCase = { execute: jest.fn().mockReturnValue(returnMock) } as unknown as GenerateVerificationCodeUseCase;
 
@@ -26,7 +26,7 @@ describe('GenerateVerificationCodeController', () => {
         const name = 'username';
         const registrationDate = new Date();
         const returnMock = { code: '13510', expiresAt: new Date() };
-        const user = { name, email, registrationDate };
+        const user = { name, email, registrationDate, password: 'pass' };
         const auth = { user: (): User => user } as unknown as Authentication;
         const useCase = { execute: jest.fn().mockReturnValue(returnMock) } as unknown as GenerateVerificationCodeUseCase;
 

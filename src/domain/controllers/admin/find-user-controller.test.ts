@@ -5,57 +5,80 @@ import { Environment } from '../../../config/environment';
 import { HttpStatus } from '../../services/http/status';
 import { container } from 'tsyringe';
 import { UserRepository } from '../../services/repositories/user-repository';
-import { Authentication } from '../../services/auth/authentication';
-import { generateAccessToken } from '../../../utils/access-token-generator';
+import { AbstractFactory } from '../../../infra/database/factories/abstract-factory';
+import { User } from '../../entities/user';
+import { HashMake } from '../../services/cryptography/hash';
+
+const defaults = {
+    password: "userpassword",
+    name: "username",
+    email: "email@test.dev",
+    registrationDate: new Date('2022-11-10')
+}
+
+const api = global.expressTestServer;
 
 describe('Find User Controller', () => {
-    const client = new MongoClient(Environment.MONGO_CONNECTION_URI);
+    const client = container.resolve(MongoClient);
     const db = client.db(container.resolve('MongoDatabaseName'));
-    const userRepo = new MongoUserRepository(client);
-    container.registerInstance<UserRepository>('UserRepository', userRepo);
+    const userRepo = new MongoUserRepository();
+    const userFactory = new AbstractFactory<User>(defaults, userRepo);
+    const hashMake: HashMake = container.resolve('HashMake');
+    const email = 'email@test.dev';
+    const password = 'ValidPassword123!';
 
+    const getAuthString = async () => {
+        const loginResponse = await request(api)
+            .post('/auth/login')
+            .send({ email, password });
+    
+        return `Bearer ${loginResponse.body.accessToken}`;
+    }
+
+    const makeRequest = async (id: string, authString?: string) => {
+        const req = request(api).get(`/users/${id}`);
+        
+        if (authString) {
+            req.set('Authorization', authString);
+        }
+
+        return await req;
+    }
+    
     beforeAll(async () => {
-        await userRepo.connect();
+        await client.connect();
     });
 
     afterAll(async () => {
-        await userRepo.disconnect();
+        await client.close();
     });
 
     beforeEach(async () => {
         await db.dropDatabase();
     });
 
-    it.skip('should provide an endpoint to find an user by id', async () => {
-        const user = {
-            id: 'user-id',
-            name: 'username',
-            email: 'unexisting-email@test.dev',
-            registrationDate: new Date()
-        };
+    it('should provide an endpoint to find an user by id', async () => {
+        const { id } = await userFactory.create({ email, password: await hashMake.make(password) });
+        const response = await makeRequest(id, await getAuthString());
 
-        const auth = { user: () => user } as unknown as Authentication;
-        
-        container.registerInstance(Authentication, auth);
+        expect(response.status).toBe(HttpStatus.OK);
+        expect(response.body.error).not.toBeDefined();
 
-        const date = new Date();
-        const insertResult = await userRepo.storeUser({
-            password: '123456',
-            name: 'test',
-            email: 'email@test.dev',
-            registrationDate: date,
-        });
+        expect(response.body.id).toEqual(id);
+        expect(response.body.name).toEqual('username');
+        expect(response.body.email).toEqual('email@test.dev');
+    });
 
-        const token = generateAccessToken(user);
+    it('should return 401 if user no token is sent', async () => {
+        const { id } = await userFactory.create({ email, password: await hashMake.make(password) });
+        const response = await makeRequest(id);
 
-        const response = await request(global.expressTestServer)
-            .get(`/users/${insertResult.id}`)
-            .set('Authorization', `Bearer ${token}`)
+        expect(response.status).toBe(HttpStatus.UNAUTHORIZED);
+        expect(response.body.error).toBeDefined();
+    });
 
-            expect(response.status).toBe(HttpStatus.OK);
-            expect(response.body.id).toEqual(insertResult.id);
-            expect(response.body.name).toEqual('test');
-            expect(response.body.email).toEqual('email@test.dev');
-            expect(response.body.registrationDate).toEqual(date.toISOString());
+    it('should enable cors in this route', async () => {
+        const { id } = await userFactory.create({ email, password: await hashMake.make(password) });
+        await (request(api).get(`/users/${id}`).expect('access-control-allow-origin', '*'));
     });
 });

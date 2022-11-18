@@ -4,10 +4,9 @@ import { EntityTarget } from "typeorm";
 import { SignUpDTO, SignUpDTOModel } from "../../../../domain/dto/user/sign-up";
 import { AppError } from "../../../../domain/exceptions/app-error";
 import { UserRepository } from "../../../../domain/services/repositories/user-repository";
-import { UserModel} from "../../../../domain/dto/user/user-model";
+import { UserModel } from "../../../../domain/dto/user/user-model";
 import { User as UserTypeORMModel } from "../entities/user.entity";
 import { MysqlBaseRepository } from "../mysql-base-repository";
-import { UserAccount } from "../../../../domain/dto/user/user-account";
 import { UserUpdateableFields } from "../../../../domain/dto/user/update-account";
 
 @injectable()
@@ -32,15 +31,13 @@ export class MysqlUserRepository extends MysqlBaseRepository implements UserRepo
             await this.connection.initialize();
         }
 
-        const findResult = await this.getTypeOrmRepo().findOne(this.generateWhereClause({ id })) as UserAccount;
+        const findResult = await this.getTypeOrmRepo().findOne(this.generateWhereClause({ id })) as UserModel;
 
         if (!findResult) {
             throw new AppError('User not found');
         }
 
-        const { password, ...output } = findResult;
-
-        return output;
+        return findResult;
     }
 
     public async findByEmail(email: string): Promise<UserModel> {
@@ -48,22 +45,7 @@ export class MysqlUserRepository extends MysqlBaseRepository implements UserRepo
             await this.connection.initialize();
         }
 
-        const findResult = await this.getTypeOrmRepo().findOne(this.generateWhereClause({ email })) as UserAccount;
-        if (!findResult) {
-            throw new AppError('User not found');
-        }
-
-        const { password, ...output } = findResult;
-
-        return output;
-    }
-
-    public async findAccountByEmail(email: string): Promise<UserAccount> {
-        if (!this.connection.isInitialized) {
-            await this.connection.initialize();
-        }
-
-        const findResult = await this.getTypeOrmRepo().findOne(this.generateWhereClause({ email })) as UserAccount;
+        const findResult = await this.getTypeOrmRepo().findOne(this.generateWhereClause({ email })) as UserModel;
         if (!findResult) {
             throw new AppError('User not found');
         }
@@ -71,12 +53,12 @@ export class MysqlUserRepository extends MysqlBaseRepository implements UserRepo
         return findResult;
     }
 
-    public async findAccountById(id: string): Promise<UserAccount> {
+    public async findAccountByEmail(email: string): Promise<UserModel> {
         if (!this.connection.isInitialized) {
             await this.connection.initialize();
         }
 
-        const findResult = await this.getTypeOrmRepo().findOne(this.generateWhereClause({ id })) as UserAccount;
+        const findResult = await this.getTypeOrmRepo().findOne(this.generateWhereClause({ email })) as UserModel;
         if (!findResult) {
             throw new AppError('User not found');
         }
@@ -84,7 +66,20 @@ export class MysqlUserRepository extends MysqlBaseRepository implements UserRepo
         return findResult;
     }
 
-    public async updateAccount(account: UserAccount, fields: UserUpdateableFields): Promise<UserAccount> {
+    public async findAccountById(id: string): Promise<UserModel> {
+        if (!this.connection.isInitialized) {
+            await this.connection.initialize();
+        }
+
+        const findResult = await this.getTypeOrmRepo().findOne(this.generateWhereClause({ id })) as UserModel;
+        if (!findResult) {
+            throw new AppError('User not found');
+        }
+
+        return findResult;
+    }
+
+    public async updateAccount(account: UserModel, fields: UserUpdateableFields): Promise<UserModel> {
         throw new Error("Method not implemented.");
     }
 

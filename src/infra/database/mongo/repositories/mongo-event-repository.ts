@@ -1,17 +1,14 @@
-import { injectable } from "tsyringe";
-import { Event as EventEntity } from "../../../../domain/entities/event";
-import { EventRepository } from "../../../../domain/services/repositories/event-repository";
 import { EventModel } from "../../../../domain/dto/event-model";
-import { MongoBaseRepository } from "../mongo-base-repository";
+import { Event } from "../../../../domain/entities/event";
+import { EventRepository } from "../../../../domain/services/repositories/event-repository";
+import { MongoGenericRepository } from "../mongo-generic-repository";
 
-@injectable()
-export class MongoEventRepository extends MongoBaseRepository implements EventRepository {
-    public collectionName(): string {
-        return 'app_events';
+export class MongoEventRepository extends MongoGenericRepository<Event> implements EventRepository {
+    public constructor() {
+        super('events');
     }
 
-    public async storeEvent(data: EventEntity): Promise<EventModel> {
-        const result = await this.insertOne(data);
-        return this.canonizeId(Object.assign({}, data, { id: String(result.insertedId) }));
+    public async storeEvent(data: Event): Promise<EventModel> {
+        return await this.insertOne(data);
     }
 }

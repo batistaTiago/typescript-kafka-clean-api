@@ -7,8 +7,9 @@ import { EventRepository } from '../../domain/services/repositories/event-reposi
 import { PasswordRecoveryRepository } from '../../domain/services/repositories/password-recovery-repository';
 import { UserRepository } from '../../domain/services/repositories/user-repository';
 import { VerificationCodeRepository } from '../../domain/services/repositories/verification-code-repository ';
-import { MongoAccessTokenRepository } from '../database/mongo/repositories/mongo-access-token-repository';
 import { MongoEventRepository } from '../database/mongo/repositories/mongo-event-repository';
+import { MongoGenericRepository } from '../database/mongo/mongo-generic-repository';
+import { MongoAccessTokenRepository } from '../database/mongo/repositories/mongo-access-token-repository';
 import { MongoPasswordRecoveryRepository } from '../database/mongo/repositories/mongo-password-recovery-repository';
 import { MongoUserRepository } from '../database/mongo/repositories/mongo-user-repository';
 import { MongoVerificationCodeRepository } from '../database/mongo/repositories/mongo-verification-code-repository';
@@ -33,9 +34,10 @@ export class RepositoryServiceProvider implements ServiceProvider {
         const client = container.resolve(MongoClient);
         const databaseName = container.resolve('MongoDatabaseName');
 
-        container.registerInstance<EventRepository>("EventRepository", new MongoEventRepository(client, String(databaseName)));
+        container.registerInstance<EventRepository>("EventRepository", new MongoEventRepository());
+        container.registerInstance<UserRepository>("UserRepository", new MongoUserRepository());
+
         container.registerInstance<VerificationCodeRepository>("VerificationCodeRepository", new MongoVerificationCodeRepository(client, String(databaseName)));
-        container.registerInstance<UserRepository>("UserRepository", new MongoUserRepository(client, String(databaseName)));
         container.registerInstance<AccessTokenRepository>("AccessTokenRepository", new MongoAccessTokenRepository(client, String(databaseName)));
         container.registerInstance<PasswordRecoveryRepository>("PasswordRecoveryRepository", new MongoPasswordRecoveryRepository(client, String(databaseName)));
     }

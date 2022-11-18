@@ -1,8 +1,9 @@
 import { inject, injectable } from "tsyringe";
 import { ObjectHelper } from "../../../utils/object-helper";
 import { UpdateAccountDTO, UserUpdateableFields } from "../../dto/user/update-account";
-import { UserAccount } from "../../dto/user/user-account";
+import { UserModel } from "../../dto/user/user-model";
 import { Event } from "../../entities/event";
+import { User } from "../../entities/user";
 import { Events } from "../../enums/events";
 import { AppError } from "../../exceptions/app-error";
 import { Hash } from "../../services/cryptography/hash";
@@ -20,7 +21,7 @@ export class UpdateAccountUseCase implements UseCase {
         private readonly objectHelper: ObjectHelper,
     ) { }
 
-    public async execute({ account, fields }: { account: UserAccount, fields: UpdateAccountDTO }): Promise<object> {
+    public async execute({ account, fields }: { account: UserModel, fields: UpdateAccountDTO }): Promise<object> {
         // @@TODO: quem deveria validar isso? no usecase de sign up esta sendo validado no controller...
         const fieldsToUpdate: UserUpdateableFields = { name: fields.name };
         const newPassword = await this.getPasswordUpdatedValue(account, fields);
@@ -44,7 +45,7 @@ export class UpdateAccountUseCase implements UseCase {
         return { success: true, updatedAccount };
     }
 
-    private async getPasswordUpdatedValue(account: UserAccount, fields: UpdateAccountDTO): Promise<string> {
+    private async getPasswordUpdatedValue(account: User, fields: UpdateAccountDTO): Promise<string> {
         if (!fields.password) {
             return null;
         }

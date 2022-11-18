@@ -4,6 +4,7 @@ import { ServiceProvider } from '../../domain/services/provider';
 
 export class ConfigServiceProdvider implements ServiceProvider {
     public register(): void {
+        container.register('MongoConnectionUrl', { useValue: Environment.MONGO_CONNECTION_URI });
         container.register('MongoDatabaseName', { useValue: Environment.MONGO_DATABASE_NAME });
         container.register("HashSalt", { useValue: Environment.APP_SALT_ROUNDS });
         container.register("AppSecret", { useValue: Environment.APP_SECRET_KEY });

@@ -18,7 +18,7 @@ export class MongoVerificationCodeRepository extends MongoBaseRepository impleme
         return this.canonizeId(Object.assign({}, data, { id: String(result.insertedId) }));
     }
 
-    public async findByUser(user: User, options?: RepositorySearchOptions): Promise<VerificationCode> {
+    public async findByUser(user: Pick<User, 'email'>, options?: RepositorySearchOptions): Promise<VerificationCode> {
         const libOptions = options?.reverse ? { sort: { _id: -1 } } : {};
 
         // @@ TODO: indexar essa "coluna"
