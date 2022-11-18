@@ -8,6 +8,7 @@ import { Routes as routes } from '../infra/http/express/routes';
 import { ExpressRoute } from "../infra/http/express/express-route";
 import { GenericConstructor } from "../utils/generic-constructor-type";
 import { ExpressMiddleware } from "../infra/http/express/middleware/express-middleware";
+
 export class ApiApplication extends Application {
     protected api: Express;
 

@@ -4,6 +4,10 @@ import { RandomNumberGenerator, RandomNumberGeneratorOptions } from "../domain/s
 
 @injectable()
 export class RandomHelper implements RandomNumberGenerator, DiceRoller {
+    public pick(from: string) {
+        return from[this.generate({ min: 0, max: (from.length - 1) })];
+    }
+
     public roll(sides: number): boolean {
         this.validateSidesParameter(sides);
         return this.attempt(100.0 / sides);

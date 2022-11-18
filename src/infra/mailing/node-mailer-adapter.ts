@@ -14,6 +14,6 @@ export class NodeMailerAdapter implements Mailer {
             to: to,
             subject: mailable.subject,
             html: mailable.message
-        })
+        });
     }
 }

@@ -7,6 +7,7 @@ import { ExpressRoute } from "./express-route";
 import { AuthenticateUser } from "./middleware/authenticate-user";
 import { UpdateAccountControllerExpressAdapter } from "./controllers/auth/update-account-controller-express-adapter";
 import { SignUpControllerExpressAdapter } from "./controllers/auth/sign-up-controller-express-adapter";
+import { ForgotPasswordControllerExpressAdapter } from "./controllers/auth/forgot-password-controller-express-adapter";
 
 export const Routes: Array<ExpressRoute> = [
     // Basic
@@ -17,6 +18,7 @@ export const Routes: Array<ExpressRoute> = [
     { url: '/auth/sign-up', method: 'post', controller: SignUpControllerExpressAdapter },
     { url: '/auth/login', method: 'post', controller: LoginControllerExpressAdapter },
     { url: '/auth/update', method: 'post', controller: UpdateAccountControllerExpressAdapter, middleware: [ AuthenticateUser ] },
+    { url: '/auth/forgot-password', method: 'post', controller: ForgotPasswordControllerExpressAdapter },
 
     // Domain
     { url: '/verification-code', method: 'get', controller: GenerateVerificationCodeControllerExpressAdapter, middleware: [ AuthenticateUser ] },
