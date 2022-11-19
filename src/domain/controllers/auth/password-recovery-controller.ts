@@ -5,11 +5,12 @@ import { HttpResponse } from "../../services/http/http-response";
 import { HttpStatus } from "../../services/http/status";
 import { Validator } from "../../services/validation/validator";
 import { PasswordRecoveryUseCase } from "../../use-cases/sign-up/password-recovery-use-case";
+import { UseCase } from "../../use-cases/use-case";
 
 @injectable()
 export class PasswordRecoveryController implements Controller {
     public constructor (
-        private readonly useCase: PasswordRecoveryUseCase,
+        @inject('PasswordRecoveryUseCase') private readonly useCase: UseCase,
         @inject('PasswordRecoveryValidator') private readonly validator: Validator,
     ) { }
 
