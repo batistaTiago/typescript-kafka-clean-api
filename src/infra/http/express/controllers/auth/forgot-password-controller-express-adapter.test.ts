@@ -49,11 +49,9 @@ describe('Forgot Password API', () => {
     });
 
     it('should insert a record in the database if the user exists', async () => {
+        expect(await db.collection('password-recoveries').countDocuments()).toBe(0);
         await request(api).post('/auth/forgot-password').send({ email });
-
-
-        const totalCount = await db.collection('password-recoveries').countDocuments();
-        expect(totalCount).toBe(1);
+        expect(await db.collection('password-recoveries').countDocuments()).toBe(1);
     });
 
     it('should send an email to the user with the code', async () => {
