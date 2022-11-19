@@ -22,8 +22,9 @@ export class ForgotPasswordUseCase implements UseCase {
         const user = await this.userRepository.findByEmail(data.email);
         const code = this.generateCode();
         const expiresAt = this.expirationDate();
+        const used = false;
 
-        const storePromise = this.passwordRecoveryRepository.storeRecovery({ code, user, expiresAt });
+        const storePromise = this.passwordRecoveryRepository.storeRecovery({ code, user, used, expiresAt });
 
         const sendPromise = this.mailer.send({
             message: code,
@@ -32,9 +33,7 @@ export class ForgotPasswordUseCase implements UseCase {
 
         await Promise.all([storePromise, sendPromise]);
 
-        return {
-            success: true
-        };
+        return { success: true };
     }
 
     private generateCode(): string {

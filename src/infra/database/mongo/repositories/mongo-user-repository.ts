@@ -68,4 +68,8 @@ export class MongoUserRepository extends MongoGenericRepository<User> implements
         
         return updatedAccount;
     }
+
+    public async updateAccountByEmail(email: string, fields: UserUpdateableFields): Promise<void> {
+        await this.updateOne({ email }, { $set: { ...fields } });
+    }
 }

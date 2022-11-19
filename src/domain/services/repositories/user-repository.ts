@@ -18,6 +18,7 @@ export interface AccountRepository {
     findAccountByEmail(email: string): Promise<UserModel>;
     findAccountById(id: string): Promise<UserModel>;
     updateAccount(account: UserModel, fields: UserUpdateableFields): Promise<UserModel>;
+    updateAccountByEmail(email: string, fields: UserUpdateableFields): Promise<void>;
 }
 
 

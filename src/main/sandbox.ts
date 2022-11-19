@@ -1,6 +1,5 @@
 import 'reflect-metadata';
 import { container } from 'tsyringe';
-import { AccessTokenData } from '../domain/dto/user/access-token-data';
 import { Event } from '../domain/entities/event';
 import { Events } from '../domain/enums/events';
 import { Encrypter } from '../domain/services/cryptography/encrypter';
@@ -16,8 +15,6 @@ const event: Event = {
         some: 'data'
     }
 }
-const jwtString = encrypter.encrypt(event);
-console.log(jwtString);
 
+const jwtString = encrypter.encrypt(event);
 const decrypted = encrypter.decrypt(jwtString);
-console.log(decrypted);

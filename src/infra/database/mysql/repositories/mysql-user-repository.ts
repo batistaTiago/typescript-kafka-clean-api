@@ -79,6 +79,10 @@ export class MysqlUserRepository extends MysqlBaseRepository implements UserRepo
         return findResult;
     }
 
+    public async updateAccountByEmail(email: string, fields: UserUpdateableFields): Promise<void> {
+        throw new Error("Method not implemented.");
+    }
+
     public async updateAccount(account: UserModel, fields: UserUpdateableFields): Promise<UserModel> {
         throw new Error("Method not implemented.");
     }
