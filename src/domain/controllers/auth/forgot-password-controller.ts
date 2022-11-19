@@ -5,11 +5,12 @@ import { HttpResponse } from "../../services/http/http-response";
 import { HttpStatus } from "../../services/http/status";
 import { Validator } from "../../services/validation/validator";
 import { ForgotPasswordUseCase } from "../../use-cases/sign-up/forgot-password-use-case";
+import { UseCase } from "../../use-cases/use-case";
 
 @injectable()
 export class ForgotPasswordController implements Controller {
     public constructor (
-        private readonly useCase: ForgotPasswordUseCase,
+        @inject(ForgotPasswordUseCase) private readonly useCase: UseCase,
         @inject('ForgotPasswordValidator') private readonly validator: Validator,
     ) { }
 
