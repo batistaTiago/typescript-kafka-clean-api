@@ -10,7 +10,7 @@ import { UseCase } from "../../use-cases/use-case";
 @injectable()
 export class PasswordRecoveryController implements Controller {
     public constructor (
-        @inject('PasswordRecoveryUseCase') private readonly useCase: UseCase,
+        @inject(PasswordRecoveryUseCase) private readonly useCase: UseCase,
         @inject('PasswordRecoveryValidator') private readonly validator: Validator,
     ) { }
 

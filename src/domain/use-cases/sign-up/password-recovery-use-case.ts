@@ -1,6 +1,4 @@
 import { inject, injectable } from "tsyringe";
-import { RandomHelper } from "../../../utils/random-helper";
-import { ForgotPasswordDTO } from "../../dto/user/forgot-password-dto";
 import { PasswordRecoveryDTO } from "../../dto/user/password-recovery-dto";
 import { AppError } from "../../exceptions/app-error";
 import { HashMake } from "../../services/cryptography/hash";
