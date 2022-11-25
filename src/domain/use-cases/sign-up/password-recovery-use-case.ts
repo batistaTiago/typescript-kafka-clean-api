@@ -23,9 +23,10 @@ export class PasswordRecoveryUseCase implements UseCase {
 
         const hashedPassword = await this.hash.make(data.password);
         
-        // @@TODO: all-Promisificar
-        await this.userRepository.updateAccountByEmail(data.email, { password: hashedPassword });
-        await this.passwordRecoveryRepository.markAsUsed(recovery.id);
+        const updatePromise = this.userRepository.updateAccountByEmail(data.email, { password: hashedPassword });
+        const markAsUsedPromise = this.passwordRecoveryRepository.markAsUsed(recovery.id);
+
+        await Promise.all([updatePromise, markAsUsedPromise]);
 
         return { success: true };
     }
