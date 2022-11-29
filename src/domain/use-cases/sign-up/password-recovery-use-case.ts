@@ -30,5 +30,4 @@ export class PasswordRecoveryUseCase implements UseCase {
 
         return { success: true };
     }
-
 }

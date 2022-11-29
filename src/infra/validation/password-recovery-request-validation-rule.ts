@@ -12,6 +12,7 @@ export class PasswordRecoveryRequestValidationRule implements Rule {
         this.decoratedRule = new CompositeRule([
             new RequiredFieldRule('email'),
             new IsEmailRule('email'),
+            new RequiredFieldRule('password'),
             new PasswordValidationRule('password'),
             new ConfirmedFieldRule('password')
         ]);

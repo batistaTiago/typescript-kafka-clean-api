@@ -1,5 +1,6 @@
 import { autoInjectable } from "tsyringe";
 import { Environment } from "../../../config/environment";
+import { ObjectHelper } from "../../../utils/object-helper";
 import { AppError } from "../../exceptions/app-error";
 import { ErrorHandler } from "../../exceptions/handler";
 import { Controller } from "./controller";
@@ -11,7 +12,8 @@ import { HttpStatus } from "./status";
 export class ErrorResilientController implements Controller {
     public constructor(
         protected readonly controller: Controller,
-        private readonly errorHandler?: ErrorHandler
+        private readonly objectHelper?: ObjectHelper,
+        private readonly errorHandler?: ErrorHandler,
     ) {}
 
     public async handle(request: HttpRequest): Promise<HttpResponse> {
@@ -26,12 +28,12 @@ export class ErrorResilientController implements Controller {
 
     private parseError(error: Error): HttpResponse {
         const isAppError = error instanceof AppError;
-        return {
+        return this.objectHelper.removeEmpty({
             statusCode: isAppError ? HttpStatus.BAD_REQUEST : HttpStatus.SERVER_ERROR,
             body: {
                 error: isAppError ? error.message : 'Unexpected server error, please try again later',
                 details: Environment.APP_DEBUG ? (error.stack ?? "Error stack not found") : null
             }
-        };
+        }) as HttpResponse;
     }
 }

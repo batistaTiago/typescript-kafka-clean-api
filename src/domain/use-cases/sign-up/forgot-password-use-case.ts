@@ -26,6 +26,7 @@ export class ForgotPasswordUseCase implements UseCase {
 
         const storePromise = this.passwordRecoveryRepository.storeRecovery({ code, user, used, expiresAt });
 
+        // @@TODO: publish no kafka com um worker para ouvir a msg e disparar o mailer
         const sendPromise = this.mailer.send({
             message: code,
             subject: 'Forgot your password?'

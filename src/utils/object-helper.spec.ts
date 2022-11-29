@@ -108,6 +108,54 @@ const removeEmptySampleData = [
             }
         }
     },
+    {
+        recursive: false,
+        entry: {
+            field: 'with-data',
+            empty: null,
+            notDefined: undefined,
+            nested: {
+                anotherField: 'with-data',
+                empty: null,
+                notDefined: undefined,
+            }
+        },
+        expectedResult: {
+            field: 'with-data',
+            nested: {
+                anotherField: 'with-data',
+                empty: null,
+                notDefined: undefined,
+            }
+        }
+    },
+    {
+        recursive: true,
+        entry: {
+            field: 'with-data',
+            empty: null,
+            notDefined: undefined,
+            nested: {
+                anotherField: 'with-data',
+                empty: null,
+                notDefined: undefined,
+                anotherNested: {
+                    anotherNestedField: 'with-data',
+                    empty: null,
+                    notDefined: undefined,
+                }
+            }
+        },
+        expectedResult: {
+            field: 'with-data',
+            nested: {
+                anotherField: 'with-data',
+                anotherNested: {
+                    anotherNestedField: 'with-data',
+                }
+            }
+        }
+    },
 ];
 
 const isObjectSampleData = [

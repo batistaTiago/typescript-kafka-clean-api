@@ -1,5 +1,5 @@
 import { MongoClient } from 'mongodb';
-import { container, inject } from 'tsyringe';
+import { inject } from 'tsyringe';
 import { Environment } from '../../../config/environment';
 
 export abstract class MongoBaseRepository {
