@@ -28,6 +28,7 @@ export class LoginUseCase implements UseCase {
 
         await this.accessTokenRepository.storeToken({
             token: accessToken,
+            userId: user.id,
             expiresAt: this.defaultTokenExpirationDate(),
             isRevoked: false,
         });

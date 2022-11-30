@@ -30,7 +30,16 @@ export class MongoGenericRepository<T> implements Repository<T> {
         return await this.collection.findOne(filters, options) as T;
     }
 
+    public async findMany<T>(filters: object, options?: object): Promise<Array<T>> {
+        return await this.collection.find(filters, options).toArray() as Array<T>;
+    }
+
     public async updateOne<T>(filters: object, fields: object): Promise<T> {
         return await this.collection.updateOne(filters, fields) as T;
+    }
+
+    public async updateMany(filters: object, fields: object): Promise<number> {
+        const updateResult = await this.collection.updateMany(filters, { $set: fields });
+        return updateResult.modifiedCount;
     }
 }

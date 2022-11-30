@@ -9,7 +9,7 @@ import { HashCheck } from '../../../../../domain/services/cryptography/hash';
 import { UserRepository } from '../../../../../domain/services/repositories/user-repository';
 import { HttpStatus } from '../../../../../domain/services/http/status';
 
-describe('Forgot Password API', () => {
+describe('Password Recovery API', () => {
     const api = global.expressTestServer;
     const factory = new UserFactory();
     const mailer: nodemailer.Transporter = container.resolve('NodeMailerTransport');
@@ -140,6 +140,8 @@ describe('Forgot Password API', () => {
             password: 'ValidPassword1234!',
             password_confirmation: 'ValidPassword1234!',
         }).set('Authorization', await getAuthString());
+
+        console.log(res.body);
 
         expect(res.statusCode).toBe(HttpStatus.OK);
     });

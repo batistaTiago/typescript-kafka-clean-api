@@ -33,7 +33,7 @@ describe('LoginUseCase', () => {
         expect(findSpy).toHaveBeenCalledWith('email@test.dev');
         expect(checkSpy).toHaveBeenCalledWith('userpassword', 'userpassword');
         expect(encryptSpy).toHaveBeenCalledWith({ id: 'user-id' });
-        expect(storeSpy).toHaveBeenCalledWith({ token: "hashed", "isRevoked": false, expiresAt: new Date('2022-11-07') });
+        expect(storeSpy).toHaveBeenCalledWith({ token: "hashed", userId: "user-id", "isRevoked": false, expiresAt: new Date('2022-11-07') });
     });
 
     it('should throw an error if passwords do not match', () => {

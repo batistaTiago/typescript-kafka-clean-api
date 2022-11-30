@@ -31,7 +31,7 @@ export class AuthenticateUser implements ExpressMiddleware {
 
     private validated(token: AccessToken): AccessToken {
         if (token.isRevoked || this.tokenisExpired(token)) {
-            throw new AppError();
+            throw new AppError('Your session has expired, please login again');
         }
 
         return token;
