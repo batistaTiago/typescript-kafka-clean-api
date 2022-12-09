@@ -1,11 +1,11 @@
-import { inject, singleton } from "tsyringe";
+import { autoInjectable, inject } from "tsyringe";
 import { User } from "../../../infra/database/mysql/entities/user.entity";
 import { UserModel } from "../../dto/user/user-model";
 import { AccessToken } from "../../entities/access-token";
 import { Encrypter } from "../cryptography/encrypter";
 import { UserRepository } from "../repositories/user-repository";
 
-@singleton()
+@autoInjectable()
 export class Authentication {
     private loggedUser?: UserModel;
 
@@ -16,7 +16,7 @@ export class Authentication {
 
     public async authenticate(accessToken: AccessToken) {
         const { id } = this.encrypter.decrypt(accessToken.token) as Pick<User, 'id'>;
-        const account = await this.userRepository.findAccountById(id)
+        const account = await this.userRepository.findAccountById(id);
         this.actingAs(account);
     }
 
