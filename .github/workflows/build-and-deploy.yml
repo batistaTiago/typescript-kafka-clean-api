@@ -17,6 +17,10 @@ jobs:
         with:
           node-version: 18.x
           cache: 'npm'
+      - name: Start MongoDB
+        uses: supercharge/mongodb-github-action@1.8.0
+        with:
+          mongodb-version: 4.4
       - name: 'Copy env file'
         run: cp ./.github/data/.env.testing .env
       - name: Install app dependencies
