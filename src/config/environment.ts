@@ -4,8 +4,7 @@ export const Environment = {
     APP_NAME: process.env.APP_NAME,
     APP_SALT_ROUNDS: Number(process.env.APP_SALT_ROUNDS ?? '12'),
     APP_PREFERRED_DATABASE: process.env.APP_PREFERRED_DATABASE ?? 'mongodb',
-    APP_DEBUG: true,
-    // APP_DEBUG: process.env.APP_DEBUG === 'true' ? true : false,
+    APP_DEBUG: process.env.APP_DEBUG === 'true' ? true : false,
     APP_SECRET_KEY: process.env.APP_SECRET_KEY,
     APP_AUTH_TOKEN_DURATION_DAYS: Number(process.env.APP_AUTH_TOKEN_DURATION_DAYS),
 

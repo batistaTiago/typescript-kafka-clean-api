@@ -28,12 +28,15 @@ export class ErrorResilientController implements Controller {
 
     private parseError(error: Error): HttpResponse {
         const isAppError = error instanceof AppError;
-        return this.objectHelper.removeEmpty({
+        const output = this.objectHelper.removeEmpty({
             statusCode: isAppError ? HttpStatus.BAD_REQUEST : HttpStatus.SERVER_ERROR,
             body: {
                 error: isAppError ? error.message : 'Unexpected server error, please try again later',
                 details: Environment.APP_DEBUG ? (error.stack ?? "Error stack not found") : null
             }
         }) as HttpResponse;
+
+        console.log(output);
+        return output;
     }
 }
