@@ -10,7 +10,7 @@
         "test": "clear && jest --passWithNoTests --silent --noStackTrace",
         "test:verbose": "jest --passWithNoTests",
         "test:watch": "npm test -- --watch",
-        "test:ci": "jest --passWithNoTests --silent --coverage",
+        "test:ci": "jest --passWithNoTests --silent --coverage --runInBand",
         "build": "tsc && cp ./.env ./dist/.env && cp ./package.json ./dist/package.json && cp ./package-lock.json ./dist/package-lock.json",
         "start": "node main/server.js"
     },
