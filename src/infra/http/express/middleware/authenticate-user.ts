@@ -27,7 +27,8 @@ export class AuthenticateUser implements ExpressMiddleware {
             next();
         } catch (err) {        
             res.status(HttpStatus.UNAUTHORIZED).json({
-                error: Environment.APP_DEBUG ? (err.message ?? 'Unauthorized') : 'Unauthorized'
+                // error: Environment.APP_DEBUG ? (err.message ?? 'Unauthorized') : 'Unauthorized'
+                error: err.message ?? 'message nao existe'
             });
         }
     }
