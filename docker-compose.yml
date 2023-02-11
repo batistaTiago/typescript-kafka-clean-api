@@ -28,7 +28,6 @@ services:
       - 5000:5000
     volumes:
       - ./src:/usr/app/src
-      - ./node_modules:/usr/app/node_modules
       - ./.env:/usr/app/.env
       - ./jest.setup.ts:/usr/app/jest.setup.ts
       - ./jest.config.ts:/usr/app/jest.config.ts
@@ -48,7 +47,6 @@ services:
       - mysql
     volumes:
       - ./src:/usr/app/src
-      - ./node_modules:/usr/app/node_modules
       - ./.env:/usr/app/.env
       - ./jest.setup.ts:/usr/app/jest.setup.ts
       - ./jest.config.ts:/usr/app/jest.config.ts
@@ -68,7 +66,6 @@ services:
       - mysql
     volumes:
       - ./src:/usr/app/src
-      - ./node_modules:/usr/app/node_modules
       - ./.env:/usr/app/.env
       - ./jest.setup.ts:/usr/app/jest.setup.ts
       - ./jest.config.ts:/usr/app/jest.config.ts
@@ -88,7 +85,6 @@ services:
       - mysql
     volumes:
       - ./src:/usr/app/src
-      - ./node_modules:/usr/app/node_modules
       - ./.env:/usr/app/.env
       - ./jest.setup.ts:/usr/app/jest.setup.ts
       - ./jest.config.ts:/usr/app/jest.config.ts
