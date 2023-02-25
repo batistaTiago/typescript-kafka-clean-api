@@ -1,7 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: zookeeper
+  name: mfa-zookeeper-service
+  labels:
+      app: mfa
+      component: zookeeper
 spec:
   type: ClusterIP
   selector:

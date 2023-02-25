@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mfa-worker-retry-events-deployment
+  labels:
+    app: mfa
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: mfa
+      component: worker-retry-events
+  template:
+    metadata:
+      labels:
+        app: mfa
+        component: worker-retry-events
+    spec:
+      containers:
+      - name: worker-retry-events
+        image: ekyidag/mfa-app:beta
+        command:
+          - "npm"
+          - "run"
+          - "dev:worker -- retry.events"

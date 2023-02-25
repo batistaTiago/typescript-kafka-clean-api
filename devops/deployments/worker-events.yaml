@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mfa-worker-events-deployment
+  labels:
+    app: mfa
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: mfa
+      component: worker-events
+  template:
+    metadata:
+      labels:
+        app: mfa
+        component: worker-events
+    spec:
+      containers:
+      - name: worker-events
+        imagePullPolicy: Always
+        image: ekyidag/mfa-app:beta
+        command:
+          - "npm"
+          - "run"
+          - "dev:worker"
+          - "--"
+          - "events"

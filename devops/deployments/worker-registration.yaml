@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mfa-worker-registration-deployment
+  labels:
+    app: mfa
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: mfa
+      component: worker-registration
+  template:
+    metadata:
+      labels:
+        app: mfa
+        component: worker-registration
+    spec:
+      containers:
+      - name: worker-registration
+        image: ekyidag/mfa-app:beta
+        command:
+          - "npm"
+          - "run"
+          - "dev:worker -- registration"

@@ -9,6 +9,10 @@ import { ExpressRoute } from "../infra/http/express/express-route";
 import { GenericConstructor } from "../utils/generic-constructor-type";
 import { ExpressMiddleware } from "../infra/http/express/middleware/express-middleware";
 import { auth } from "../infra/http/express/middleware/auth";
+import { KafkaMessageProducerAdapter } from "../infra/messaging/kafka/producer/kafka-message-producer-adapter";
+import { Events } from "../domain/enums/events";
+import { Message } from "../domain/services/messaging/message";
+import { Event } from "../domain/entities/event";
 
 export class ApiApplication extends Application {
     protected api: Express;
@@ -25,6 +29,20 @@ export class ApiApplication extends Application {
 
     public async start(): Promise<void> {
         this.api.listen(Environment.API_PORT);
+
+        const event: Message<Event> = {
+            body: {
+                eventName: Events.SERVER_RESTART,
+                happenedAt: new Date(),
+                data: {
+                    port: Environment.API_PORT
+                }
+            },
+        };
+        
+        const producer = container.resolve(KafkaMessageProducerAdapter);
+        await producer.connect();
+        await producer.publish('events', event);
     }
 
     private registerMiddleware(): void {

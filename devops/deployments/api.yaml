@@ -5,7 +5,7 @@ metadata:
   labels:
     app: mfa
 spec:
-  replicas: 3
+  replicas: 4
   selector:
     matchLabels:
       app: mfa
@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: web-server
-        image: ekyidag/mfa-api:beta
+        image: ekyidag/mfa-app:beta
         ports:
         - containerPort: 5000
         command:
