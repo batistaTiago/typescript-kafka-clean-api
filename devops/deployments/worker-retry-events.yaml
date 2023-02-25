@@ -22,4 +22,6 @@ spec:
         command:
           - "npm"
           - "run"
-          - "dev:worker -- retry.events"
+          - "start:worker"
+          - "--" 
+          - "retry.events"

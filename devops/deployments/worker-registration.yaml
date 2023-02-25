@@ -22,4 +22,6 @@ spec:
         command:
           - "npm"
           - "run"
-          - "dev:worker -- registration"
+          - "start:worker"
+          - "--" 
+          - "registration"

@@ -2,8 +2,12 @@ FROM node:18-bullseye-slim
 WORKDIR /usr/app
 
 COPY package.json .
-RUN npm install --legacy-peer-deps
 
-COPY tsconfig.json .
+# analisar necessidade de --force no cache clean abaixo
+# RUN npm install --omit-dev --legacy-peer-deps && npm cache clean 
 
-COPY src ./src
+RUN npm install --omit-dev --legacy-peer-deps
+
+COPY ./dist ./dist
+
+COPY .env .

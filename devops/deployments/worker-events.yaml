@@ -18,11 +18,10 @@ spec:
     spec:
       containers:
       - name: worker-events
-        imagePullPolicy: Always
         image: ekyidag/mfa-app:beta
         command:
           - "npm"
           - "run"
-          - "dev:worker"
+          - "start:worker"
           - "--"
           - "events"
