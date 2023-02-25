@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mfa-api-deployment
+  labels:
+    app: mfa
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: mfa
+      component: api
+  template:
+    metadata:
+      labels:
+        app: mfa
+        component: api
+    spec:
+      containers:
+      - name: web-server
+        image: ekyidag/mfa-api:beta
+        ports:
+        - containerPort: 5000
+        command:
+          - "npm"
+          - "run"
+          - "dev:api"

@@ -15,7 +15,7 @@ export class MongoAccessTokenRepository extends MongoGenericRepository<AccessTok
     public async findToken(token: string): Promise<AccessTokenModel> {
         const findResult = await this.findOne({ token });
         if (!findResult) {
-            throw new AppError('Token not found');
+            throw new AppError(`Token not found: ${token}`);
         }
 
         return this.canonizeId(findResult);

@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mfa-zookeeper-deployment
+  labels:
+    app: mfa
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mfa
+      component: zookeeper
+  template:
+    metadata:
+      labels:
+        app: mfa
+        component: zookeeper
+    spec:
+      containers:
+        - name: zookeeper
+          image: confluentinc/cp-zookeeper:latest
+          ports:
+          - containerPort: 2181
+          env:
+            - name: ZOOKEEPER_CLIENT_PORT
+              value: '2181'
+            - name: ZOOKEEPER_TICK_TIME
+              value: '2000'

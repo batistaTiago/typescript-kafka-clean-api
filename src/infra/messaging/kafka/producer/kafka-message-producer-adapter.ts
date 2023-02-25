@@ -24,7 +24,7 @@ export class KafkaMessageProducerAdapter implements MessageProducer {
         await this.producer.send({
             topic,
             messages: [{
-                key: key ?? 'key',
+                key: key ?? null,
                 value: JSON.stringify(data)
             }]
         });

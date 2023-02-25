@@ -4,7 +4,7 @@ from locust import HttpUser, TaskSet, task, between
 
 class AuthenticatedUser(HttpUser):
     wait_time = between(1, 2.5)
-    host = 'http://172.17.0.1:5000'
+    host = 'http://api:5000'
 
     @task
     def sample_task(self):
